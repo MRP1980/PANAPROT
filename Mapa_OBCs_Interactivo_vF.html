@@ -1,21 +1,40 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Mapa OBCs Interactivo</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map of OBCs</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map {
-            height: 500px;
+            height: 600px;
             width: 100%;
         }
     </style>
 </head>
 <body>
     <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        $(function() {
-            // Initialize the map here
+        // Initialize the map
+        var map = L.map('map').setView([0, 0], 2);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // OBC Locations
+        var obcLocations = [
+            { name: 'OBC 1', coordinates: [12.34, 56.78] },
+            { name: 'OBC 2', coordinates: [21.34, 65.78] },
+            // Add remaining OBC locations here
+        ];
+
+        // Add markers to the map
+        obcLocations.forEach(function (obc) {
+            L.marker(obc.coordinates).addTo(map).bindPopup(obc.name);
         });
     </script>
 </body>
