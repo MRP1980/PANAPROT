@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8a26f05648b30e26cf1636716281e117 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+.glass{background:rgba(255,255,255,0.60);backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,0.08);box-shadow:0 2px 12px rgba(0,0,0,0.08);font-family:'Montserrat',Arial,sans-serif;}
+
+/* TITLE */
+.tbox{position:fixed;top:14px;left:14px;z-index:1001;border-radius:10px;padding:14px 22px;width:340px;}
+.tbox .p3{font-size:10px;font-weight:600;color:#333;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:2px}
+.tbox h1{font-size:14px;font-weight:700;color:#1a1a1a;margin:0;line-height:1.3}
+.tbox .stats{font-size:12px;font-weight:600;color:#1a1a1a;margin-top:4px}
+.tbox .author{font-size:9px;color:#333;margin-top:3px}
+.tbox .crd{font-size:11px;color:#888;margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,0.06);font-weight:500;height:26px;line-height:26px;overflow:hidden;white-space:nowrap}
+.tbox .crd.on{color:#333}
+.tlogos{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.tlogos img{width:24px;height:24px;border-radius:4px}
+
+/* LEGEND — left side card, slides from left */
+.lgnd{position:fixed;left:-196px;z-index:1001;width:210px;border-radius:0 10px 10px 0;padding:0;transition:left 0.3s cubic-bezier(0.4,0,0.2,1);overflow:visible;border-left:none}
+.lgnd:not(.open){box-shadow:none;border-color:transparent;background:transparent;backdrop-filter:none}
+.lgnd.open{left:0}
+.lgnd-handle{position:absolute;right:-28px;top:50%;transform:translateY(-50%);width:28px;height:52px;background:transparent;border:none;border-radius:0 8px 8px 0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lgnd-handle::after{content:'\203A';width:auto;height:auto;background:none;font-size:18px;color:#999;font-weight:700}
+.lgnd.open .lgnd-handle::after{content:'\2039';color:#666}
+.lgnd-body{padding:12px 14px}
+.lgnd-sec{margin-bottom:10px}
+.lgnd-sec:last-child{margin-bottom:0}
+.lgnd-st{font-size:9px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px}
+.lgnd-it{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11px;font-weight:500;color:#333;cursor:pointer}
+.lgnd-it input{margin:0;accent-color:#555;cursor:pointer}
+.lgnd-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* SCALEBAR */
+#sbar{position:fixed;bottom:28px;left:14px;z-index:1000;border-radius:8px;padding:6px 14px;font-size:10px;color:#555;font-weight:500;transition:bottom 0.35s cubic-bezier(0.4,0,0.2,1)}
+#sbar .bar{height:4px;background:#333;border-radius:2px;margin-top:3px;position:relative}
+#sbar .bar::before,#sbar .bar::after{content:'';position:absolute;top:-2px;width:1px;height:8px;background:#333}
+#sbar .bar::before{left:0} #sbar .bar::after{right:0}
+
+/* BOTTOM SHEET */
+.bso{position:fixed;bottom:0;left:0;right:0;z-index:2000;pointer-events:none;transform:translateY(100%);transition:transform 0.28s cubic-bezier(0.25,0.1,0.25,1)}
+.bso.open{pointer-events:auto}
+.bso.dragging{transition:none!important;-webkit-transition:none!important}
+.bss{background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 30px rgba(0,0,0,0.12);font-family:'Montserrat',sans-serif;max-height:80vh;overflow-y:auto}
+.bsh{display:flex;justify-content:center;padding:10px 0 4px;cursor:grab;touch-action:none}.bsh:active{cursor:grabbing}.bsh-b{width:36px;height:4px;background:#d0d0d0;border-radius:2px}
+.bshd{display:flex;align-items:stretch;gap:10px;padding:4px 20px 12px;border-bottom:1px solid rgba(0,0,0,0.05)}
+.bscb{width:4px;border-radius:2px;flex-shrink:0}
+.bsai{width:40px;align-self:stretch;border-radius:6px;object-fit:cover;flex-shrink:0}
+.bsti{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.bsti h2{font-size:15px;font-weight:700;color:#1a1a1a;margin:0;line-height:1.3}
+.bsbg{display:inline-block;padding:2px 10px;border-radius:8px;font-size:10px;font-weight:700;margin-top:4px;align-self:flex-start}
+.bscl{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);border:none;font-size:18px;color:#999;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-start;margin-top:2px}
+.bscl:hover{background:rgba(0,0,0,0.08);color:#555}
+.bsgr{display:grid;grid-template-columns:1fr 1fr}
+.bsce{padding:10px 20px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.bsce:nth-child(odd){border-right:1px solid rgba(0,0,0,0.04)}
+.bslb{font-size:9px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px}
+.bsva{font-size:13px;font-weight:600;color:#1a1a1a;line-height:1.3}
+.bstr{display:flex;align-items:center;gap:8px;margin-top:2px}
+.bstn{font-size:13px;font-weight:600;color:#1a1a1a}
+.bswa{display:inline-flex;align-items:center;text-decoration:none}.bswa:hover svg{fill:#1EBE57}
+.bsco{padding:8px 20px;font-size:10px;color:#aaa}
+
+/* LEAFLET */
+.leaflet-interactive:focus,.leaflet-interactive{outline:none!important}
+path.leaflet-interactive:focus{outline:none!important}
+.leaflet-tooltip{border-radius:10px!important;border:1px solid rgba(0,0,0,0.06)!important;box-shadow:0 2px 12px rgba(0,0,0,0.1)!important;padding:0!important;overflow:hidden!important;max-width:260px!important;white-space:normal!important}
+.leaflet-control-attribution{font-family:'Montserrat',sans-serif!important;font-size:9px!important;background:rgba(255,255,255,0.60)!important;backdrop-filter:blur(8px)!important;padding:3px 10px!important}
+.leaflet-control-attribution a{color:#555!important}
+.leaflet-control-zoom{position:fixed!important;bottom:76px;left:14px;margin:0!important;z-index:1000;border-radius:8px!important;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08)!important}
+.leaflet-control-zoom a{background:rgba(255,255,255,0.60)!important;font-family:'Montserrat',sans-serif!important}
+.leaflet-control-scale,.leaflet-control-layers{display:none!important}
+.leaflet-top.leaflet-left{top:auto!important}
+
+/* PULSE */
+
+  /* No tooltips on touch/mobile — only bottom sheet */
+  @media (hover:none),(pointer:coarse){
+    .leaflet-tooltip{display:none!important}
+  }
+
+@keyframes pr{0%{transform:scale(1);opacity:.6}70%{transform:scale(2.5);opacity:0}100%{transform:scale(2.5);opacity:0}}
+.pm{border-radius:50%;animation:pr 1.5s ease-out infinite;pointer-events:none}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .tbox{left:10px;width:auto;max-width:calc(100% - 60px);padding:10px 16px}
+  .tbox h1{font-size:13px}
+  .leaflet-control-zoom{left:10px!important}
+  #sbar{left:10px!important}
+}
+@media(max-width:480px){
+  .tbox{left:8px;padding:8px 12px;max-width:calc(100% - 50px)}
+  .tbox h1{font-size:12px}.tbox .p3{font-size:8px}.tbox .stats{font-size:10px}.tbox .author{font-size:8px}.tbox .crd{font-size:9px}
+  .tlogos img{width:18px;height:18px}
+  
+  .leaflet-control-zoom{left:8px!important;transform:scale(0.85);transform-origin:bottom left}
+  #sbar{left:8px!important}
+  .lgnd{width:180px;left:-166px}.lgnd:not(.open){box-shadow:none;border-color:transparent;background:transparent;backdrop-filter:none}
+.lgnd.open{left:0}
+}
+</style>
+
+<!-- TITLE BOX -->
+<div class="tbox glass">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+    <div class="p3" style="margin-bottom:0">Producto 3</div>
+    <div style="display:flex;align-items:center;gap:6px"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5fopQMkAd69zH7K3xXaPesWhMCMgDUev/AI5X61XxdHD29rJK/c8OFOU/hR4XRXWfET4c+M/AF1HD4r0OexWYkQzhhJDKRzhZFJBPtwfatL4UfCXxd8TYdQm8MLp5XT3jSf7Vc+UcuCVx8pz900PFUY0/auS5e99AVOTly21OBor1Hx98A/ib4L0abWdU0WG50+Bd089jcCYRL3ZlwGCjucYHevLqqjXpV481OSa8glCUXaSHR/fX6j+dfTH7dGq6pp/xC8NpYanfWinQ1YiC5eMFvOfnCkc+9fM8f31+o/nX2T+1d8IfHfxE8Y6HqfhbTLe5tbbSVt5Xlu0i2v5jNjDcngjkV5mPqU6eMoSqtJWlv6I2oqThJR8jD/Zx8Q6h8Xvhz4v+Gfja5k1b7PYiewvLk75os7guXPJKOFZSeeSCSKzP2QrTUb74Q/Fmx0uOaTUZ7JIrZIW2u0pgmChTkYOcY5rZ0XS9N/Zo+GOvXeuavY3vjrX7fybSytX3eSAGC9QDtUsWZiADgKPfnv2UdVk0L4K/FvVYL42Nxa2UbwXG4KUl8iYIQT/Fuxj3Iry61p0a86C9xyhy9m7q7Xlc3WkoqW9mdl+zB4d+IvgqPxJq/wAT5LzTvCS6a3mW+qXYlBkBBLhSzbRs3A9N24DBxx8eTmNpnaFSkRYlFPULngfliui8VeP/ABt4qtVtPEfirV9Tt1IYQT3JMe4d9gwpPuRXNV7mCwlSlOdWo1zStottDlq1FJJLoFdD/wAJz4227f8AhMfEe3GMf2pP/wDFVz1Fd0oRl8SuZJtbElzPPdTvcXM0s8znLySOXZj7k8mnJd3SWclmlzOttK6vJCJCEdlztYr0JGTgnpmoaKqy2C4UUUUwP//Z" alt="DP" style="width:24px;height:24px;border-radius:4px"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzp4FAy2V/CmyrFEq5kA3dM1y8mpXT8PK5HoTURvpGGMknoM1XOfDLCT6s6OWeBAd8ikDuOaozX9uD8q7vfPWrWpX1r4dv59PsIVutStpWilvrpAVjdTg+TEcgYI4d9x7gLUdkbXxNqEFnfwra6lcyLFHf2qALI7HA86IYByTy6bT3IajnOiGEitJPUzJr5mJwFFVpHd/4qyXm8qb5pBnODzmi41ORX2QxDj+InOaj2lzpjh7fCdCbTK7jwKk0jRrvUrmRLODesQ3yyFgscS/3nckBR7kisu5vJmSQGUjAJA/Cu58UafdvcyadDrGi2OmWxX7PZvdrEqkxhtzLj5nPOWOWJ4z2rO7ZMKU2iLxfreu6Jqd7Pp4tG02+vZ5rW7ECTRzB2Y/KxBGcN904YccDAxneHdW8Qa3rGmXOoyQDS9Mv4Zrm8kiSGOEKwJ3ycZbGcLyx7A1L4e0zUbbVYY4tf0SS1upY47q2a6Ekc6Fh8roRgnHQnkE8EGodY0/UNauZSuq6PDZW08sVvbSXi262qB2GBHgBBgcsMk9ySaWx2wUkrnH61pV3pVyI7y1aPzRvhlVg8cy5+9G65Vl9wT+FZc1xhchec16B4fsNRsrqHTLq602+0a7mKXFql0k6sWjJEip1Ug4xIuCCCM8EV5tE/wBoiDM3AUdeMnFPY2UNLtGlcXTtuOQA3GS3PPFb2oHTPFV7LqFvcpY6vKBvtLtwIZ3ChcxSnAQnaPkkwPRzwK4qWZYgrMVPOdue1V5dQmn3OSdv3eD/AJ4qdWVCi+i0O2gstO8OXkF7r1x5t9byrJHptpIrMGUgjzpRlYxkDKruf1C9arajaWHiK9mutBuRFfzytLJpl5KquWYknyZThZBknCttf0Dda4+OVpiq4OcdM8e1LsGGL9uu4cGq23N1BLRnXaauneFryO+nuY9S1iEMY7a0kBt4GKlcyzDIcjP3I8jjlx0rl0BEYSMnaowSe9IpynzkEk8AcVHNNGp8sSEt6f41PM2Gr0R//9k=" alt="CCT" style="width:24px;height:24px;border-radius:4px"></div>
+  </div>
+  <h1>Identificación de Potenciales<br>Grupos de Interés</h1>
+  <div class="stats">43 Grupos de Interés · 4 Áreas Protegidas</div>
+  <div class="author">Elaborado por Marcel Roura i Puig</div>
+  <div class="crd" id="crd">Mueva el cursor para obtener las coordenadas</div>
+</div>
+
+<!-- LEGEND (left slide-in, below title) -->
+<div class="lgnd glass" id="lgnd">
+  <div class="lgnd-handle" id="lgndH"></div>
+  <div class="lgnd-body">
+    <div class="lgnd-sec">
+      <div class="lgnd-st">Mapa base</div>
+      <label class="lgnd-it"><input type="radio" name="bm" value="c" checked> CartoDB Positron</label>
+      <label class="lgnd-it"><input type="radio" name="bm" value="e"> Esri Satellite</label>
+      <label class="lgnd-it"><input type="radio" name="bm" value="g"> Google Hybrid</label>
+    </div>
+    <div class="lgnd-sec">
+      <div class="lgnd-st">Áreas Protegidas</div>
+      <label class="lgnd-it"><input type="checkbox" data-g="bpppsl" checked> <span class="lgnd-dot" style="background:#0EA47A"></span> BPPP San Lorenzo (14)</label>
+      <label class="lgnd-it"><input type="checkbox" data-g="portobelo" checked> <span class="lgnd-dot" style="background:#E8853D"></span> PN Portobelo (8)</label>
+      <label class="lgnd-it"><input type="checkbox" data-g="coiba" checked> <span class="lgnd-dot" style="background:#4C6FE0"></span> PN Coiba (10)</label>
+      <label class="lgnd-it"><input type="checkbox" data-g="baru" checked> <span class="lgnd-dot" style="background:#D94966"></span> PN Volcán Barú (11)</label>
+    </div>
+  </div>
+</div>
+
+<!-- SCALEBAR -->
+<div id="sbar" class="glass"><span id="slbl">50 km</span><div class="bar" id="sln" style="width:80px"></div></div>
+
+<!-- BOTTOM SHEET -->
+<div class="bso" id="bso"><div class="bss">
+  <div class="bsh"><div class="bsh-b"></div></div>
+  <div class="bshd">
+    <div class="bscb" id="bsB"></div>
+    <img class="bsai" id="bsI" src="" alt="">
+    <div class="bsti"><h2 id="bsN"></h2><div class="bsbg" id="bsBg"></div></div>
+    <button class="bscl" id="bsX">&times;</button>
+  </div>
+  <div class="bsgr">
+    <div class="bsce"><div class="bslb">Corregimiento</div><div class="bsva" id="bsCo"></div></div>
+    <div class="bsce"><div class="bslb">Distrito</div><div class="bsva" id="bsDi"></div></div>
+    <div class="bsce"><div class="bslb">Provincia</div><div class="bsva" id="bsPr"></div></div>
+    <div class="bsce"><div class="bslb">Status</div><div class="bsva" id="bsSt"></div></div>
+    <div class="bsce"><div class="bslb">Representante legal</div><div class="bsva" id="bsRe"></div></div>
+    <div class="bsce" id="bsTC"><div class="bslb">Teléfono</div><div class="bstr"><span class="bstn" id="bsTl"></span><a class="bswa" id="bsWa" href="#" target="_blank" rel="noopener" style="display:none"><svg style="width:14px;height:14px;fill:#25D366;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.336 0-4.512-.752-6.278-2.03l-.352-.264-3.278 1.098 1.098-3.278-.264-.352A9.953 9.953 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg></a></div></div>
+  </div>
+  <div class="bsco" id="bsCd"></div>
+</div></div>
+
+<script>
+var OBC={1:{nm:"Donoso Eco Cultura Turismo de Miguel de la Borda OBC",co:"Miguel de la Borda",di:"Donoso",pr:"Colón",re:"Pedro Camargo",st:"OBC formalizada",la:9.1445,ln:-80.3129,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50765023794",wa:"50765023794"},2:{nm:"Grupo Ambiental Diamante de Limón OBC",co:"Limón",di:"Colón",pr:"Colón",re:"Yubilene Arrocha Cañizales",st:"OBC formalizada",la:9.2596,ln:-79.8097,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50766641503",wa:"50766641503"},3:{nm:"Asociación de Ciencias Biológicas Biofuture Panamá OBC",co:"San Pedro",di:"Colón",pr:"Colón",re:"Luis Mendoza",st:"OBC formalizada",la:9.3623,ln:-79.8325,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50766553568",wa:"50766553568"},4:{nm:"Organización Ambiental Corazón Tierra y Hogar HEAR, OBC",co:"Salamanca",di:"Colón",pr:"Colón",re:"Gorgino Molinar",st:"OBC formalizada",la:9.3335,ln:-79.5969,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50763670257",wa:"50763670257"},5:{nm:"Escuela de Campo Monte de Dios, OBC",co:"Salamanca",di:"Colón",pr:"Colón",re:"Simón Miranda",st:"OBC formalizada",la:9.331,ln:-79.5965,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50766808479",wa:"50766808479"},6:{nm:"Asociación Biológica de Panamá (ABIOPA)",co:"Sabanitas",di:"Colón",pr:"Colón",re:"Nemecio Melo",st:"OBC formalizada",la:9.3451,ln:-79.8045,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50765761103",wa:"50765761103"},7:{nm:"Mujeres Rurales la Viveristas de Salamanca/ OMURVI",co:"Salamanca",di:"Colón",pr:"Colón",re:"Arelis Ureña",st:"OBC formalizada",la:9.334,ln:-79.595,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50764748287",wa:"50764748287"},8:{nm:"El Pargo Lunar Restaurante Ecológico",co:"Palmas Bellas",di:"Chagres",pr:"Colón",re:"Amir Betegon",st:"OBC formalizada",la:9.2621,ln:-80.0661,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50764598837",wa:"50764598837"},9:{nm:"Asociación Naturaleza y Cultura del Congal (ANCON)OBC",co:"Ciricito",di:"Colón",pr:"Colón",re:"Dioselina Rodríguez",st:"OBC formalizada",la:9.0284,ln:-80.0822,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50765489840",wa:"50765489840"},10:{nm:"Asociación Viento Frío Sostenible OBC",co:"Viento Frío",di:"Santa Isabel",pr:"Colón",re:"Juan Kelly",st:"OBC formalizada",la:9.5813,ln:-79.4099,g:"portobelo",ap:"PN Portobelo",cl:"#E8853D",tel:"+50765719851",wa:"50765719851"},11:{nm:"Santa Isabel Sostenible OBC",co:"Santa Isabel",di:"Santa Isabel",pr:"Colón",re:"Tanya Omaira Camargo Salazar",st:"OBC formalizada",la:9.5351,ln:-79.183,g:"portobelo",ap:"PN Portobelo",cl:"#E8853D",tel:"+50769162741",wa:"50769162741"},12:{nm:"Nombre de Dios Sostenible OBC",co:"Nombre de Dios",di:"Santa Isabel",pr:"Colón",re:"Ana Elena Cattuy Miller",st:"OBC formalizada",la:9.5777,ln:-79.4718,g:"portobelo",ap:"PN Portobelo",cl:"#E8853D",tel:"+50767503945",wa:"50767503945"},13:{nm:"Palenque Sostenible OBC",co:"Palenque",di:"Santa Isabel",pr:"Colón",re:"Sumerixa Rodríguez Molinar",st:"OBC formalizada",la:9.5731,ln:-79.3594,g:"portobelo",ap:"PN Portobelo",cl:"#E8853D",tel:"+50769422292",wa:"50769422292"},14:{nm:"Miramar Sostenible OBC",co:"Miramar",di:"Santa Isabel",pr:"Colón",re:"Renaida Corpas Chifundo de Coya",st:"OBC formalizada",la:9.5707,ln:-79.3394,g:"portobelo",ap:"PN Portobelo",cl:"#E8853D",tel:"+50766562439",wa:"50766562439"},15:{nm:"Cuango Sostenible OBC",co:"Cuango",di:"Santa Isabel",pr:"Colón",re:"Javier Palacio Chamy",st:"OBC formalizada",la:9.5599,ln:-79.3094,g:"portobelo",ap:"PN Portobelo",cl:"#E8853D",tel:"+50767363105",wa:"50767363105"},16:{nm:"Playa Chiquita OBC",co:"Playa Chiquita",di:"Santa Isabel",pr:"Colón",re:"Michael Antony Molinar",st:"OBC formalizada",la:9.5623,ln:-79.2966,g:"portobelo",ap:"PN Portobelo",cl:"#E8853D",tel:"+50766895997",wa:"50766895997"},17:{nm:"Palmira Sostenible OBC",co:"Palmira",di:"Santa Isabel",pr:"Colón",re:"Carmen Juleica Pinilla Quiroz",st:"OBC formalizada",la:9.5453,ln:-79.2154,g:"portobelo",ap:"PN Portobelo",cl:"#E8853D",tel:"+50764756014",wa:"50764756014"},18:{nm:"Emprendedores con Igualdad de Género OBC",co:"San José del General",di:"Omar Torrijos Herrera",pr:"Colón",re:"Elizabeth González",st:"OBC formalizada",la:8.8103,ln:-80.5553,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50768184557",wa:"50768184557"},19:{nm:"Conservación de Santa Librada",co:"Salamanca",di:"Colón",pr:"Colón",re:"Eubijen De León",st:"OBC formalizada",la:9.33,ln:-79.6,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50765990133",wa:"50765990133"},20:{nm:"Conservación Y Progreso",co:"San Juan de Turbe",di:"Omar Torrijos Herrera",pr:"Colón",re:"Selmira Santana",st:"OBC formalizada",la:8.7839,ln:-80.6197,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50763898257",wa:"50763898257"},21:{nm:"Vida Verde",co:"El Guabo",di:"Chagres",pr:"Colón",re:"Dalila Reyes",st:"OBC formalizada",la:9.0907,ln:-80.0843,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50767292669",wa:"50767292669"},22:{nm:"Zaracunde PescaSub Panamá",co:"Santa Rita",di:"Colón",pr:"Colón",re:"Alfredo Marín",st:"OBC formalizada",la:9.3255,ln:-79.7904,g:"bpppsl",ap:"BPPP San Lorenzo",cl:"#0EA47A",tel:"+50767906924",wa:"50767906924"},23:{nm:"Asociación de pescadores conservacionistas y Agroturística de isla Gobernadora (OBC).",co:"Gobernadora",di:"Montijo",pr:"Veraguas",re:"Florentino Alfonso",st:"Reconocida por MiAMBIENTE",la:7.5604,ln:-81.2023,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"+50765464271",wa:"50765464271"},24:{nm:"Asociación para la protección y conservación de la costa pacífica, Panamaa GHOST NET TEAM (OBC).",co:"Gobernadora",di:"Montijo",pr:"Veraguas",re:"Benjamin Harris",st:"Reconocida por MiAMBIENTE",la:7.565,ln:-81.198,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"+50768909325",wa:"50768909325"},25:{nm:"Asociación Ecoturística y pesca artesanal Arrimadero (OBC).",co:"Arrimadero",di:"Soná",pr:"Veraguas",re:"Pedro Vega",st:"Reconocida por MiAMBIENTE — pendiente renovación junta directiva",la:7.6198,ln:-81.2376,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"+50765752598",wa:"50765752598"},26:{nm:"Asociación Mixta Ambiental de mata oscura y Morrillo (OBC).",co:"Morrillo",di:"Mariato",pr:"Veraguas",re:"José Vergara",st:"Reconocida por MiAMBIENTE — pendiente renovación junta directiva",la:7.4897,ln:-80.953,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"+50763197328",wa:"50763197328"},27:{nm:"Asociación Ecoturística y Ambiental de Santa Catalina (OBC)",co:"Santa Catalina",di:"Soná",pr:"Veraguas",re:"José Antonio Vega",st:"Por Formalizar",la:7.6392,ln:-81.2639,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"+50763735634",wa:"50763735634"},28:{nm:"Asociación Ecoturística de voluntarios de Coiba (OBC).",co:"Pixvae",di:"Las Palmas",pr:"Veraguas",re:"Pedro Reyes",st:"Por Formar Grupo",la:7.837,ln:-81.576,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"+50765555447",wa:"50765555447"},29:{nm:"La Cooperativa del Mar Santa Catalina",co:"Santa Catalina",di:"Soná",pr:"Veraguas",re:"Oriel Abrego",st:"Con personería jurídica reconocida",la:7.643,ln:-81.268,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"+50769269134",wa:"50769269134"},30:{nm:"Asociación de mujeres y hombres rurales María Auxiliadora de Playa Arrimadero.",co:"Arrimadero",di:"Soná",pr:"Veraguas",re:"Carmen Vega",st:"Con personería jurídica reconocida",la:7.624,ln:-81.233,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"",wa:""},31:{nm:"Asociación de Productores y Pescadores Artesanales Turísticos de Pixvae",co:"Pixvae",di:"Las Palmas",pr:"Veraguas",re:"Margarita Mojica",st:"Con personería jurídica reconocida",la:7.832,ln:-81.579,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"",wa:""},32:{nm:"La Federación de Pescadores Artesanales del Área de Influencia del Parque Nacional Coiba",co:"Multi-distrito",di:"Montijo, Mariato, Soná",pr:"Veraguas",re:"—",st:"Con personería jurídica reconocida",la:7.58,ln:-81.13,g:"coiba",ap:"PN Coiba",cl:"#4C6FE0",tel:"",wa:""},33:{nm:"Bioturismo de Tierras Altas (OBC)",co:"Volcán",di:"Tierras Altas",pr:"Chiriquí",re:"Jorge Luis López",st:"Reconocida por MiAMBIENTE",la:8.7322,ln:-82.6591,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50765834959",wa:"50765834959"},34:{nm:"Organización Ambiental Tierras Altas Recicl (OBC)",co:"Volcán",di:"Tierras Altas",pr:"Chiriquí",re:"Carla Black",st:"Reconocida por MiAMBIENTE",la:8.735,ln:-82.656,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50767473039",wa:"50767473039"},35:{nm:"Organización Una Semilla para Tierras Altas (OBC)",co:"Volcán",di:"Tierras Altas",pr:"Chiriquí",re:"Luis Miguel González",st:"Reconocida por MiAMBIENTE",la:8.729,ln:-82.662,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50767709080",wa:"50767709080"},36:{nm:"Asociación de Comerciantes y Emprendedores Turístico Agropecuario para el Desarrollo Sostenible de las Comunidades",co:"Volcán",di:"Tierras Altas",pr:"Chiriquí",re:"Ernesto Rodríguez",st:"Sin etiqueta (OBC) — tipo de personería no especificado",la:8.738,ln:-82.653,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50764826898",wa:"50764826898"},37:{nm:"Ecoguía de Panamá",co:"Volcán",di:"Tierras Altas",pr:"Chiriquí",re:"José Caballero",st:"Sin etiqueta (OBC) — tipo de organización no especificado",la:8.726,ln:-82.665,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50765333200",wa:"50765333200"},38:{nm:"Organización Grupo Ecoplastic (OBC)",co:"Volcán",di:"Tierras Altas",pr:"Chiriquí",re:"Ana Villareal",st:"Reconocida por MiAMBIENTE",la:8.741,ln:-82.65,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50763787838",wa:"50763787838"},39:{nm:"Bioguías Panamá (OBC)",co:"Bajo Boquete",di:"Boquete",pr:"Chiriquí",re:"Plinio Montenegro",st:"Reconocida por MiAMBIENTE",la:8.7772,ln:-82.4482,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50767705551",wa:"50767705551"},40:{nm:"Huertos Caseros de Boquete",co:"Bajo Boquete",di:"Boquete",pr:"Chiriquí",re:"Lianne Samudio",st:"Sin etiqueta (OBC) — tipo no especificado",la:8.78,ln:-82.445,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50762600569",wa:"50762600569"},41:{nm:"Organización de Cultura y Arte de Boquete",co:"Bajo Boquete",di:"Boquete",pr:"Chiriquí",re:"Natalie Delgado",st:"Sin etiqueta (OBC) — tipo no especificado",la:8.774,ln:-82.451,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50765723963",wa:"50765723963"},42:{nm:"Asociación de Artesanos y Floricultura de Boquete (OBC)",co:"Bajo Boquete",di:"Boquete",pr:"Chiriquí",re:"Alba Martínez",st:"Con etiqueta (OBC) en fuente",la:8.783,ln:-82.442,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50763033890",wa:"50763033890"},43:{nm:"Asociación Comunitaria Ambiental Boquete 3R (OBC)",co:"Bajo Boquete",di:"Boquete",pr:"Chiriquí",re:"Reynaldo Serracín / Sra. Ayolda",st:"Con etiqueta (OBC) en fuente",la:8.771,ln:-82.453,g:"baru",ap:"PN Volcán Barú",cl:"#D94966",tel:"+50767473357",wa:"50767473357"},};
+var IMGS={"bpppsl":"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCABQAFADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDsJNSbkEkVVk1Vxn5vwzWF/acW4BmVcd6hGoI0owAwBwef5Zr0E12PHbZvNrR43enr1qOTWBn749s9q56SdGZvmOR/e9KaLlPMCnJwOp6fT37UnKItTdk1Qg5Mh56cdKgbVBI2FlA5HUVhXFyhcDhlPP3gQO/Jz+lV1uFDM3kM5Iyqxtk/iOlHOhWZ1EV6HAy6Lz1Y9f1rq/CFozM1/Kx8lgVhAOM9i309K8/0XTJ9TvkhnQIjdIyeQO7H2FemTMlnBDbwuVjiUIoHoBikpcz0LiraswvHNwIb5SoYgoO9chLqKDALMB1J7fnWl48bz7i2aNiZVU5Oeg7cVxVzFP8AfEy56/8A16Skk7XJavqTv5a5M8YznjJJb6HFPbcsLNsfyV4+ZgoPsMdzWG+oEOsXl7nI5fGAuD6dO1TWVrb3aRz3msyxvn54VgJOQeF4Pcc8+tYOpbVspI0Z9TZLho1FwWCD5F+8OPxqzaWd9qc6ebb+XbgbTuYhvr9e9Ulnnspmjs1Z5NuXBi5VB/EMnGR9fyrd0XUtUklkh1PSbi0cZ2yMu0Nx7/0pRrQLSXUu2PhW2jYm6lM0fUR7QB+nNa8WnadbJiO2jHOelUGvSvDZB96ja/x3rS6YN22NuCSKEkwIqFuu0YJqZPMuZdjTpEP7zkn+Vc0dQ29CaWPVRnD5xRzW2M/Ug8RaZqr3Tyw+RMgOPkYlsewP+ea5iUX0cv7+3mjUgD5oT17c4/Cu0/tQNn5wfrTP7Q64x9elYWa3L5oHldppss0MdxFMqsAwETtndkkj6VRkj1WC623CvJIwDfupAWAI9PxPWie6t7adk+1OxfAdbcNlm6bdx6Z9vSq2nrcyXahri4tUmff5ix5C44xgkEgdKIzcmChc0U1KW0tpPtKTNIVKoSuNpxnn19z0rZ8J+Irgac8cjO0eCuBIfmTqUPoOTnBFdFY+G9NEcUmoNPfTDDDz2IQH2jGB+ear6xpml26OLS3jtWbh/JXBPPpWUkprlsNpQ1ciKTWreV4FlWS3tUDMRDM43sfViDkDHAzjmr2lXui30XlprBiuPvj7QAqlc8DPQ/n+FecXVlqH9oSSI6+Sc4BJx0/u/wBKpzaRdSPIy3EajAwCGOfb+tP2E39poz+sU5byR6VfXEVvdm2jvrS6kA3HyJN2Pr6VX+0+prhdP0V7a4DrdknH3lQqQc+5ro0nIADDJ9a6FTkoq7uc88VTTsmbC3P+1+tPF4QetZSyAj0oLns1QylNM4i3tPs7vF9pfypQHEkkQC8csR9MdqdFcowtC1z87KYygUZGcZb0xnt6UsuoJfSrHGLlo4mIeYKoLD06Y9selUUX7VfyRS3MqurYaMxl3UAfwkflWCbesjusdVD4yvlDKzJ5MQ2fvxycj5SWHOeOeK3bbURqNqlwvOflYEHgjr+HcV53p2i3NzLLJ5N4+nq4VmiAJ/2VJPGev0r1jwH4a0zTjJeW8mpT3e4BrPYoYDIxkYIcHv0xz9a6YU+XW5z1acJ6NlENCYZwMPKVwAOBjI+nNZbohBK4yPftW34jltYb258m3kt3L5WNiDtP+c1zVxcbicE/lWvMrHh1abjOzFLYPGRT1DnkH+tVM7jT1IHRualt9BxjG+pfEm0Ybk+1WobaeZN0MErL6hSR+YrMjkcDg5HvXT6X8QvEulWAsrLU5I7ZV2KgVSFHtkcVHs5M66daktGzyWe+u/LnUrIqyEEdgB16e/HNM06K/Mk0n7yGNVJmmKnCoTz7t1HHrXq9yng5dG/0bw9cG+dzuR7+Uoq5HVsAEH0AH1rmHishevI1sNhfeIhK/l9emCTkfWqjCmuh6cq0Vomer/AOwgmkudPe7u0lS2EqNPC6wMrtzlScMSTxn3xXtVl4QgstRNzaSwBiP3m5eSD1P41534D13w2lhb63qWmS2V15X2ZRD88QSME/Kvbue561mfEb4jaVd6NayeFrrULe9Em/zUYRMnqD/eH0OM0pycndGsHThC8jL/aE0y3s/EUF7bXELPOgSeKMYZXAyGPbkEe/FeSk5q9rmsXet3j3eo3ElxdPjfJJyzYGBnHtVBfu8YprY8PFyjKq5R2FGPWl3elMNJnBoOaw/J9TTdxzSbuOaaWoHY//2Q==","portobelo":"data:image/jpeg;base64,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","coiba":"data:image/jpeg;base64,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","baru":"data:image/jpeg;base64,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",};
+(function(){
+var crd=document.getElementById('crd'),slbl=document.getElementById('slbl'),sln=document.getElementById('sln'),bso=document.getElementById('bso'),sbar=document.getElementById('sbar');
+var lgnd=document.getElementById('lgnd'),lgndH=document.getElementById('lgndH');
+
+// Legend toggle
+lgndH.onclick=function(){lgnd.classList.toggle('open');};
+
+// Position legend below title
+var tbox=document.querySelector('.tbox');
+function posLgnd(){
+  if(!tbox)return;
+  var r=tbox.getBoundingClientRect();
+  lgnd.style.top=(r.bottom+8)+'px';
+}
+posLgnd();
+new ResizeObserver(posLgnd).observe(tbox);
+window.addEventListener('resize',posLgnd);
+
+// Bottom sheet
+function bsO(n){
+  var d=OBC[n];if(!d)return;
+  if(window._pl&&window._m){window._m.removeLayer(window._pl);window._pl=null;}
+  if(window._m){window._pl=L.marker([d.la,d.ln],{interactive:false,icon:L.divIcon({className:'',html:'<div class="pm" style="width:14px;height:14px;background:'+d.cl+'"></div>',iconSize:[14,14],iconAnchor:[7,7]})  }).addTo(window._m);}
+  document.getElementById('bsB').style.background=d.cl;
+  document.getElementById('bsI').src=IMGS[d.g]||'';
+  document.getElementById('bsN').textContent=d.nm;
+  document.getElementById('bsBg').textContent=d.ap;
+  document.getElementById('bsBg').style.background=d.cl+'15';
+  document.getElementById('bsBg').style.color=d.cl;
+  document.getElementById('bsCo').textContent=d.co;
+  document.getElementById('bsDi').textContent=d.di;
+  document.getElementById('bsPr').textContent=d.pr;
+  document.getElementById('bsSt').textContent=d.st;
+  document.getElementById('bsRe').textContent=d.re;
+  var tc=document.getElementById('bsTC'),wa=document.getElementById('bsWa');
+  if(d.tel&&d.tel!=='—'&&d.tel!==''){document.getElementById('bsTl').textContent=d.tel;tc.style.display='block';if(d.wa&&d.wa.length>5){wa.href='https://wa.me/'+d.wa;wa.style.display='inline-flex';}else{wa.style.display='none';}}else{tc.style.display='none';}
+  document.getElementById('bsCd').textContent=d.la.toFixed(4)+'°N, '+Math.abs(d.ln).toFixed(4)+'°W';
+  bso.classList.add('open');bso.classList.remove('dragging');bso.style.transform='translateY(0)';if(typeof curSnap!=='undefined')curSnap=100;
+}
+function bsC(){bso.classList.remove('dragging');bso.style.transform='translateY(100%)';bso.classList.remove('open');if(window._pl&&window._m){window._m.removeLayer(window._pl);window._pl=null;}}
+document.getElementById('bsX').onclick=bsC;
+
+var w=setInterval(function(){
+  if(typeof map_8a26f05648b30e26cf1636716281e117!=='undefined'){
+    clearInterval(w);var map=window._m=map_8a26f05648b30e26cf1636716281e117;
+    // Remove non-default tiles
+    var tls={c:tile_layer_54289f4982ea090f1969f25317be9904,e:tile_layer_1300333cec38c03384294ae5e16db421,g:tile_layer_92e4e269472c8641f7de1b3cccbe7109};
+    var cur='c';map.removeLayer(tls.e);map.removeLayer(tls.g);
+    // Base map switch
+    document.querySelectorAll('input[name="bm"]').forEach(function(r){r.onchange=function(){map.removeLayer(tls[cur]);cur=this.value;map.addLayer(tls[cur]);}});
+    // AP toggle
+    var apl={bpppsl:feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd,portobelo:feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429,coiba:feature_group_2611536e6ed7db405163e73f498eb899,baru:feature_group_ee948346e3f1ad99aba8973593e39b62};
+    document.querySelectorAll('input[data-g]').forEach(function(cb){cb.onchange=function(){if(this.checked)map.addLayer(apl[this.dataset.g]);else{map.removeLayer(apl[this.dataset.g]);bsC();}}});
+    // Coords
+    map.on('mousemove',function(e){crd.textContent=e.latlng.lat.toFixed(4)+'°N  '+Math.abs(e.latlng.lng).toFixed(4)+'°W';crd.classList.add('on');});
+    map.on('mouseout',function(){crd.textContent='Mueva el cursor para obtener las coordenadas';crd.classList.remove('on');});
+    // Scale
+    function us(){var b=map.getBounds(),c=map.getCenter(),l=L.latLng(c.lat,b.getWest()),r=L.latLng(c.lat,b.getEast()),km=l.distanceTo(r)/1000,px=map.getSize().x/km,st=[1,2,5,10,20,50,100,200,500,1000,2000],best=st[0];for(var i=0;i<st.length;i++){if(st[i]*px>=50&&st[i]*px<=160){best=st[i];break;}}slbl.textContent=best+' km';sln.style.width=Math.round(best*px)+'px';}
+    map.on('zoomend',us);map.on('moveend',us);us();
+    // Click
+    var idx={};for(var k in OBC){idx[OBC[k].la.toFixed(4)+','+OBC[k].ln.toFixed(4)]=parseInt(k);}
+    map.eachLayer(function(ly){if(ly instanceof L.CircleMarker&&!(ly instanceof L.Marker)){ly.on('click',function(e){L.DomEvent.stopPropagation(e);var ll=ly.getLatLng(),n=idx[ll.lat.toFixed(4)+','+ll.lng.toFixed(4)];if(n)bsO(n);});}});
+    map.on('click',bsC);
+
+      // Draggable bottom sheet — velocity-aware
+      var bsEl=document.getElementById('bso');
+      var bsHandle=document.querySelector('.bsh');
+      var vh=window.innerHeight;
+      window.addEventListener('resize',function(){vh=window.innerHeight;});
+      var snaps=[20,50,100];
+      var curSnap=100;
+      var prevY=0,prevT=0,vel=0;
+
+      function bsSet(pct){curSnap=pct;bsEl.style.transform='translateY('+(100-pct)+'%)';}
+
+      function endDrag(){
+        bsEl.classList.remove('dragging');
+        if(curSnap<10){bsC();return;}
+        // Velocity-based intent detection
+        if(vel>0.4){
+          // Swiping DOWN → lower snap or close
+          var lo=snaps.filter(function(s){return s<curSnap-5;});
+          if(lo.length>0){bsSet(lo[lo.length-1]);}else{bsC();}
+        }else if(vel<-0.4){
+          // Swiping UP → higher snap
+          var hi=snaps.filter(function(s){return s>curSnap+5;});
+          if(hi.length>0){bsSet(hi[0]);}else{bsSet(100);}
+        }else{
+          // Slow drag → nearest snap
+          var best=snaps[0];
+          for(var i=0;i<snaps.length;i++){if(Math.abs(curSnap-snaps[i])<Math.abs(curSnap-best))best=snaps[i];}
+          bsSet(best);
+        }
+      }
+
+      function onDragStart(y){prevY=y;prevT=Date.now();vel=0;bsEl.classList.add('dragging');}
+      function onDragMove(y,sy,sp){
+        var now=Date.now(),dt=now-prevT;
+        if(dt>0)vel=0.7*vel+0.3*((y-prevY)/Math.max(dt,1)*16);
+        prevY=y;prevT=now;
+        var pct=Math.max(0,Math.min(100,sp-(y-sy)/vh*100));
+        bsEl.style.transform='translateY('+(100-pct)+'%)';
+        curSnap=pct;
+      }
+
+      if(bsHandle){
+        var sy=0,sp=0;
+        bsHandle.addEventListener('touchstart',function(e){sy=e.touches[0].clientY;sp=curSnap;onDragStart(sy);e.preventDefault();},{passive:false});
+        bsHandle.addEventListener('touchmove',function(e){onDragMove(e.touches[0].clientY,sy,sp);e.preventDefault();},{passive:false});
+        bsHandle.addEventListener('touchend',endDrag,{passive:true});
+        var md=false,my=0,mp=0;
+        bsHandle.addEventListener('mousedown',function(e){md=true;my=e.clientY;mp=curSnap;onDragStart(my);e.preventDefault();});
+        document.addEventListener('mousemove',function(e){if(md)onDragMove(e.clientY,my,mp);});
+        document.addEventListener('mouseup',function(){if(md){md=false;endDrag();}});
+      }
+
+  }
+},300);
+})();
+</script>
+    
+            <div class="folium-map" id="map_8a26f05648b30e26cf1636716281e117" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8a26f05648b30e26cf1636716281e117 = L.map(
+                "map_8a26f05648b30e26cf1636716281e117",
+                {
+                    center: [8.5, -80.2],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_54289f4982ea090f1969f25317be9904 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "\u00a9 OSM \u00a9 CARTO",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_54289f4982ea090f1969f25317be9904.addTo(map_8a26f05648b30e26cf1636716281e117);
+        
+    
+            var tile_layer_1300333cec38c03384294ae5e16db421 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "\u00a9 Esri, Maxar",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_1300333cec38c03384294ae5e16db421.addTo(map_8a26f05648b30e26cf1636716281e117);
+        
+    
+            var tile_layer_92e4e269472c8641f7de1b3cccbe7109 = L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=y\u0026x={x}\u0026y={y}\u0026z={z}",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u00a9 Google",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_92e4e269472c8641f7de1b3cccbe7109.addTo(map_8a26f05648b30e26cf1636716281e117);
+        
+    
+            var feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_e11ac61e24c8e6c68d6a00df28aa68f5 = L.circleMarker(
+                [9.1445, -80.3129],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_e11ac61e24c8e6c68d6a00df28aa68f5.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Donoso Eco Cultura Turismo de Miguel de la Borda OBC</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Miguel de la Borda, Donoso</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_81cc9516231d2e54fcf66f814a3c734c = L.circleMarker(
+                [9.2596, -79.8097],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_81cc9516231d2e54fcf66f814a3c734c.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Grupo Ambiental Diamante de Limón OBC</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Limón, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_74906e156bb99906978fa475599c69eb = L.circleMarker(
+                [9.3623, -79.8325],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_74906e156bb99906978fa475599c69eb.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación de Ciencias Biológicas Biofuture Panamá OBC</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">San Pedro, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8b3c2e38537e9dcf8c1fa7b8c6706a37 = L.circleMarker(
+                [9.3335, -79.5969],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_8b3c2e38537e9dcf8c1fa7b8c6706a37.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Organización Ambiental Corazón Tierra y Hogar HEAR, OBC</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Salamanca, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2bae2a88c962de6d3e49a3c782c92afe = L.circleMarker(
+                [9.331, -79.5965],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_2bae2a88c962de6d3e49a3c782c92afe.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Escuela de Campo Monte de Dios, OBC</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Salamanca, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_55cc51ddc06ec7108641153d3c57ae53 = L.circleMarker(
+                [9.3451, -79.8045],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_55cc51ddc06ec7108641153d3c57ae53.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación Biológica de Panamá (ABIOPA)</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Sabanitas, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8b9cd025e45d15f7e19deeba2dccf591 = L.circleMarker(
+                [9.334, -79.595],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_8b9cd025e45d15f7e19deeba2dccf591.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Mujeres Rurales la Viveristas de Salamanca/ OMURVI</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Salamanca, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_50035ac5d8aefde48e0f6ad90a80e91e = L.circleMarker(
+                [9.2621, -80.0661],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_50035ac5d8aefde48e0f6ad90a80e91e.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">El Pargo Lunar Restaurante Ecológico</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Palmas Bellas, Chagres</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_edc5853e86f70f0e3002d42dd63fe0ec = L.circleMarker(
+                [9.0284, -80.0822],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_edc5853e86f70f0e3002d42dd63fe0ec.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación Naturaleza y Cultura del Congal (ANCON)OBC</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Ciricito, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d9eeae3e6c1661c23424036d50cb514b = L.circleMarker(
+                [8.8103, -80.5553],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_d9eeae3e6c1661c23424036d50cb514b.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Emprendedores con Igualdad de Género OBC</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">San José del General, Omar Torrijos Herrera</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_22d4299d535b9fe23c8f01c7256d3be4 = L.circleMarker(
+                [9.33, -79.6],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_22d4299d535b9fe23c8f01c7256d3be4.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Conservación de Santa Librada</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Salamanca, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f04246ed676767b5fa4e763434f1e318 = L.circleMarker(
+                [8.7839, -80.6197],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_f04246ed676767b5fa4e763434f1e318.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Conservación Y Progreso</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">San Juan de Turbe, Omar Torrijos Herrera</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2afa0de31eb0d1b63e27a5892201fd86 = L.circleMarker(
+                [9.0907, -80.0843],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_2afa0de31eb0d1b63e27a5892201fd86.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Vida Verde</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">El Guabo, Chagres</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c9d583ca89e33761f62d3836b96cf785 = L.circleMarker(
+                [9.3255, -79.7904],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0EA47A", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd);
+        
+    
+            circle_marker_c9d583ca89e33761f62d3836b96cf785.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Zaracunde PescaSub Panamá</div><div style="font-size:10px;font-weight:600;color:#0EA47A;margin-bottom:4px">BPPP San Lorenzo</div><div style="font-size:11px;color:#555">Santa Rita, Colón</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_f722d2cc70e7b7f2fa489f8c1abf24dd.addTo(map_8a26f05648b30e26cf1636716281e117);
+        
+    
+            var feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_bc315760069bc517cb0cd0136cbb72b2 = L.circleMarker(
+                [9.5813, -79.4099],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#E8853D", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429);
+        
+    
+            circle_marker_bc315760069bc517cb0cd0136cbb72b2.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación Viento Frío Sostenible OBC</div><div style="font-size:10px;font-weight:600;color:#E8853D;margin-bottom:4px">PN Portobelo</div><div style="font-size:11px;color:#555">Viento Frío, Santa Isabel</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d4a128cd9db7c5d36813df634c242b9d = L.circleMarker(
+                [9.5351, -79.183],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#E8853D", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429);
+        
+    
+            circle_marker_d4a128cd9db7c5d36813df634c242b9d.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Santa Isabel Sostenible OBC</div><div style="font-size:10px;font-weight:600;color:#E8853D;margin-bottom:4px">PN Portobelo</div><div style="font-size:11px;color:#555">Santa Isabel, Santa Isabel</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_eec0c6a3abfcac77ec3228386cc5ce29 = L.circleMarker(
+                [9.5777, -79.4718],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#E8853D", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429);
+        
+    
+            circle_marker_eec0c6a3abfcac77ec3228386cc5ce29.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Nombre de Dios Sostenible OBC</div><div style="font-size:10px;font-weight:600;color:#E8853D;margin-bottom:4px">PN Portobelo</div><div style="font-size:11px;color:#555">Nombre de Dios, Santa Isabel</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4d1e01bd0b0cfe8937e8347e48fa5e1a = L.circleMarker(
+                [9.5731, -79.3594],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#E8853D", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429);
+        
+    
+            circle_marker_4d1e01bd0b0cfe8937e8347e48fa5e1a.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Palenque Sostenible OBC</div><div style="font-size:10px;font-weight:600;color:#E8853D;margin-bottom:4px">PN Portobelo</div><div style="font-size:11px;color:#555">Palenque, Santa Isabel</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2783450c82969cc43f78b4957b9bc1ca = L.circleMarker(
+                [9.5707, -79.3394],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#E8853D", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429);
+        
+    
+            circle_marker_2783450c82969cc43f78b4957b9bc1ca.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Miramar Sostenible OBC</div><div style="font-size:10px;font-weight:600;color:#E8853D;margin-bottom:4px">PN Portobelo</div><div style="font-size:11px;color:#555">Miramar, Santa Isabel</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3def365c166f9c70b33e92d8526332a5 = L.circleMarker(
+                [9.5599, -79.3094],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#E8853D", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429);
+        
+    
+            circle_marker_3def365c166f9c70b33e92d8526332a5.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Cuango Sostenible OBC</div><div style="font-size:10px;font-weight:600;color:#E8853D;margin-bottom:4px">PN Portobelo</div><div style="font-size:11px;color:#555">Cuango, Santa Isabel</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_08fa416ed744c770a75e1734817e5aad = L.circleMarker(
+                [9.5623, -79.2966],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#E8853D", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429);
+        
+    
+            circle_marker_08fa416ed744c770a75e1734817e5aad.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Playa Chiquita OBC</div><div style="font-size:10px;font-weight:600;color:#E8853D;margin-bottom:4px">PN Portobelo</div><div style="font-size:11px;color:#555">Playa Chiquita, Santa Isabel</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7cc8f5684a4f8d3f7ebaf93d85265639 = L.circleMarker(
+                [9.5453, -79.2154],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#E8853D", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429);
+        
+    
+            circle_marker_7cc8f5684a4f8d3f7ebaf93d85265639.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Palmira Sostenible OBC</div><div style="font-size:10px;font-weight:600;color:#E8853D;margin-bottom:4px">PN Portobelo</div><div style="font-size:11px;color:#555">Palmira, Santa Isabel</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_9a54dd8b3bec1ed2ab5d6a75683aa429.addTo(map_8a26f05648b30e26cf1636716281e117);
+        
+    
+            var feature_group_2611536e6ed7db405163e73f498eb899 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_80815ee9d50108e63fff33c784e14819 = L.circleMarker(
+                [7.5604, -81.2023],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_80815ee9d50108e63fff33c784e14819.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación de pescadores conservacionistas y Agroturística de isla Gobernadora (OBC).</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Gobernadora, Montijo</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_634e7766017dd96ba905c429b10a7417 = L.circleMarker(
+                [7.565, -81.198],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_634e7766017dd96ba905c429b10a7417.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación para la protección y conservación de la costa pacífica, Panamaa GHOST NET TEAM (OBC).</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Gobernadora, Montijo</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_37c97dd0cc055328ea5c13748ba6acf2 = L.circleMarker(
+                [7.6198, -81.2376],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_37c97dd0cc055328ea5c13748ba6acf2.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación Ecoturística y pesca artesanal Arrimadero (OBC).</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Arrimadero, Soná</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1600ab3721bdcbb3d2f9f41b6fc00c86 = L.circleMarker(
+                [7.4897, -80.953],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_1600ab3721bdcbb3d2f9f41b6fc00c86.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación Mixta Ambiental de mata oscura y Morrillo (OBC).</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Morrillo, Mariato</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d983558539bbecd4de202af9f23d6954 = L.circleMarker(
+                [7.6392, -81.2639],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_d983558539bbecd4de202af9f23d6954.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación Ecoturística y Ambiental de Santa Catalina (OBC)</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Santa Catalina, Soná</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1744c5145d8e13ec6fd9c175f769188b = L.circleMarker(
+                [7.837, -81.576],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_1744c5145d8e13ec6fd9c175f769188b.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación Ecoturística de voluntarios de Coiba (OBC).</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Pixvae, Las Palmas</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a89e4ef48fddc689330aeaaa3bf10a1d = L.circleMarker(
+                [7.643, -81.268],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_a89e4ef48fddc689330aeaaa3bf10a1d.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">La Cooperativa del Mar Santa Catalina</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Santa Catalina, Soná</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_67b34aa0d62fb2339eb989b1cb414efd = L.circleMarker(
+                [7.624, -81.233],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_67b34aa0d62fb2339eb989b1cb414efd.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación de mujeres y hombres rurales María Auxiliadora de Playa Arrimadero.</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Arrimadero, Soná</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c08c1fe81b32e2e1fe05385e45d38d0f = L.circleMarker(
+                [7.832, -81.579],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_c08c1fe81b32e2e1fe05385e45d38d0f.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación de Productores y Pescadores Artesanales Turísticos de Pixvae</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Pixvae, Las Palmas</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_47c0bb6419581fd25e60a034bd5c250f = L.circleMarker(
+                [7.58, -81.13],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C6FE0", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_2611536e6ed7db405163e73f498eb899);
+        
+    
+            circle_marker_47c0bb6419581fd25e60a034bd5c250f.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">La Federación de Pescadores Artesanales del Área de Influencia del Parque Nacional Coiba</div><div style="font-size:10px;font-weight:600;color:#4C6FE0;margin-bottom:4px">PN Coiba</div><div style="font-size:11px;color:#555">Multi-distrito, Montijo, Mariato, Soná</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_2611536e6ed7db405163e73f498eb899.addTo(map_8a26f05648b30e26cf1636716281e117);
+        
+    
+            var feature_group_ee948346e3f1ad99aba8973593e39b62 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_52fd84fcc75e942c0cae27e1dd509920 = L.circleMarker(
+                [8.7322, -82.6591],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_52fd84fcc75e942c0cae27e1dd509920.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Bioturismo de Tierras Altas (OBC)</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Volcán, Tierras Altas</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7a19e27b581aaced06de6ba0369fbf5d = L.circleMarker(
+                [8.735, -82.656],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_7a19e27b581aaced06de6ba0369fbf5d.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Organización Ambiental Tierras Altas Recicl (OBC)</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Volcán, Tierras Altas</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_23cff4e2964e73b2294545ea943f8213 = L.circleMarker(
+                [8.729, -82.662],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_23cff4e2964e73b2294545ea943f8213.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Organización Una Semilla para Tierras Altas (OBC)</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Volcán, Tierras Altas</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_28a6b0c0c3daa1a84bf1bb5720623196 = L.circleMarker(
+                [8.738, -82.653],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_28a6b0c0c3daa1a84bf1bb5720623196.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación de Comerciantes y Emprendedores Turístico Agropecuario para el Desarrollo Sostenible de las Comunidades</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Volcán, Tierras Altas</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4faea0c2b2eb73ab7e6ccc1db39521e9 = L.circleMarker(
+                [8.726, -82.665],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_4faea0c2b2eb73ab7e6ccc1db39521e9.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Ecoguía de Panamá</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Volcán, Tierras Altas</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_969e0e8c1e5235748130308ebeb5acf9 = L.circleMarker(
+                [8.741, -82.65],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_969e0e8c1e5235748130308ebeb5acf9.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Organización Grupo Ecoplastic (OBC)</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Volcán, Tierras Altas</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3f84dd6b5304ce9f96b0acc35f4564d2 = L.circleMarker(
+                [8.7772, -82.4482],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_3f84dd6b5304ce9f96b0acc35f4564d2.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Bioguías Panamá (OBC)</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Bajo Boquete, Boquete</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_43c21fc07f9856c9ab0b1e32f6cc5366 = L.circleMarker(
+                [8.78, -82.445],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_43c21fc07f9856c9ab0b1e32f6cc5366.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Huertos Caseros de Boquete</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Bajo Boquete, Boquete</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_db8a49c5be474f727907b6e0f89f8142 = L.circleMarker(
+                [8.774, -82.451],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_db8a49c5be474f727907b6e0f89f8142.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Organización de Cultura y Arte de Boquete</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Bajo Boquete, Boquete</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1116ead8dbb391c71318c3b2b2df3191 = L.circleMarker(
+                [8.783, -82.442],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_1116ead8dbb391c71318c3b2b2df3191.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación de Artesanos y Floricultura de Boquete (OBC)</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Bajo Boquete, Boquete</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0ff78088ed8cb28fdbfa0d75f247b6ab = L.circleMarker(
+                [8.771, -82.453],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#D94966", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 1}
+            ).addTo(feature_group_ee948346e3f1ad99aba8973593e39b62);
+        
+    
+            circle_marker_0ff78088ed8cb28fdbfa0d75f247b6ab.bindTooltip(
+                `<div>
+                     <div style="font-family:Montserrat,Arial,sans-serif;width:240px;padding:6px 8px"><div style="font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;white-space:normal;overflow-wrap:break-word;word-wrap:break-word">Asociación Comunitaria Ambiental Boquete 3R (OBC)</div><div style="font-size:10px;font-weight:600;color:#D94966;margin-bottom:4px">PN Volcán Barú</div><div style="font-size:11px;color:#555">Bajo Boquete, Boquete</div><div style="font-size:9px;color:#aaa;margin-top:4px;border-top:1px solid #eee;padding-top:3px">Click para ver ficha</div></div>
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_ee948346e3f1ad99aba8973593e39b62.addTo(map_8a26f05648b30e26cf1636716281e117);
+        
+</script>
+</html>
