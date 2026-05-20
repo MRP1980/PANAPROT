@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PANAPROT · Cuadro de Mando · Plan de Manejo BPPP-SL</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 400;
+  color: #111827;
+  background: #F9FAFB;
+  font-size: 12px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ====== ANIMACIONES ====== */
+@keyframes barGrow { from{max-width:0;opacity:0.3} to{max-width:100%;opacity:1} }
+@keyframes growUp  { from{transform:scaleY(0);opacity:0.3} to{transform:scaleY(1);opacity:1} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+@keyframes slideIn { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
+
+/* ====== PÁGINA ====== */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  background: white;
+  min-height: 100vh;
+}
+
+/* ====== HEADER ====== */
+.header {
+  background: white;
+  border-bottom: 3px solid #1F6B3A;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.brand { flex: 1; min-width: 0; }
+.brand .institucion {
+  font-size: 8.5px;
+  font-weight: 500;
+  color: #6B7280;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.brand h1 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1F6B3A;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+.brand .sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #374151;
+  margin-top: 3px;
+}
+.brand .periodo {
+  font-size: 9px;
+  font-weight: 400;
+  color: #6B7280;
+  margin-top: 2px;
+}
+
+.kpis {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.kpi {
+  background: #EEF5EE;
+  border-radius: 6px;
+  padding: 8px 12px;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  text-align: center;
+  border-left: 3px solid #1F6B3A;
+}
+.kpi .val {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1F6B3A;
+  display: block;
+}
+.kpi .lab {
+  font-size: 8px;
+  font-weight: 500;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 1px;
+}
+.kpi.green { border-left-color: #059669; background: #ECFDF5; }
+.kpi.green .val { color: #059669; }
+.kpi.amber { border-left-color: #F59E0B; background: #FFFBEB; }
+.kpi.amber .val { color: #D97706; }
+.kpi.red { border-left-color: #DC2626; background: #FEF2F2; }
+.kpi.red .val { color: #DC2626; }
+
+/* ====== TABS ====== */
+.tabs {
+  display: flex;
+  gap: 0;
+  background: white;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 0 16px;
+  overflow-x: auto;
+}
+.tabs button {
+  background: white;
+  border: none;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.tabs button:hover { color: #1F6B3A; }
+.tabs button.on {
+  background: #EEF5EE;
+  color: #1F6B3A;
+  border-bottom-color: #1F6B3A;
+  font-weight: 600;
+}
+
+/* ====== CONTENT ====== */
+.content {
+  padding: 18px 24px 28px;
+  min-height: 460px;
+}
+.panel { display: none; animation: fadeIn 0.3s ease-out; }
+.panel.on { display: block; }
+
+.sec {
+  margin-bottom: 22px;
+  --sec-color: #1F6B3A;
+  --sec-bg: #EEF5EE;
+}
+.sec.t-green   { --sec-color: #1F6B3A; --sec-bg: #EEF5EE; }
+.sec.t-indigo  { --sec-color: #4338CA; --sec-bg: #EEF2FF; }
+.sec.t-amber   { --sec-color: #B45309; --sec-bg: #FFFBEB; }
+.sec.t-nature  { --sec-color: #047857; --sec-bg: #ECFDF5; }
+.sec.t-blue    { --sec-color: #0F4C81; --sec-bg: #EFF6FF; }
+.sec.t-rose    { --sec-color: #BE185D; --sec-bg: #FDF2F8; }
+
+.sec h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sec-color);
+  padding: 6px 10px 6px 0;
+  border-bottom: 2px solid var(--sec-color);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sec h3 .ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: var(--sec-bg);
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.sec h3 .ico svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--sec-color);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sec h3 .txt {
+  flex: 1;
+  min-width: 0;
+}
+.sec h4 {
+  font-size: 11px;
+  font-weight: 600;
+  color: #111827;
+  margin: 10px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sec h4 svg {
+  width: 13px;
+  height: 13px;
+  stroke: #6B7280;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ====== STOP-GO BAR ====== */
+.stopgo {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.stopgo .seg {
+  flex: 1;
+  height: 52px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  position: relative;
+  animation: growUp 0.4s ease-out both;
+  transform-origin: bottom;
+}
+.stopgo .seg .id {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+.stopgo .seg .st {
+  font-size: 6.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+  opacity: 0.95;
+}
+.stopgo .green { background: #059669; }
+.stopgo .amber { background: #F59E0B; }
+.stopgo .red { background: #DC2626; }
+
+/* ====== LEYENDA ====== */
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 9.5px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 14px;
+}
+.legend .item { display: flex; align-items: center; gap: 5px; }
+.legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* ====== DISTRIBUCIÓN STACKED BAR ====== */
+.sbar {
+  background: #E5E7EB;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  height: 28px;
+  margin-bottom: 6px;
+}
+.sbar > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  animation: barGrow 0.6s ease-out both;
+}
+
+/* ====== TABLA ====== */
+.tscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tscroll::-webkit-scrollbar { height: 6px; }
+.tscroll::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+  min-width: 480px;
+}
+table th {
+  background: var(--sec-bg, #EEF5EE);
+  color: var(--sec-color, #1F6B3A);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--sec-color, #1F6B3A);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-size: 9px;
+  white-space: nowrap;
+}
+table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #E5E7EB;
+  vertical-align: top;
+}
+table tr:hover td { background: #F9FAFB; }
+
+.chip {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-size: 8.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.chip.green { background: #D1FAE5; color: #047857; }
+.chip.amber { background: #FEF3C7; color: #B45309; }
+.chip.red { background: #FEE2E2; color: #B91C1C; }
+
+.badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.badge.lider { background: #1F6B3A; color: white; }
+.badge.corresp { background: #6366F1; color: white; }
+.badge.apoyo { background: #9CA3AF; color: white; }
+
+/* ====== CARDS PRODUCTOS ====== */
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.pcard {
+  background: #F9FAFB;
+  border-radius: 8px;
+  padding: 12px;
+  border-top: 3px solid #9CA3AF;
+  animation: fadeUp 0.4s ease-out both;
+}
+.pcard.green { border-top-color: #059669; }
+.pcard.amber { border-top-color: #F59E0B; }
+.pcard.red { border-top-color: #DC2626; }
+.pcard .ptitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+.pcard .pid {
+  font-size: 9px;
+  font-weight: 800;
+  color: #1F6B3A;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+}
+.pcard .pmeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8.5px;
+  color: #6B7280;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed #E5E7EB;
+}
+.pcard .pmeta strong {
+  color: #374151;
+  font-weight: 600;
+}
+
+/* ====== TIMELINE ====== */
+.timeline {
+  position: relative;
+  padding: 18px 0 8px;
+  margin: 8px 0 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.timeline::-webkit-scrollbar { height: 6px; }
+.timeline::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+.timeline-inner {
+  position: relative;
+  height: 80px;
+  min-width: 760px;
+}
+.tline-base {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #E5E7EB;
+  border-radius: 2px;
+}
+.tline-prog {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #059669 0%, #059669 100%);
+  border-radius: 2px;
+  animation: barGrow 1s ease-out both;
+}
+.tnode {
+  position: absolute;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 50px;
+}
+.tnode .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin: 25px auto 4px;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #9CA3AF;
+  background: white;
+  position: relative;
+  z-index: 2;
+}
+.tnode.green .dot { background: #059669; box-shadow: 0 0 0 2px #059669; }
+.tnode.amber .dot { background: #F59E0B; box-shadow: 0 0 0 2px #F59E0B; }
+.tnode.red .dot { background: #DC2626; box-shadow: 0 0 0 2px #DC2626; }
+.tnode .lab {
+  font-size: 7.5px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.1;
+}
+.tnode .day {
+  font-size: 7px;
+  color: #6B7280;
+  margin-top: 1px;
+}
+.tnode .pay {
+  font-size: 7px;
+  color: #1F6B3A;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+/* ====== EXPERTOS BARS ====== */
+.exp-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 60px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid #F3F4F6;
+  font-size: 10px;
+}
+.exp-row:last-child { border-bottom: none; }
+.exp-name { font-weight: 600; color: #111827; font-size: 9.5px; }
+.exp-name span { display: block; font-size: 8px; color: #6B7280; font-weight: 400; }
+.exp-bar-container {
+  background: #F3F4F6;
+  height: 18px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+}
+.exp-bar-container > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 8px;
+  font-weight: 600;
+  animation: barGrow 0.6s ease-out both;
+}
+.exp-count {
+  font-size: 10px;
+  font-weight: 600;
+  color: #374151;
+  text-align: right;
+}
+
+/* ====== ACORDEÓN ====== */
+.acc {
+  background: #F9FAFB;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  overflow: hidden;
+  border-left: 3px solid #9CA3AF;
+}
+.acc.green { border-left-color: #059669; }
+.acc.amber { border-left-color: #F59E0B; }
+.acc.red { border-left-color: #DC2626; }
+.acc-hdr {
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.acc-hdr:hover { background: #F3F4F6; }
+.acc-hdr .left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.acc-hdr .pidh { font-size: 11px; font-weight: 800; color: #1F6B3A; letter-spacing: 0.3px; }
+.acc-hdr .ptit { font-size: 10.5px; font-weight: 600; color: #111827; }
+.acc-hdr .arr {
+  color: #6B7280;
+  font-size: 10px;
+  transition: transform 0.3s;
+}
+.acc.open .acc-hdr .arr { transform: rotate(90deg); }
+.acc-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease-out;
+}
+.acc.open .acc-body { max-height: 2200px; }
+.acc-inner {
+  padding: 4px 14px 14px;
+  border-top: 1px solid #E5E7EB;
+}
+.acc-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  margin: 10px 0;
+}
+.acc-meta .m {
+  background: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border-left: 2px solid #1F6B3A;
+}
+.acc-meta .m .ml { font-size: 7.5px; color: #6B7280; text-transform: uppercase; font-weight: 500; letter-spacing: 0.3px; }
+.acc-meta .m .mv { font-size: 10px; font-weight: 600; color: #111827; margin-top: 2px; }
+
+/* ====== APs INFO ====== */
+.ap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+.ap-card {
+  background: #F9FAFB;
+  border-radius: 6px;
+  padding: 10px 12px;
+  border-left: 3px solid #1F6B3A;
+}
+.ap-card .apn { font-size: 10px; font-weight: 600; color: #1F6B3A; }
+.ap-card .apd { font-size: 8.5px; color: #6B7280; margin-top: 3px; }
+
+/* ====== FOOTER ====== */
+.foot {
+  padding: 14px 24px;
+  border-top: 1px solid #E5E7EB;
+  font-size: 8px;
+  color: #9CA3AF;
+  text-align: center;
+  background: #F9FAFB;
+  margin-top: 16px;
+}
+.foot .src {
+  text-align: justify;
+  font-size: 7.5px;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* ====== RESPONSIVE ====== */
+/* Tablet landscape y desktops pequeños */
+@media (max-width: 1100px) {
+  .page { max-width: 100%; }
+}
+
+/* Tablet portrait */
+@media (max-width: 960px) {
+  .header { flex-direction: column; align-items: stretch; gap: 12px; }
+  .kpis { width: 100%; }
+  .brand h1 { font-size: 14px; }
+}
+
+/* Tablet pequeña / mobile grande */
+@media (max-width: 768px) {
+  .content { padding: 14px 16px 22px; }
+  .header { padding: 14px 16px; }
+  .pgrid { grid-template-columns: 1fr 1fr; }
+  .ap-grid { grid-template-columns: 1fr 1fr; }
+  .stopgo .seg { height: 48px; }
+  .stopgo .seg .id { font-size: 10px; }
+  .stopgo .seg .st { font-size: 6px; }
+  .acc-hdr { padding: 9px 10px; }
+  .acc-hdr .ptit { font-size: 10px; }
+  .exp-row { grid-template-columns: 110px 1fr 50px; gap: 8px; }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  body { font-size: 11.5px; }
+  .content { padding: 12px 12px 20px; }
+  .header { padding: 12px 14px; }
+  .brand h1 { font-size: 13px; }
+  .brand .sub { font-size: 9.5px; }
+  .kpi { padding: 6px 8px; }
+  .kpi .val { font-size: 12px; }
+  .kpi .lab { font-size: 7px; }
+  .tabs { padding: 0 8px; }
+  .tabs button { padding: 9px 10px; font-size: 10.5px; }
+  .stopgo { flex-wrap: wrap; gap: 4px; }
+  .stopgo .seg { flex: 1 1 calc(25% - 4px); min-width: 0; height: 44px; }
+  .pgrid { grid-template-columns: 1fr; }
+  .ap-grid { grid-template-columns: 1fr; }
+  .exp-row { grid-template-columns: 95px 1fr 42px; font-size: 9px; }
+  .exp-name { font-size: 9px; }
+  .exp-name span { font-size: 7.5px; }
+  .exp-bar-container { height: 16px; }
+  .exp-bar-container > div { font-size: 7.5px; }
+  .hide-mob { display: none; }
+  .timeline-inner { min-width: 720px; }
+  .sec h3 { font-size: 11px; }
+  .sec h3 .ico { width: 20px; height: 20px; }
+  .sec h3 .ico svg { width: 12px; height: 12px; }
+  .acc-meta { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .acc-meta .m { padding: 5px 7px; }
+  .acc-meta .m .mv { font-size: 9.5px; }
+}
+
+/* Mobile pequeña */
+@media (max-width: 480px) {
+  body { font-size: 11px; }
+  .brand h1 { font-size: 12.5px; letter-spacing: -0.3px; }
+  .brand .institucion { font-size: 7.5px; }
+  .kpis { gap: 4px; }
+  .kpi { padding: 5px 6px; flex: 1 1 calc(50% - 2px); }
+  .kpi .val { font-size: 11px; }
+  .stopgo .seg { flex: 1 1 calc(33.33% - 4px); height: 42px; }
+  .stopgo .seg .id { font-size: 9.5px; }
+  .legend { font-size: 8.5px; gap: 10px; }
+  .legend .dot { width: 9px; height: 9px; }
+  .sec h3 { font-size: 10.5px; gap: 6px; padding-right: 4px; }
+  .sec h3 .txt { font-size: 10.5px; }
+  .pcard { padding: 10px; }
+  .pcard .ptitle { font-size: 10.5px; }
+  .acc-hdr .pidh { font-size: 10px; }
+  .acc-hdr .ptit { font-size: 9.5px; }
+  .acc-hdr .left { flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 8px; padding: 1px 5px; }
+  .foot { padding: 12px 14px; }
+  .foot .src { font-size: 7px; }
+}
+
+/* Mobile muy pequeña (iPhone SE, Galaxy Fold cerrado) */
+@media (max-width: 380px) {
+  body { font-size: 10.5px; }
+  .brand h1 { font-size: 11.5px; }
+  .brand .sub { font-size: 9px; }
+  .brand .periodo { font-size: 8.5px; }
+  .content { padding: 10px 10px 18px; }
+  .header { padding: 10px 12px; }
+  .stopgo .seg { flex: 1 1 calc(33.33% - 3px); height: 38px; }
+  .stopgo .seg .id { font-size: 9px; }
+  .stopgo .seg .st { font-size: 5.5px; }
+  .pgrid { grid-template-columns: 1fr; }
+  .ap-grid { grid-template-columns: 1fr; }
+  .exp-row { grid-template-columns: 85px 1fr 38px; font-size: 8.5px; gap: 6px; }
+  .exp-name { font-size: 8.5px; }
+  .exp-name span { font-size: 7px; }
+  .sec h3 { font-size: 10px; }
+  .sec h3 .ico { width: 18px; height: 18px; }
+  .sec h3 .ico svg { width: 11px; height: 11px; }
+  .tabs button { padding: 8px 8px; font-size: 10px; }
+  .acc-hdr { padding: 8px 9px; }
+  .acc-meta { grid-template-columns: 1fr; }
+}
+
+/* Mobile extrema (320px - Galaxy Fold abierto, navegadores con barras) */
+@media (max-width: 340px) {
+  body { font-size: 10px; }
+  .brand h1 { font-size: 11px; letter-spacing: -0.4px; }
+  .kpi { flex: 1 1 calc(50% - 2px); padding: 4px 5px; }
+  .kpi .val { font-size: 10px; }
+  .kpi .lab { font-size: 6.5px; }
+  .stopgo .seg { flex: 1 1 calc(50% - 2px); height: 36px; }
+  .sec h3 { font-size: 9.5px; letter-spacing: 0.2px; }
+  .exp-row { grid-template-columns: 75px 1fr 34px; font-size: 8px; }
+}
+
+/* Desktop estándar */
+@media (min-width: 1200px) {
+  .page { max-width: 1100px; }
+  body { font-size: 13px; }
+  .brand h1 { font-size: 20px; }
+  .brand .sub { font-size: 11px; }
+  .content { padding: 24px 32px 36px; }
+  .header { padding: 20px 32px; }
+  .kpi { padding: 10px 14px; }
+  .kpi .val { font-size: 16px; }
+  .kpi .lab { font-size: 8.5px; }
+  .stopgo .seg { height: 60px; }
+  .stopgo .seg .id { font-size: 13px; }
+  .stopgo .seg .st { font-size: 7.5px; }
+  .sec h3 { font-size: 13px; }
+  .sec h3 .ico { width: 26px; height: 26px; }
+  .sec h3 .ico svg { width: 16px; height: 16px; }
+  table { font-size: 11px; }
+  table th { font-size: 9.5px; padding: 9px 12px; }
+  table td { padding: 8px 12px; }
+}
+
+/* Desktop grande */
+@media (min-width: 1440px) {
+  .page { max-width: 1240px; }
+  .brand h1 { font-size: 22px; }
+  .content { padding: 28px 40px 40px; }
+  .header { padding: 22px 40px; }
+  .stopgo .seg { height: 64px; }
+}
+
+/* 4K / ultrawide */
+@media (min-width: 1920px) {
+  .page { max-width: 1440px; }
+  body { font-size: 14px; }
+  .brand h1 { font-size: 26px; }
+  .brand .sub { font-size: 12px; }
+  .content { padding: 32px 48px 48px; }
+  .stopgo .seg { height: 70px; }
+  .stopgo .seg .id { font-size: 15px; }
+  .sec h3 { font-size: 14px; }
+  .sec h3 .ico { width: 30px; height: 30px; }
+  .sec h3 .ico svg { width: 18px; height: 18px; }
+}
+
+/* Orientación landscape en móvil */
+@media (max-height: 500px) and (orientation: landscape) {
+  .content { min-height: auto; }
+  .stopgo .seg { height: 40px; }
+}
+
+/* Accesibilidad: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ====== HEADER ====== -->
+  <div class="header">
+    <div class="brand">
+      <div class="institucion">MiAMBIENTE · República de Panamá · Programa PANAPROT</div>
+      <h1>Cuadro de Mando · Consultoría BPPP-SL</h1>
+      <div class="sub">Plan de Manejo Bosque Protector y Paisaje Protegido San Lorenzo · Planes de Concesiones</div>
+      <div class="periodo">Estado de avance · Mayo 2026 · Duración total: 320 días</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span class="val">12</span><span class="lab">Productos</span></div>
+      <div class="kpi green"><span class="val">3</span><span class="lab">Presentados</span></div>
+      <div class="kpi amber"><span class="val">6</span><span class="lab">En curso</span></div>
+      <div class="kpi red"><span class="val">3</span><span class="lab">No iniciados</span></div>
+    </div>
+  </div>
+
+  <!-- ====== TABS ====== -->
+  <div class="tabs" id="tabs">
+    <button class="on" data-t="vista">Vista General</button>
+    <button data-t="crono">Cronograma</button>
+    <button data-t="equipo">Equipo</button>
+    <button data-t="detalle">Detalle de Productos</button>
+    <button data-t="aps">Áreas Protegidas</button>
+  </div>
+
+  <div class="content">
+
+  <!-- ============================================ -->
+  <!-- ====== PANEL 1: VISTA GENERAL ======         -->
+  <!-- ============================================ -->
+  <div class="panel on" id="p-vista">
+
+    <div class="sec t-green">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span class="txt">Estado de los 12 productos</span></h3>
+      <div class="legend">
+        <div class="item"><span class="dot" style="background:#059669"></span>Presentado / Aprobado</div>
+        <div class="item"><span class="dot" style="background:#F59E0B"></span>Iniciado / En curso</div>
+        <div class="item"><span class="dot" style="background:#DC2626"></span>No iniciado</div>
+      </div>
+      <div class="stopgo">
+        <div class="seg green" style="animation-delay:0.00s"><span class="id">P1</span><span class="st">Aprobado</span></div>
+        <div class="seg green" style="animation-delay:0.06s"><span class="id">P2</span><span class="st">Presentado</span></div>
+        <div class="seg green" style="animation-delay:0.12s"><span class="id">P3</span><span class="st">Presentado</span></div>
+        <div class="seg amber" style="animation-delay:0.18s"><span class="id">P4</span><span class="st">Iniciado</span></div>
+        <div class="seg amber" style="animation-delay:0.24s"><span class="id">P5</span><span class="st">Iniciado</span></div>
+        <div class="seg red" style="animation-delay:0.30s"><span class="id">P6</span><span class="st">No iniciado</span></div>
+        <div class="seg amber" style="animation-delay:0.36s"><span class="id">P7</span><span class="st">Iniciado</span></div>
+        <div class="seg amber" style="animation-delay:0.42s"><span class="id">P8</span><span class="st">Iniciado</span></div>
+        <div class="seg amber" style="animation-delay:0.48s"><span class="id">P9</span><span class="st">Iniciado</span></div>
+        <div class="seg red" style="animation-delay:0.54s"><span class="id">P10</span><span class="st">No iniciado</span></div>
+        <div class="seg amber" style="animation-delay:0.60s"><span class="id">P11</span><span class="st">Iniciado</span></div>
+        <div class="seg red" style="animation-delay:0.66s"><span class="id">P12</span><span class="st">No iniciado</span></div>
+      </div>
+    </div>
+
+    <div class="sec t-indigo">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg></span><span class="txt">Distribución de estados</span></h3>
+      <div class="sbar">
+        <div style="width:25%;background:#059669;animation-delay:0.0s">25% Presentados</div>
+        <div style="width:50%;background:#F59E0B;animation-delay:0.2s">50% En curso</div>
+        <div style="width:25%;background:#DC2626;animation-delay:0.4s">25% No iniciados</div>
+      </div>
+    </div>
+
+    <div class="sec t-blue">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span class="txt">Pagos contractuales · Estado y proyección</span></h3>
+      <div style="font-size:9.5px;color:#6B7280;margin-bottom:8px">
+        Vinculados a la aprobación de productos por la Unidad Ejecutora del Proyecto (UEP). Distribución total: 100%.
+      </div>
+      <div class="sbar" style="height:32px">
+        <div style="width:10%;background:#059669;animation-delay:0.0s" title="P3 - 10%">10% P3</div>
+        <div style="width:20%;background:#F59E0B;animation-delay:0.1s" title="P5 - 20%">20% P5</div>
+        <div style="width:15%;background:#F59E0B;animation-delay:0.2s" title="P7 - 15%">15% P7</div>
+        <div style="width:10%;background:#F59E0B;animation-delay:0.3s" title="P8 - 10%">10% P8</div>
+        <div style="width:25%;background:#DC2626;animation-delay:0.4s" title="P10 - 25%">25% P10</div>
+        <div style="width:10%;background:#F59E0B;animation-delay:0.5s" title="P11 - 10%">10% P11</div>
+        <div style="width:10%;background:#DC2626;animation-delay:0.6s" title="P12 - 10%">10% P12</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:8px;flex-wrap:wrap;gap:8px">
+        <span><strong style="color:#059669">10%</strong> · Vinculado a productos presentados</span>
+        <span><strong style="color:#F59E0B">65%</strong> · Vinculado a productos en curso</span>
+        <span><strong style="color:#DC2626">35%</strong> · Vinculado a productos no iniciados</span>
+      </div>
+    </div>
+
+    <div class="sec t-amber">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="14" y2="16"/></svg></span><span class="txt">Resumen ejecutivo</span></h3>
+      <div class="pgrid">
+        <div class="pcard green" style="animation-delay:0.0s">
+          <div class="pid">SECCIÓN A · Concesiones (4 APs)</div>
+          <div class="ptitle">P1 a P6 · Pliegos y Planes</div>
+          <div style="font-size:9.5px;color:#374151;margin-top:6px">Aplicable a Coiba, Volcán Barú, Portobelo y San Lorenzo. Cubre actualización de ideas de negocio, grupos de interés, acompañamiento OBC, valorización económica y pliegos CTV/PRATV/CMC.</div>
+          <div class="pmeta"><span>Productos: <strong>6</strong></span><span>Avance: <strong>3 ent.</strong></span></div>
+        </div>
+        <div class="pcard amber" style="animation-delay:0.1s">
+          <div class="pid">SECCIÓN B · BPPP San Lorenzo</div>
+          <div class="ptitle">P7 a P11 · Plan de Manejo</div>
+          <div style="font-size:9.5px;color:#374151;margin-top:6px">Específico para Bosque Protector y Paisaje Protegido San Lorenzo (Colón). Incluye diagnóstico socioeconómico, EER, Plan de Manejo y Plan de Recuperación de Áreas Invadidas.</div>
+          <div class="pmeta"><span>Productos: <strong>5</strong></span><span>Avance: <strong>4 inic.</strong></span></div>
+        </div>
+        <div class="pcard red" style="animation-delay:0.2s">
+          <div class="pid">CIERRE · A+B</div>
+          <div class="ptitle">P12 · Informe Final</div>
+          <div style="font-size:9.5px;color:#374151;margin-top:6px">Consolidación de todas las actividades, lecciones aprendidas, mejores prácticas y recomendaciones para MiAMBIENTE. Cierre del contrato.</div>
+          <div class="pmeta"><span>Plazo: <strong>320 d.</strong></span><span>Pago: <strong>10%</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================ -->
+  <!-- ====== PANEL 2: CRONOGRAMA ======            -->
+  <!-- ============================================ -->
+  <div class="panel" id="p-crono">
+
+    <div class="sec t-amber">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="txt">Cronograma de entregas · 320 días</span></h3>
+      <div class="legend">
+        <div class="item"><span class="dot" style="background:#059669"></span>Presentado / Aprobado</div>
+        <div class="item"><span class="dot" style="background:#F59E0B"></span>En curso</div>
+        <div class="item"><span class="dot" style="background:#DC2626"></span>Pendiente</div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-inner">
+          <div class="tline-base"></div>
+          <div class="tline-prog" style="width:18.75%"></div>
+
+          <div class="tnode green" style="left:3.13%"><div class="dot"></div><div class="lab">P1</div><div class="day">10 d</div><div class="pay">0%</div></div>
+          <div class="tnode green" style="left:14.06%"><div class="dot"></div><div class="lab">P2</div><div class="day">45 d</div><div class="pay">0%</div></div>
+          <div class="tnode green" style="left:18.75%"><div class="dot"></div><div class="lab">P3</div><div class="day">60 d</div><div class="pay">10%</div></div>
+          <div class="tnode amber" style="left:26.25%"><div class="dot"></div><div class="lab">P4</div><div class="day">84 d</div><div class="pay">0%</div></div>
+          <div class="tnode amber" style="left:37.5%"><div class="dot"></div><div class="lab">P5</div><div class="day">120 d</div><div class="pay">20%</div></div>
+          <div class="tnode red" style="left:39%"><div class="dot"></div><div class="lab">P6</div><div class="day">130 d</div><div class="pay">0%</div></div>
+          <div class="tnode amber" style="left:42%"><div class="dot"></div><div class="lab">P7</div><div class="day">130 d</div><div class="pay">15%</div></div>
+          <div class="tnode amber" style="left:45%"><div class="dot"></div><div class="lab">P8</div><div class="day">140 d</div><div class="pay">10%</div></div>
+          <div class="tnode amber" style="left:48%"><div class="dot"></div><div class="lab">P9</div><div class="day">150 d</div><div class="pay">0%</div></div>
+          <div class="tnode red" style="left:57%"><div class="dot"></div><div class="lab">P10</div><div class="day">180 d</div><div class="pay">25%</div></div>
+          <div class="tnode amber" style="left:94%"><div class="dot"></div><div class="lab">P11</div><div class="day">303 d</div><div class="pay">10%</div></div>
+          <div class="tnode red" style="left:99%"><div class="dot"></div><div class="lab">P12</div><div class="day">320 d</div><div class="pay">10%</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec t-blue">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></span><span class="txt">Detalle por plazo y pago contractual</span></h3>
+      <div class="tscroll">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Producto</th>
+              <th>Plazo</th>
+              <th>Pago</th>
+              <th>Sección</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>P1</strong></td><td>Plan de Trabajo Actualizado</td><td>10 d</td><td>0%</td><td>A+B</td><td><span class="chip green">Aprobado</span></td></tr>
+            <tr><td><strong>P2</strong></td><td>Informe ideas de negocios (4 APs)</td><td>45 d</td><td>0%</td><td>A</td><td><span class="chip green">Presentado</span></td></tr>
+            <tr><td><strong>P3</strong></td><td>Informe identificación grupos de interés</td><td>60 d</td><td>10%</td><td>A</td><td><span class="chip green">Presentado</span></td></tr>
+            <tr><td><strong>P4</strong></td><td>1er informe avance conformación OBC</td><td>84 d</td><td>0%</td><td>A</td><td><span class="chip amber">Iniciado</span></td></tr>
+            <tr><td><strong>P5</strong></td><td>Valorización económica concesiones</td><td>120 d</td><td>20%</td><td>A</td><td><span class="chip amber">Iniciado</span></td></tr>
+            <tr><td><strong>P6</strong></td><td>Pliegos CTV/PRATV/CMC + Fuentes de financiamiento</td><td>130 d</td><td>0%</td><td>A</td><td><span class="chip red">No iniciado</span></td></tr>
+            <tr><td><strong>P7</strong></td><td>Diagnóstico socioeconómico y tenencia tierra</td><td>130 d</td><td>15%</td><td>B</td><td><span class="chip amber">Iniciado</span></td></tr>
+            <tr><td><strong>P8</strong></td><td>Informe Evaluación Ecológica Rápida</td><td>140 d</td><td>10%</td><td>B</td><td><span class="chip amber">Iniciado</span></td></tr>
+            <tr><td><strong>P9</strong></td><td>Borrador Plan de Manejo + Guía</td><td>150 d</td><td>0%</td><td>B</td><td><span class="chip amber">Iniciado</span></td></tr>
+            <tr><td><strong>P10</strong></td><td>PM final + Guía + Versión popular</td><td>180 d</td><td>25%</td><td>B</td><td><span class="chip red">No iniciado</span></td></tr>
+            <tr><td><strong>P11</strong></td><td>PERAI + Guía de implementación</td><td>303 d</td><td>10%</td><td>B</td><td><span class="chip amber">Iniciado</span></td></tr>
+            <tr><td><strong>P12</strong></td><td>Informe Final</td><td>320 d</td><td>10%</td><td>A+B</td><td><span class="chip red">No iniciado</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:8.5px;color:#9CA3AF;margin-top:8px;font-style:italic">
+        Sección A: 4 APs (Coiba, Volcán Barú, Portobelo, San Lorenzo) · Sección B: solo BPPP-SL. Pueden ejecutarse en paralelo según TdR.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- ====== PANEL 3: EQUIPO ======                -->
+  <!-- ============================================ -->
+  <div class="panel" id="p-equipo">
+
+    <div class="sec t-indigo">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="txt">Equipo consultor · 9 especialistas clave + DP</span></h3>
+      <div style="font-size:9.5px;color:#6B7280;margin-bottom:10px">
+        Participación de cada experto en los 12 productos, según matriz de responsabilidades.
+      </div>
+      <div class="legend">
+        <div class="item"><span class="dot" style="background:#1F6B3A"></span>Líder de producto</div>
+        <div class="item"><span class="dot" style="background:#6366F1"></span>Co-responsable</div>
+        <div class="item"><span class="dot" style="background:#9CA3AF"></span>Apoyo técnico</div>
+      </div>
+    </div>
+
+    <div class="sec t-amber">
+      <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16V8"/><path d="M12 16V4"/><path d="M17 16v-6"/></svg>Carga por experto (asignaciones a productos)</h4>
+      <div id="experts-bars">
+        <!-- A - Coordinador General -->
+        <div class="exp-row">
+          <div class="exp-name">A · Coord. General<span>Dirección técnica</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#1F6B3A;width:16.67%;animation-delay:0.0s" title="Líder en 2 productos">2 L</div>
+            <div style="background:#6366F1;width:50%;animation-delay:0.05s" title="Co-responsable en 6 productos">6 CR</div>
+            <div style="background:#9CA3AF;width:33.33%;animation-delay:0.10s" title="Apoyo en 4 productos">4 AT</div>
+          </div>
+          <div class="exp-count">12 prod.</div>
+        </div>
+        <!-- B - Especialista Social -->
+        <div class="exp-row">
+          <div class="exp-name">B · Esp. Social<span>Procesos participativos</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#1F6B3A;width:22.22%;animation-delay:0.15s" title="Líder en 2 productos">2 L</div>
+            <div style="background:#6366F1;width:55.56%;animation-delay:0.20s" title="Co-responsable en 5 productos">5 CR</div>
+            <div style="background:#9CA3AF;width:22.22%;animation-delay:0.25s" title="Apoyo en 2 productos">2 AT</div>
+          </div>
+          <div class="exp-count">9 prod.</div>
+        </div>
+        <!-- C - Geógrafo SIG -->
+        <div class="exp-row">
+          <div class="exp-name">C · Geógrafo SIG<span>Cartografía / SIG</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#6366F1;width:57.14%;animation-delay:0.30s" title="Co-responsable en 4 productos">4 CR</div>
+            <div style="background:#9CA3AF;width:42.86%;animation-delay:0.35s" title="Apoyo en 3 productos">3 AT</div>
+          </div>
+          <div class="exp-count">7 prod.</div>
+        </div>
+        <!-- D - Biólogo Fauna -->
+        <div class="exp-row">
+          <div class="exp-name">D · Biólogo Fauna<span>EER fauna terrestre</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#1F6B3A;width:25%;animation-delay:0.40s" title="Líder en 1 producto">1 L</div>
+            <div style="background:#6366F1;width:25%;animation-delay:0.45s" title="Co-responsable en 1 producto">1 CR</div>
+            <div style="background:#9CA3AF;width:50%;animation-delay:0.50s" title="Apoyo en 2 productos">2 AT</div>
+          </div>
+          <div class="exp-count">4 prod.</div>
+        </div>
+        <!-- E - Biólogo Botánica -->
+        <div class="exp-row">
+          <div class="exp-name">E · Biólogo Botánica<span>EER flora</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#6366F1;width:50%;animation-delay:0.55s" title="Co-responsable en 2 productos">2 CR</div>
+            <div style="background:#9CA3AF;width:50%;animation-delay:0.60s" title="Apoyo en 2 productos">2 AT</div>
+          </div>
+          <div class="exp-count">4 prod.</div>
+        </div>
+        <!-- F - Econ. Ambiental -->
+        <div class="exp-row">
+          <div class="exp-name">F · Econ. Ambiental<span>Valoración / finanzas</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#1F6B3A;width:12.5%;animation-delay:0.65s" title="Líder en 1 producto">1 L</div>
+            <div style="background:#6366F1;width:25%;animation-delay:0.70s" title="Co-responsable en 2 productos">2 CR</div>
+            <div style="background:#9CA3AF;width:62.5%;animation-delay:0.75s" title="Apoyo en 5 productos">5 AT</div>
+          </div>
+          <div class="exp-count">8 prod.</div>
+        </div>
+        <!-- G - Planif. Turismo -->
+        <div class="exp-row">
+          <div class="exp-name">G · Planif. Turismo<span>APs / turismo verde</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#1F6B3A;width:50%;animation-delay:0.80s" title="Líder en 4 productos">4 L</div>
+            <div style="background:#6366F1;width:12.5%;animation-delay:0.85s" title="Co-responsable en 1 producto">1 CR</div>
+            <div style="background:#9CA3AF;width:37.5%;animation-delay:0.90s" title="Apoyo en 3 productos">3 AT</div>
+          </div>
+          <div class="exp-count">8 prod.</div>
+        </div>
+        <!-- H - Emprendimiento -->
+        <div class="exp-row">
+          <div class="exp-name">H · Emprendimiento<span>Negocios / OBC</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#1F6B3A;width:33.33%;animation-delay:0.95s" title="Líder en 2 productos">2 L</div>
+            <div style="background:#6366F1;width:33.33%;animation-delay:1.00s" title="Co-responsable en 2 productos">2 CR</div>
+            <div style="background:#9CA3AF;width:33.33%;animation-delay:1.05s" title="Apoyo en 2 productos">2 AT</div>
+          </div>
+          <div class="exp-count">6 prod.</div>
+        </div>
+        <!-- I - Legal -->
+        <div class="exp-row">
+          <div class="exp-name">I · Esp. Legal<span>Normativa / pliegos</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#1F6B3A;width:25%;animation-delay:1.10s" title="Líder en 2 productos">2 L</div>
+            <div style="background:#6366F1;width:25%;animation-delay:1.15s" title="Co-responsable en 2 productos">2 CR</div>
+            <div style="background:#9CA3AF;width:50%;animation-delay:1.20s" title="Apoyo en 4 productos">4 AT</div>
+          </div>
+          <div class="exp-count">8 prod.</div>
+        </div>
+        <!-- J - Planes Negocio -->
+        <div class="exp-row">
+          <div class="exp-name">J · Planes Negocio<span>Estudios mercado</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#6366F1;width:100%;animation-delay:1.25s" title="Co-responsable en 1 producto">1 CR</div>
+          </div>
+          <div class="exp-count">1 prod.</div>
+        </div>
+        <!-- DP -->
+        <div class="exp-row">
+          <div class="exp-name">DP · Consultores planta<span>Apoyo transversal</span></div>
+          <div class="exp-bar-container">
+            <div style="background:#9CA3AF;width:100%;animation-delay:1.30s" title="Apoyo en 2 productos">2 AT</div>
+          </div>
+          <div class="exp-count">2 prod.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec t-green">
+      <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>Liderazgos por producto</h4>
+      <div class="tscroll">
+        <table>
+          <thead>
+            <tr><th>Producto</th><th>Líder de producto</th><th>Co-responsables</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>P1</strong> Plan de Trabajo</td><td><span class="badge lider">A</span> Coord. General</td><td>B · C (apoyo)</td></tr>
+            <tr><td><strong>P2</strong> Ideas negocios</td><td><span class="badge lider">H</span> Emprendimiento</td><td>A · G · F (apoyo)</td></tr>
+            <tr><td><strong>P3</strong> Grupos interés</td><td><span class="badge lider">B</span> Social</td><td>H · A · I (apoyo)</td></tr>
+            <tr><td><strong>P4</strong> Conformación OBC</td><td><span class="badge lider">I</span> Legal</td><td>A · H (apoyo)</td></tr>
+            <tr><td><strong>P5</strong> Valorización</td><td><span class="badge lider">F</span> Econ. Ambiental</td><td>A · I · G (apoyo)</td></tr>
+            <tr><td><strong>P6.1</strong> Pliegos CTV</td><td><span class="badge lider">I</span> Legal</td><td>J · F · H · A · G · DP</td></tr>
+            <tr><td><strong>P6.2</strong> PRATV</td><td><span class="badge lider">H</span> Emprendimiento</td><td>C · F</td></tr>
+            <tr><td><strong>P6.3</strong> CMC</td><td><span class="badge lider">G</span> Planif. Turismo</td><td>A · B (apoyo)</td></tr>
+            <tr><td><strong>P7</strong> Diag. socioec.</td><td><span class="badge lider">B</span> Social</td><td>A · C · I · F (apoyo)</td></tr>
+            <tr><td><strong>P8</strong> EER</td><td><span class="badge lider">D</span> Fauna</td><td>E · C · A (apoyo)</td></tr>
+            <tr><td><strong>P9</strong> Borrador PM</td><td><span class="badge lider">G</span> Planif. Turismo</td><td>C · A · F · I</td></tr>
+            <tr><td><strong>P10</strong> PM final</td><td><span class="badge lider">G</span> Planif. Turismo</td><td>B · C · A · DP</td></tr>
+            <tr><td><strong>P11</strong> PERAI</td><td><span class="badge lider">G</span> Planif. Turismo</td><td>B · I · C · F · A</td></tr>
+            <tr><td><strong>P12</strong> Informe Final</td><td><span class="badge lider">A</span> Coord. General</td><td>B · F · G · H · I (apoyo)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- ====== PANEL 4: DETALLE PRODUCTOS ======     -->
+  <!-- ============================================ -->
+  <div class="panel" id="p-detalle">
+
+    <div class="sec t-green">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span><span class="txt">Detalle por producto · Líderes y tareas</span></h3>
+      <div style="font-size:9.5px;color:#6B7280;margin-bottom:10px">
+        Toca cada producto para ver sus responsables, plazo, porcentaje de pago y tareas específicas según TdR.
+      </div>
+
+      <!-- P1 -->
+      <div class="acc green">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P1</span>
+            <span class="ptit">Plan de Trabajo Actualizado</span>
+            <span class="chip green">Aprobado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">10 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">0%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">A + B</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">A · Coord. General</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Actualización del plan de trabajo post-orden de proceder con cronograma detallado, presupuesto por actividad, metodologías participativas y protocolos para reuniones virtuales/presenciales. Aprobación ante UEP y DAPB. Co-responsable: B (Social). Apoyo: C (SIG).
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P2 -->
+      <div class="acc green">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P2</span>
+            <span class="ptit">Informe ideas de negocios (4 APs)</span>
+            <span class="chip green">Presentado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">45 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">0%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">A · 4 APs</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">H · Emprendimiento</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Revisión de herramientas de gestión en Coiba, Volcán Barú, Portobelo y San Lorenzo. Reconocimientos de campo, actualización de ideas en los Planes de Uso Público, identificación de nuevos atractivos ecoturísticos, priorización de ideas factibles por AP. 20 ideas priorizadas en total. Co-responsables: A · G. Apoyo: F.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P3 -->
+      <div class="acc green">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P3</span>
+            <span class="ptit">Identificación grupos de interés</span>
+            <span class="chip green">Presentado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">60 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">10%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">A · 4 APs</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">B · Social</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Definición de criterios mínimos para concesionarios, OBC, ONG y fundaciones. Identificación de beneficiarios por AP (concesiones / CMC / PRATV). Reuniones y talleres con grupos. Base de datos digital. Identificación de grupos que requieren formalización. Co-responsable: H. Apoyo: A · I.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P4 -->
+      <div class="acc amber">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P4</span>
+            <span class="ptit">1er informe avance conformación OBC</span>
+            <span class="chip amber">Iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">84 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">0%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">A</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">I · Legal</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Asesoría en elaboración de estatutos, trámites de personería jurídica, registro público. Coordinación con Dirección de Cultura Ambiental MiAMBIENTE. Base de datos de grupos que requieren apoyo. Plan de Acción por OBC. Marco normativo aplicable: Decreto Ejecutivo 32/2017 (Formalización OBCs). Apoyo: A · H.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P5 -->
+      <div class="acc amber">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P5</span>
+            <span class="ptit">Valorización económica de concesiones</span>
+            <span class="chip amber">Iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">120 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">20%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">A</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">F · Econ. Ambiental</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Coordinación con UEP, DAPB, DIPA. Reuniones con Ministerio de Economía y Finanzas (MEF) y Contraloría General. Valorización económica de concesiones/PRATV prioritarios según norma vigente. Marco: Resolución AG-0189-2008 (cobro por uso de servicios ambientales SINAP). Co-responsable: A. Apoyo: I · G.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P6 -->
+      <div class="acc red">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P6</span>
+            <span class="ptit">Pliegos CTV/PRATV/CMC + Fuentes financ.</span>
+            <span class="chip red">No iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">130 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">0%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">A · 4 APs</div></div>
+            <div class="m"><div class="ml">Líderes</div><div class="mv">I · H · G · A</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Producto compuesto en 5 sub-entregables:<br>
+            <strong>6.1 Pliegos Concesiones Turismo Verde</strong> — Líder I (Legal). Cap I-IV del pliego, planes de negocio (12 = 3 por AP).<br>
+            <strong>6.2 PRATV</strong> — Líder H (Emprendimiento). Descripción proyecto, marco lógico, presupuesto.<br>
+            <strong>6.3 CMC</strong> — Líder G (Turismo). Propuestas de Convenios de Manejo Compartido y planes de trabajo.<br>
+            <strong>6.4 Informe resultados</strong> — Líder G. Plan de concesiones + fuentes de financiamiento.<br>
+            <strong>6.5 Capacitaciones</strong> — Líder A. Módulos para personal MiAMBIENTE sobre CTV/PRATV/CMC.<br>
+            Marcos: Decretos Ejecutivos 32/2017, 34/2017, 59/2016, Resolución DM-04042017.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P7 -->
+      <div class="acc amber">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P7</span>
+            <span class="ptit">Diagnóstico socioeconómico y tenencia tierra</span>
+            <span class="chip amber">Iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">130 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">15%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">B · Social</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Trabajo de campo con muestra representativa (Ladino/indígena). Caracterización de población dentro del AP y zona de influencia. Evaluación de presión sobre ecosistemas (a triangular con EER P8). Patrones de desplazamiento, cambios de uso de suelo, tenencia de tierra. Mapeo de actores. 2 talleres de presentación de resultados. Recorridos con guardaparques. Co-responsables: A · C. Apoyo: I · F.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P8 -->
+      <div class="acc amber">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P8</span>
+            <span class="ptit">Evaluación Ecológica Rápida (EER)</span>
+            <span class="chip amber">Iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">140 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">10%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">D · Biólogo Fauna</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Levantamiento de fauna terrestre (mamíferos, aves, reptiles, anfibios) y flora (familias, géneros, especies) en BPPP-SL. Estado de conservación nacional, CITES, IUCN. Capítulo transversal de interacción flora-fauna y efectos antropogénicos. Recomendaciones para Plan de Manejo y PERAI. Aprobación DEVPOLES. Co-responsables: E (Botánica) · C (SIG). Apoyo: A.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P9 -->
+      <div class="acc amber">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P9</span>
+            <span class="ptit">Borrador Plan de Manejo + Guía implementación</span>
+            <span class="chip amber">Iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">150 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">0%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">G · Planif. Turismo</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Integra diagnósticos P7 y P8. Visión, misión, objetivos de manejo. Zonificación según TdR. Programas y subprogramas. Objetos de conservación y protocolos de monitoreo. Modelo de gobernanza con actores clave. Plan a 10 años + plan operativo anual. Estrategia de ejecución para los primeros 3 años. Borrador de Guía Metodológica. Co-responsables: C · A. Apoyo: F · I · B · D · E.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P10 -->
+      <div class="acc red">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P10</span>
+            <span class="ptit">PM final + Guía + Versión popular</span>
+            <span class="chip red">No iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">180 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">25%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">G · Planif. Turismo</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Versión final del PM incorporando comentarios de los Talleres N°1, N°2, N°3. Aplicación de Directrices Técnicas Valarezo-Gómez (2000) y Resolución AG-0170-2006. Finalización de Guía Metodológica de Implementación. Versión Popular con lenguaje accesible. Entrega: 10 impresos + 20 USB del PM, 50 impresos + 6 USB de la Versión Popular. Producto de mayor pago (25%). Co-responsables: B · C · A. Apoyo: D · E · F · DP.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P11 -->
+      <div class="acc amber">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P11</span>
+            <span class="ptit">PERAI · Recuperación áreas invadidas</span>
+            <span class="chip amber">Iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">303 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">10%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">G · Planif. Turismo</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Plan Estratégico de Recuperación de Áreas Invadidas. Necesidades identificadas en talleres, propuestas de atención, plan de ordenamiento de actividades dentro del BPPP-SL. Listados: actores clave, organizaciones activas, personas interesadas en capacitación o conformar grupos. Sitios de interés turístico comunitarios. Perfiles de proyectos. Medidas de mitigación. Guía de implementación con cronograma, indicadores, costos. Co-responsables: B · I. Apoyo: C · D · E · F · A.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- P12 -->
+      <div class="acc red">
+        <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
+          <div class="left">
+            <span class="pidh">P12</span>
+            <span class="ptit">Informe Final de Consultoría</span>
+            <span class="chip red">No iniciado</span>
+          </div>
+          <span class="arr">▶</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          <div class="acc-meta">
+            <div class="m"><div class="ml">Plazo</div><div class="mv">320 días</div></div>
+            <div class="m"><div class="ml">Pago</div><div class="mv">10%</div></div>
+            <div class="m"><div class="ml">Sección</div><div class="mv">A + B</div></div>
+            <div class="m"><div class="ml">Líder</div><div class="mv">A · Coord. General</div></div>
+          </div>
+          <div style="font-size:10px;color:#374151;line-height:1.55">
+            Resumen de todas las actividades realizadas. Lecciones aprendidas, mejores prácticas, recomendaciones para MiAMBIENTE. Archivo digital de fotografías de alta calidad (5+ megapixeles). Memoria fotográfica completa. Cierre del contrato. Co-responsable: B. Apoyo: F · G · H · I.
+          </div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- ====== PANEL 5: ÁREAS PROTEGIDAS ======      -->
+  <!-- ============================================ -->
+  <div class="panel" id="p-aps">
+
+    <div class="sec t-nature">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.3c1.7 2.4 2.1 11.9-6.2 17.6z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg></span><span class="txt">Áreas protegidas en el alcance</span></h3>
+      <div style="font-size:9.5px;color:#6B7280;margin-bottom:10px">
+        4 APs en Sección A (planes de concesiones); BPPP-SL adicionalmente en Sección B (Plan de Manejo y PERAI).
+      </div>
+      <div class="ap-grid">
+        <div class="ap-card">
+          <div class="apn">BPPP San Lorenzo</div>
+          <div class="apd">Bosque Protector y Paisaje Protegido · Colón · Foco principal de la consultoría (Secciones A y B). Único AP con plan de manejo y PERAI específicos.</div>
+        </div>
+        <div class="ap-card">
+          <div class="apn">PN Coiba</div>
+          <div class="apd">Parque Nacional marino · Veraguas · Patrimonio de la Humanidad UNESCO. Sección A: actualización de ideas de negocio y pliegos de concesiones.</div>
+        </div>
+        <div class="ap-card">
+          <div class="apn">PN Volcán Barú</div>
+          <div class="apd">Parque Nacional · Chiriquí · Punto más alto de Panamá. Sección A: actualización de ideas de negocio y pliegos de concesiones.</div>
+        </div>
+        <div class="ap-card">
+          <div class="apn">PN Portobelo</div>
+          <div class="apd">Parque Nacional · Colón · Patrimonio mixto cultural-natural. Sección A: actualización de ideas de negocio y pliegos de concesiones.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec t-indigo">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span><span class="txt">Productos aplicables por AP</span></h3>
+      <div class="tscroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>BPPP-SL</th>
+              <th>Coiba</th>
+              <th>V. Barú</th>
+              <th>Portobelo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>P1</strong> Plan de Trabajo</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td><strong>P2</strong> Ideas negocios</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td><strong>P3</strong> Grupos interés</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td><strong>P4</strong> OBC</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td><strong>P5</strong> Valorización</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td><strong>P6</strong> Pliegos/PRATV/CMC</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td><strong>P7</strong> Diag. socioec.</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td><strong>P8</strong> EER</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td><strong>P9</strong> Borrador PM</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td><strong>P10</strong> PM final</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td><strong>P11</strong> PERAI</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td><strong>P12</strong> Informe Final</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:8.5px;color:#9CA3AF;margin-top:8px;font-style:italic">
+        ✓ Aplicable según TdR. P7-P11 son específicos para BPPP-SL (Sección B). P1-P6 y P12 cubren las 4 APs (Sección A).
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /content -->
+
+  <!-- ====== FOOTER ====== -->
+  <div class="foot">
+    <div>PANAPROT · Plan de Manejo BPPP-SL y Planes de Concesiones · MiAMBIENTE Panamá · Mayo 2026</div>
+    <div class="src">
+      Estados de avance reportados por el equipo consultor (Mayo 2026). Plazos contractuales y porcentajes de pago según TdR Plan de Manejo BPPP-SL (cuadro 7.1). Matriz de responsabilidades elaborada a partir de la propuesta técnica y la distribución de tareas del TdR. Este cuadro de mando es un instrumento de seguimiento interno y no sustituye los informes oficiales presentados a la UEP.
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// Tabs
+document.getElementById("tabs").addEventListener("click", e => {
+  if (e.target.tagName !== "BUTTON") return;
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("on"));
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("on"));
+  e.target.classList.add("on");
+  const panel = document.getElementById("p-" + e.target.dataset.t);
+  panel.classList.add("on");
+  // re-trigger intersection observer on tab change
+  panel.querySelectorAll('.sec').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight;
+    el.style.animation = 'fadeUp 0.4s ease-out both';
+  });
+});
+
+// Scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.pcard, .acc').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  el.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+  io.observe(el);
+});
+</script>
+</body>
+</html>
