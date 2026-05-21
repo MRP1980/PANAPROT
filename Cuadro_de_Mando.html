@@ -12,8 +12,8 @@ body {
   font-weight: 400;
   color: #111827;
   background: #F9FAFB;
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -35,76 +35,124 @@ body {
 /* ====== HEADER ====== */
 .header {
   background: white;
-  border-bottom: 3px solid #1F6B3A;
+  border-bottom: 3px solid #25347A;
   padding: 16px 24px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
+}
+
+/* Logo DEVPOLES */
+.logo-dp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding-right: 16px;
+  border-right: 1px solid #E5E7EB;
+}
+.dp-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: block;
+}
+.dp-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: auto;
+}
+.dp-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.dp-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #25347A;
+  letter-spacing: 2.8px;
+  font-family: 'Montserrat', sans-serif;
+}
+.dp-claim {
+  font-size: 8px;
+  font-weight: 500;
+  color: #93D500;
+  letter-spacing: 1px;
+  margin-top: 3px;
+  text-transform: lowercase;
 }
 .brand { flex: 1; min-width: 0; }
 .brand .institucion {
-  font-size: 8.5px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
   color: #6B7280;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 .brand h1 {
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 800;
-  color: #1F6B3A;
-  letter-spacing: -0.2px;
+  color: #25347A;
+  letter-spacing: -0.3px;
   line-height: 1.2;
+  margin-bottom: 4px;
 }
 .brand .sub {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 500;
   color: #374151;
-  margin-top: 3px;
+  margin-top: 4px;
+  line-height: 1.35;
 }
 .brand .periodo {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 400;
   color: #6B7280;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .kpis {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 .kpi {
-  background: #EEF5EE;
-  border-radius: 6px;
-  padding: 8px 12px;
+  background: #EEF1FA;
+  border-radius: 8px;
+  padding: 12px 16px;
   flex: 1;
   min-width: 0;
   white-space: nowrap;
   text-align: center;
-  border-left: 3px solid #1F6B3A;
+  border-left: 4px solid #25347A;
 }
 .kpi .val {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1F6B3A;
+  font-size: 22px;
+  font-weight: 800;
+  color: #25347A;
   display: block;
+  line-height: 1;
+  margin-bottom: 4px;
 }
 .kpi .lab {
-  font-size: 8px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 600;
   color: #6B7280;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  margin-top: 1px;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
 }
 .kpi.green { border-left-color: #059669; background: #ECFDF5; }
-.kpi.green .val { color: #059669; }
+.kpi.green .val { color: #047857; }
 .kpi.amber { border-left-color: #F59E0B; background: #FFFBEB; }
-.kpi.amber .val { color: #D97706; }
+.kpi.amber .val { color: #B45309; }
 .kpi.red { border-left-color: #DC2626; background: #FEF2F2; }
-.kpi.red .val { color: #DC2626; }
+.kpi.red .val { color: #B91C1C; }
 
 /* ====== TABS ====== */
 .tabs {
@@ -112,29 +160,58 @@ body {
   gap: 0;
   background: white;
   border-bottom: 1px solid #E5E7EB;
-  padding: 0 16px;
-  overflow-x: auto;
+  padding: 0;
 }
 .tabs button {
+  flex: 1;
+  min-width: 0;
   background: white;
   border: none;
-  padding: 10px 14px;
+  padding: 14px 10px;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   color: #6B7280;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   white-space: nowrap;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  position: relative;
 }
-.tabs button:hover { color: #1F6B3A; }
+.tabs button svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tabs button .lab {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tabs button:hover {
+  color: var(--tab-color, #25347A);
+  background: #F9FAFB;
+}
 .tabs button.on {
-  background: #EEF5EE;
-  color: #1F6B3A;
-  border-bottom-color: #1F6B3A;
+  color: var(--tab-color, #25347A);
+  border-bottom-color: var(--tab-color, #25347A);
+  background: var(--tab-bg, #EEF1FA);
   font-weight: 600;
 }
+/* Color por tab - una paleta DEVPOLES por cada uno */
+.tabs button[data-color="primary"] { --tab-color: #25347A; --tab-bg: #EEF1FA; }
+.tabs button[data-color="cyan"]    { --tab-color: #0086B8; --tab-bg: #E0F6FD; }
+.tabs button[data-color="teal"]    { --tab-color: #008A7A; --tab-bg: #DEFAF5; }
+.tabs button[data-color="orange"]  { --tab-color: #D45500; --tab-bg: #FFEEDD; }
+.tabs button[data-color="lime"]    { --tab-color: #6B9F00; --tab-bg: #F1F9DA; }
 
 /* ====== CONTENT ====== */
 .content {
@@ -146,43 +223,52 @@ body {
 
 .sec {
   margin-bottom: 22px;
-  --sec-color: #1F6B3A;
-  --sec-bg: #EEF5EE;
+  --sec-color: #25347A;
+  --sec-bg: #EEF1FA;
 }
-.sec.t-green   { --sec-color: #1F6B3A; --sec-bg: #EEF5EE; }
-.sec.t-indigo  { --sec-color: #4338CA; --sec-bg: #EEF2FF; }
-.sec.t-amber   { --sec-color: #B45309; --sec-bg: #FFFBEB; }
-.sec.t-nature  { --sec-color: #047857; --sec-bg: #ECFDF5; }
-.sec.t-blue    { --sec-color: #0F4C81; --sec-bg: #EFF6FF; }
-.sec.t-rose    { --sec-color: #BE185D; --sec-bg: #FDF2F8; }
+/* Paleta DEVPOLES oficial - distribuida equitativamente entre secciones */
+.sec.t-primary { --sec-color: #25347A; --sec-bg: #EEF1FA; --sec-pure: #25347A; } /* Reflex Blue */
+.sec.t-cyan    { --sec-color: #0086B8; --sec-bg: #E0F6FD; --sec-pure: #00A7E1; } /* Celeste DEVPOLES */
+.sec.t-teal    { --sec-color: #008A7A; --sec-bg: #DEFAF5; --sec-pure: #00AF9A; } /* Turquesa DEVPOLES */
+.sec.t-lime    { --sec-color: #6B9F00; --sec-bg: #F1F9DA; --sec-pure: #93D500; } /* Verde lima DEVPOLES */
+.sec.t-orange  { --sec-color: #D45500; --sec-bg: #FFEEDD; --sec-pure: #FF6B00; } /* Naranja DEVPOLES */
+.sec.t-gray    { --sec-color: #6B6E70; --sec-bg: #F3F3F4; --sec-pure: #888B8D; } /* Gris DEVPOLES */
+/* Aliases para compatibilidad con código existente */
+.sec.t-green   { --sec-color: #25347A; --sec-bg: #EEF1FA; --sec-pure: #25347A; }
+.sec.t-indigo  { --sec-color: #0086B8; --sec-bg: #E0F6FD; --sec-pure: #00A7E1; }
+.sec.t-amber   { --sec-color: #D45500; --sec-bg: #FFEEDD; --sec-pure: #FF6B00; }
+.sec.t-blue    { --sec-color: #008A7A; --sec-bg: #DEFAF5; --sec-pure: #00AF9A; }
+.sec.t-nature  { --sec-color: #6B9F00; --sec-bg: #F1F9DA; --sec-pure: #93D500; }
+.sec.t-rose    { --sec-color: #6B6E70; --sec-bg: #F3F3F4; --sec-pure: #888B8D; }
 
 .sec h3 {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--sec-color);
-  padding: 6px 10px 6px 0;
+  padding: 10px 0 10px 0;
   border-bottom: 2px solid var(--sec-color);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.6px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  width: 100%;
 }
 .sec h3 .ico {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 32px;
+  height: 32px;
   background: var(--sec-bg);
-  border-radius: 5px;
+  border-radius: 7px;
   flex-shrink: 0;
 }
 .sec h3 .ico svg {
-  width: 14px;
-  height: 14px;
-  stroke: var(--sec-color);
+  width: 18px;
+  height: 18px;
+  stroke: var(--sec-pure, var(--sec-color));
   fill: none;
   stroke-width: 2;
   stroke-linecap: round;
@@ -191,36 +277,38 @@ body {
 .sec h3 .txt {
   flex: 1;
   min-width: 0;
+  word-break: break-word;
 }
 .sec h4 {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  color: #111827;
-  margin: 10px 0 8px;
+  color: #374151;
+  margin: 16px 0 10px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 .sec h4 svg {
-  width: 13px;
-  height: 13px;
-  stroke: #6B7280;
+  width: 15px;
+  height: 15px;
+  stroke: var(--sec-pure, #888B8D);
   fill: none;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  flex-shrink: 0;
 }
 
 /* ====== STOP-GO BAR ====== */
 .stopgo {
   display: flex;
-  gap: 6px;
-  margin-bottom: 14px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 .stopgo .seg {
   flex: 1;
-  height: 52px;
-  border-radius: 6px;
+  height: 64px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -232,16 +320,16 @@ body {
   transform-origin: bottom;
 }
 .stopgo .seg .id {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.3px;
 }
 .stopgo .seg .st {
-  font-size: 6.5px;
-  font-weight: 500;
+  font-size: 8.5px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  margin-top: 2px;
+  letter-spacing: 0.4px;
+  margin-top: 3px;
   opacity: 0.95;
 }
 .stopgo .green { background: #059669; }
@@ -251,36 +339,36 @@ body {
 /* ====== LEYENDA ====== */
 .legend {
   display: flex;
-  gap: 14px;
+  gap: 18px;
   flex-wrap: wrap;
-  font-size: 9.5px;
+  font-size: 12px;
   font-weight: 500;
   color: #374151;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
-.legend .item { display: flex; align-items: center; gap: 5px; }
+.legend .item { display: flex; align-items: center; gap: 7px; }
 .legend .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
   display: inline-block;
 }
 
 /* ====== DISTRIBUCIÓN STACKED BAR ====== */
 .sbar {
   background: #E5E7EB;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
-  height: 28px;
-  margin-bottom: 6px;
+  height: 36px;
+  margin-bottom: 8px;
 }
 .sbar > div {
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
   animation: barGrow 0.6s ease-out both;
 }
@@ -292,33 +380,34 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 10px;
-  min-width: 480px;
+  font-size: 12.5px;
+  min-width: 520px;
 }
 table th {
-  background: var(--sec-bg, #EEF5EE);
-  color: var(--sec-color, #1F6B3A);
+  background: var(--sec-bg, #EEF1FA);
+  color: var(--sec-color, #25347A);
   font-weight: 600;
   text-align: left;
-  padding: 8px 10px;
-  border-bottom: 2px solid var(--sec-color, #1F6B3A);
+  padding: 11px 12px;
+  border-bottom: 2px solid var(--sec-color, #25347A);
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-size: 9px;
+  letter-spacing: 0.4px;
+  font-size: 10.5px;
   white-space: nowrap;
 }
 table td {
-  padding: 7px 10px;
+  padding: 10px 12px;
   border-bottom: 1px solid #E5E7EB;
   vertical-align: top;
+  font-size: 12.5px;
 }
 table tr:hover td { background: #F9FAFB; }
 
 .chip {
   display: inline-block;
-  padding: 2px 7px;
+  padding: 3px 9px;
   border-radius: 12px;
-  font-size: 8.5px;
+  font-size: 10.5px;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -328,53 +417,54 @@ table tr:hover td { background: #F9FAFB; }
 
 .badge {
   display: inline-block;
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 8px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 10.5px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.4px;
 }
-.badge.lider { background: #1F6B3A; color: white; }
-.badge.corresp { background: #6366F1; color: white; }
+.badge.lider { background: #25347A; color: white; }
+.badge.corresp { background: #00A7E1; color: white; }
 .badge.apoyo { background: #9CA3AF; color: white; }
 
 /* ====== CARDS PRODUCTOS ====== */
 .pgrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
 }
 .pcard {
   background: #F9FAFB;
-  border-radius: 8px;
-  padding: 12px;
-  border-top: 3px solid #9CA3AF;
+  border-radius: 10px;
+  padding: 16px;
+  border-top: 4px solid #9CA3AF;
   animation: fadeUp 0.4s ease-out both;
 }
 .pcard.green { border-top-color: #059669; }
 .pcard.amber { border-top-color: #F59E0B; }
 .pcard.red { border-top-color: #DC2626; }
 .pcard .ptitle {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   color: #111827;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .pcard .pid {
-  font-size: 9px;
-  font-weight: 800;
-  color: #1F6B3A;
-  letter-spacing: 0.5px;
-  margin-bottom: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #25347A;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
 }
 .pcard .pmeta {
   display: flex;
   justify-content: space-between;
-  font-size: 8.5px;
+  font-size: 11.5px;
   color: #6B7280;
-  margin-top: 6px;
-  padding-top: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
   border-top: 1px dashed #E5E7EB;
 }
 .pcard .pmeta strong {
@@ -448,7 +538,7 @@ table tr:hover td { background: #F9FAFB; }
 }
 .tnode .pay {
   font-size: 7px;
-  color: #1F6B3A;
+  color: #25347A;
   font-weight: 600;
   margin-top: 1px;
 }
@@ -456,20 +546,20 @@ table tr:hover td { background: #F9FAFB; }
 /* ====== EXPERTOS BARS ====== */
 .exp-row {
   display: grid;
-  grid-template-columns: 130px 1fr 60px;
+  grid-template-columns: 160px 1fr 75px;
   align-items: center;
-  gap: 10px;
-  padding: 6px 0;
+  gap: 12px;
+  padding: 9px 0;
   border-bottom: 1px solid #F3F4F6;
-  font-size: 10px;
+  font-size: 12px;
 }
 .exp-row:last-child { border-bottom: none; }
-.exp-name { font-weight: 600; color: #111827; font-size: 9.5px; }
-.exp-name span { display: block; font-size: 8px; color: #6B7280; font-weight: 400; }
+.exp-name { font-weight: 600; color: #111827; font-size: 12px; }
+.exp-name span { display: block; font-size: 10px; color: #6B7280; font-weight: 500; margin-top: 2px; }
 .exp-bar-container {
   background: #F3F4F6;
-  height: 18px;
-  border-radius: 4px;
+  height: 24px;
+  border-radius: 5px;
   overflow: hidden;
   display: flex;
 }
@@ -478,12 +568,12 @@ table tr:hover td { background: #F9FAFB; }
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 8px;
+  font-size: 10.5px;
   font-weight: 600;
   animation: barGrow 0.6s ease-out both;
 }
 .exp-count {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   color: #374151;
   text-align: right;
@@ -492,16 +582,16 @@ table tr:hover td { background: #F9FAFB; }
 /* ====== ACORDEÓN ====== */
 .acc {
   background: #F9FAFB;
-  border-radius: 8px;
-  margin-bottom: 6px;
+  border-radius: 10px;
+  margin-bottom: 8px;
   overflow: hidden;
-  border-left: 3px solid #9CA3AF;
+  border-left: 4px solid #9CA3AF;
 }
 .acc.green { border-left-color: #059669; }
 .acc.amber { border-left-color: #F59E0B; }
 .acc.red { border-left-color: #DC2626; }
 .acc-hdr {
-  padding: 10px 12px;
+  padding: 13px 15px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -509,12 +599,12 @@ table tr:hover td { background: #F9FAFB; }
   user-select: none;
 }
 .acc-hdr:hover { background: #F3F4F6; }
-.acc-hdr .left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
-.acc-hdr .pidh { font-size: 11px; font-weight: 800; color: #1F6B3A; letter-spacing: 0.3px; }
-.acc-hdr .ptit { font-size: 10.5px; font-weight: 600; color: #111827; }
+.acc-hdr .left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.acc-hdr .pidh { font-size: 14px; font-weight: 800; color: #25347A; letter-spacing: 0.4px; }
+.acc-hdr .ptit { font-size: 13.5px; font-weight: 600; color: #111827; }
 .acc-hdr .arr {
   color: #6B7280;
-  font-size: 10px;
+  font-size: 12px;
   transition: transform 0.3s;
 }
 .acc.open .acc-hdr .arr { transform: rotate(90deg); }
@@ -525,223 +615,299 @@ table tr:hover td { background: #F9FAFB; }
 }
 .acc.open .acc-body { max-height: 2200px; }
 .acc-inner {
-  padding: 4px 14px 14px;
+  padding: 6px 16px 16px;
   border-top: 1px solid #E5E7EB;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #374151;
 }
 .acc-meta {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 8px;
-  margin: 10px 0;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
 }
 .acc-meta .m {
   background: white;
-  padding: 6px 8px;
-  border-radius: 4px;
-  border-left: 2px solid #1F6B3A;
+  padding: 9px 11px;
+  border-radius: 5px;
+  border-left: 3px solid #25347A;
 }
-.acc-meta .m .ml { font-size: 7.5px; color: #6B7280; text-transform: uppercase; font-weight: 500; letter-spacing: 0.3px; }
-.acc-meta .m .mv { font-size: 10px; font-weight: 600; color: #111827; margin-top: 2px; }
+.acc-meta .m .ml { font-size: 9.5px; color: #6B7280; text-transform: uppercase; font-weight: 600; letter-spacing: 0.4px; }
+.acc-meta .m .mv { font-size: 13px; font-weight: 600; color: #111827; margin-top: 3px; }
 
 /* ====== APs INFO ====== */
 .ap-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
 }
 .ap-card {
   background: #F9FAFB;
-  border-radius: 6px;
-  padding: 10px 12px;
-  border-left: 3px solid #1F6B3A;
+  border-radius: 8px;
+  padding: 14px 16px;
+  border-left: 4px solid #25347A;
 }
-.ap-card .apn { font-size: 10px; font-weight: 600; color: #1F6B3A; }
-.ap-card .apd { font-size: 8.5px; color: #6B7280; margin-top: 3px; }
+.ap-card .apn { font-size: 13px; font-weight: 600; color: #25347A; }
+.ap-card .apd { font-size: 11.5px; color: #4B5563; margin-top: 5px; line-height: 1.5; }
 
 /* ====== FOOTER ====== */
 .foot {
-  padding: 14px 24px;
-  border-top: 1px solid #E5E7EB;
-  font-size: 8px;
-  color: #9CA3AF;
-  text-align: center;
+  padding: 20px 24px;
+  border-top: 2px solid #25347A;
+  font-size: 11px;
+  color: #6B7280;
   background: #F9FAFB;
-  margin-top: 16px;
+  margin-top: 20px;
+}
+.foot-brand-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+.foot-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.foot-brand .foot-dp {
+  font-weight: 600;
+  color: #25347A;
+  letter-spacing: 2.5px;
+  font-size: 14px;
+}
+.foot-brand .foot-claim {
+  font-weight: 500;
+  color: #93D500;
+  letter-spacing: 0.6px;
+  font-size: 11px;
+}
+.foot-url {
+  font-size: 11px;
+  color: #25347A;
+  font-weight: 500;
+  margin-top: 2px;
+  letter-spacing: 0.2px;
+}
+.foot-client {
+  text-align: left;
+  font-size: 11px;
+  color: #6B7280;
+  margin: 8px 0;
+  padding-top: 10px;
+  border-top: 1px solid #E5E7EB;
 }
 .foot .src {
   text-align: justify;
-  font-size: 7.5px;
-  margin-top: 6px;
-  line-height: 1.5;
+  font-size: 10px;
+  color: #9CA3AF;
+  margin-top: 10px;
+  line-height: 1.55;
 }
 
 /* ====== RESPONSIVE ====== */
-/* Tablet landscape y desktops pequeños */
+/* Tablet landscape */
 @media (max-width: 1100px) {
   .page { max-width: 100%; }
 }
 
 /* Tablet portrait */
 @media (max-width: 960px) {
-  .header { flex-direction: column; align-items: stretch; gap: 12px; }
+  .header { flex-direction: column; align-items: stretch; gap: 14px; }
   .kpis { width: 100%; }
-  .brand h1 { font-size: 14px; }
+  .brand h1 { font-size: 20px; }
+  .logo-dp {
+    padding-right: 0;
+    padding-bottom: 12px;
+    border-right: none;
+    border-bottom: 1px solid #E5E7EB;
+    align-self: flex-start;
+  }
 }
 
 /* Tablet pequeña / mobile grande */
 @media (max-width: 768px) {
-  .content { padding: 14px 16px 22px; }
-  .header { padding: 14px 16px; }
+  .content { padding: 18px 18px 24px; }
+  .header { padding: 16px 18px; }
   .pgrid { grid-template-columns: 1fr 1fr; }
   .ap-grid { grid-template-columns: 1fr 1fr; }
-  .stopgo .seg { height: 48px; }
-  .stopgo .seg .id { font-size: 10px; }
-  .stopgo .seg .st { font-size: 6px; }
-  .acc-hdr { padding: 9px 10px; }
-  .acc-hdr .ptit { font-size: 10px; }
-  .exp-row { grid-template-columns: 110px 1fr 50px; gap: 8px; }
+  .stopgo .seg { height: 56px; }
+  .stopgo .seg .id { font-size: 14px; }
+  .stopgo .seg .st { font-size: 8px; }
+  .acc-hdr { padding: 11px 12px; }
+  .acc-hdr .ptit { font-size: 13px; }
+  .exp-row { grid-template-columns: 140px 1fr 65px; gap: 10px; }
+  .tabs button { font-size: 12px; padding: 12px 6px; gap: 6px; }
+  .tabs button svg { width: 15px; height: 15px; }
 }
 
-/* Mobile */
+/* Mobile estándar */
 @media (max-width: 600px) {
-  body { font-size: 11.5px; }
-  .content { padding: 12px 12px 20px; }
-  .header { padding: 12px 14px; }
-  .brand h1 { font-size: 13px; }
-  .brand .sub { font-size: 9.5px; }
-  .kpi { padding: 6px 8px; }
-  .kpi .val { font-size: 12px; }
-  .kpi .lab { font-size: 7px; }
-  .tabs { padding: 0 8px; }
-  .tabs button { padding: 9px 10px; font-size: 10.5px; }
-  .stopgo { flex-wrap: wrap; gap: 4px; }
-  .stopgo .seg { flex: 1 1 calc(25% - 4px); min-width: 0; height: 44px; }
+  body { font-size: 13px; }
+  .content { padding: 14px 14px 22px; }
+  .header { padding: 14px 16px; }
+  .brand h1 { font-size: 17px; }
+  .brand .sub { font-size: 12.5px; }
+  .brand .institucion { font-size: 10px; }
+  .brand .periodo { font-size: 11px; }
+  .kpi { padding: 9px 10px; }
+  .kpi .val { font-size: 18px; }
+  .kpi .lab { font-size: 9px; }
+  .tabs button { font-size: 11px; padding: 11px 4px; gap: 4px; }
+  .tabs button svg { width: 14px; height: 14px; }
+  .stopgo { flex-wrap: wrap; gap: 6px; }
+  .stopgo .seg { flex: 1 1 calc(25% - 5px); min-width: 0; height: 52px; }
+  .stopgo .seg .id { font-size: 13px; }
+  .stopgo .seg .st { font-size: 7.5px; }
   .pgrid { grid-template-columns: 1fr; }
   .ap-grid { grid-template-columns: 1fr; }
-  .exp-row { grid-template-columns: 95px 1fr 42px; font-size: 9px; }
-  .exp-name { font-size: 9px; }
-  .exp-name span { font-size: 7.5px; }
-  .exp-bar-container { height: 16px; }
-  .exp-bar-container > div { font-size: 7.5px; }
+  .exp-row { grid-template-columns: 120px 1fr 55px; font-size: 11.5px; }
+  .exp-name { font-size: 11px; }
+  .exp-name span { font-size: 9.5px; }
+  .exp-bar-container { height: 22px; }
+  .exp-bar-container > div { font-size: 10px; }
   .hide-mob { display: none; }
   .timeline-inner { min-width: 720px; }
-  .sec h3 { font-size: 11px; }
-  .sec h3 .ico { width: 20px; height: 20px; }
-  .sec h3 .ico svg { width: 12px; height: 12px; }
-  .acc-meta { grid-template-columns: 1fr 1fr; gap: 6px; }
-  .acc-meta .m { padding: 5px 7px; }
-  .acc-meta .m .mv { font-size: 9.5px; }
+  .sec h3 { font-size: 13.5px; }
+  .sec h3 .ico { width: 28px; height: 28px; }
+  .sec h3 .ico svg { width: 16px; height: 16px; }
+  .sec h4 { font-size: 12.5px; }
+  .acc-meta { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .acc-meta .m { padding: 7px 9px; }
+  .acc-meta .m .mv { font-size: 12px; }
+  table { font-size: 12px; }
+  table th { font-size: 10px; padding: 9px 10px; }
+  table td { font-size: 12px; padding: 9px 10px; }
 }
 
 /* Mobile pequeña */
 @media (max-width: 480px) {
-  body { font-size: 11px; }
-  .brand h1 { font-size: 12.5px; letter-spacing: -0.3px; }
-  .brand .institucion { font-size: 7.5px; }
-  .kpis { gap: 4px; }
-  .kpi { padding: 5px 6px; flex: 1 1 calc(50% - 2px); }
-  .kpi .val { font-size: 11px; }
-  .stopgo .seg { flex: 1 1 calc(33.33% - 4px); height: 42px; }
-  .stopgo .seg .id { font-size: 9.5px; }
-  .legend { font-size: 8.5px; gap: 10px; }
-  .legend .dot { width: 9px; height: 9px; }
-  .sec h3 { font-size: 10.5px; gap: 6px; padding-right: 4px; }
-  .sec h3 .txt { font-size: 10.5px; }
-  .pcard { padding: 10px; }
-  .pcard .ptitle { font-size: 10.5px; }
-  .acc-hdr .pidh { font-size: 10px; }
-  .acc-hdr .ptit { font-size: 9.5px; }
-  .acc-hdr .left { flex-wrap: wrap; gap: 5px; }
-  .chip { font-size: 8px; padding: 1px 5px; }
-  .foot { padding: 12px 14px; }
-  .foot .src { font-size: 7px; }
+  .brand h1 { font-size: 16px; letter-spacing: -0.4px; }
+  .brand .institucion { font-size: 9.5px; }
+  .kpis { gap: 6px; }
+  .kpi { padding: 8px 9px; flex: 1 1 calc(50% - 3px); }
+  .kpi .val { font-size: 17px; }
+  .stopgo .seg { flex: 1 1 calc(33.33% - 6px); height: 50px; }
+  .stopgo .seg .id { font-size: 12.5px; }
+  .stopgo .seg .st { font-size: 7px; }
+  .legend { font-size: 11px; gap: 12px; }
+  .legend .dot { width: 11px; height: 11px; }
+  .sec h3 { font-size: 13px; gap: 10px; padding-right: 4px; letter-spacing: 0.4px; }
+  .sec h3 .ico { width: 26px; height: 26px; }
+  .sec h3 .ico svg { width: 14px; height: 14px; }
+  .pcard { padding: 13px; }
+  .pcard .ptitle { font-size: 13px; }
+  .acc-hdr .pidh { font-size: 13px; }
+  .acc-hdr .ptit { font-size: 12.5px; }
+  .acc-hdr .left { flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 10px; padding: 2px 7px; }
+  .foot { padding: 16px 16px; }
+  .foot .src { font-size: 9.5px; }
+  .dp-icon { width: 34px; height: 34px; }
+  .dp-name { font-size: 13px; letter-spacing: 2.4px; }
+  .dp-claim { font-size: 8.5px; }
+  /* Tabs en mobile pequeña: solo iconos */
+  .tabs button { padding: 11px 4px; gap: 0; }
+  .tabs button .lab { display: none; }
+  .tabs button svg { width: 20px; height: 20px; }
+  .tabs button.on { padding-bottom: 9px; border-bottom-width: 4px; }
 }
 
-/* Mobile muy pequeña (iPhone SE, Galaxy Fold cerrado) */
+/* Mobile muy pequeña */
 @media (max-width: 380px) {
-  body { font-size: 10.5px; }
-  .brand h1 { font-size: 11.5px; }
-  .brand .sub { font-size: 9px; }
-  .brand .periodo { font-size: 8.5px; }
-  .content { padding: 10px 10px 18px; }
-  .header { padding: 10px 12px; }
-  .stopgo .seg { flex: 1 1 calc(33.33% - 3px); height: 38px; }
-  .stopgo .seg .id { font-size: 9px; }
-  .stopgo .seg .st { font-size: 5.5px; }
+  body { font-size: 12.5px; }
+  .brand h1 { font-size: 15px; }
+  .brand .sub { font-size: 11.5px; }
+  .brand .periodo { font-size: 10.5px; }
+  .content { padding: 12px 12px 20px; }
+  .header { padding: 12px 14px; }
+  .stopgo .seg { flex: 1 1 calc(33.33% - 5px); height: 46px; }
+  .stopgo .seg .id { font-size: 12px; }
+  .stopgo .seg .st { font-size: 6.5px; }
   .pgrid { grid-template-columns: 1fr; }
   .ap-grid { grid-template-columns: 1fr; }
-  .exp-row { grid-template-columns: 85px 1fr 38px; font-size: 8.5px; gap: 6px; }
-  .exp-name { font-size: 8.5px; }
-  .exp-name span { font-size: 7px; }
-  .sec h3 { font-size: 10px; }
-  .sec h3 .ico { width: 18px; height: 18px; }
-  .sec h3 .ico svg { width: 11px; height: 11px; }
-  .tabs button { padding: 8px 8px; font-size: 10px; }
-  .acc-hdr { padding: 8px 9px; }
+  .exp-row { grid-template-columns: 105px 1fr 50px; font-size: 11px; gap: 8px; }
+  .exp-name { font-size: 10.5px; }
+  .exp-name span { font-size: 9px; }
+  .sec h3 { font-size: 12.5px; gap: 9px; }
+  .sec h3 .ico { width: 24px; height: 24px; }
+  .sec h3 .ico svg { width: 13px; height: 13px; }
+  .acc-hdr { padding: 10px 11px; }
   .acc-meta { grid-template-columns: 1fr; }
+  .dp-icon { width: 32px; height: 32px; }
+  .dp-name { font-size: 12px; letter-spacing: 2px; }
+  .dp-claim { font-size: 8px; }
 }
 
-/* Mobile extrema (320px - Galaxy Fold abierto, navegadores con barras) */
+/* Mobile extrema (320px) */
 @media (max-width: 340px) {
-  body { font-size: 10px; }
-  .brand h1 { font-size: 11px; letter-spacing: -0.4px; }
-  .kpi { flex: 1 1 calc(50% - 2px); padding: 4px 5px; }
-  .kpi .val { font-size: 10px; }
-  .kpi .lab { font-size: 6.5px; }
-  .stopgo .seg { flex: 1 1 calc(50% - 2px); height: 36px; }
-  .sec h3 { font-size: 9.5px; letter-spacing: 0.2px; }
-  .exp-row { grid-template-columns: 75px 1fr 34px; font-size: 8px; }
+  body { font-size: 12px; }
+  .brand h1 { font-size: 14px; letter-spacing: -0.5px; }
+  .kpi { flex: 1 1 calc(50% - 3px); padding: 7px 7px; }
+  .kpi .val { font-size: 15px; }
+  .kpi .lab { font-size: 8.5px; }
+  .stopgo .seg { flex: 1 1 calc(50% - 3px); height: 44px; }
+  .sec h3 { font-size: 12px; letter-spacing: 0.3px; }
+  .exp-row { grid-template-columns: 90px 1fr 44px; font-size: 10.5px; }
 }
 
 /* Desktop estándar */
 @media (min-width: 1200px) {
   .page { max-width: 1100px; }
-  body { font-size: 13px; }
-  .brand h1 { font-size: 20px; }
-  .brand .sub { font-size: 11px; }
-  .content { padding: 24px 32px 36px; }
-  .header { padding: 20px 32px; }
-  .kpi { padding: 10px 14px; }
-  .kpi .val { font-size: 16px; }
-  .kpi .lab { font-size: 8.5px; }
-  .stopgo .seg { height: 60px; }
-  .stopgo .seg .id { font-size: 13px; }
-  .stopgo .seg .st { font-size: 7.5px; }
-  .sec h3 { font-size: 13px; }
-  .sec h3 .ico { width: 26px; height: 26px; }
-  .sec h3 .ico svg { width: 16px; height: 16px; }
-  table { font-size: 11px; }
-  table th { font-size: 9.5px; padding: 9px 12px; }
-  table td { padding: 8px 12px; }
+  body { font-size: 14.5px; }
+  .brand h1 { font-size: 25px; }
+  .brand .sub { font-size: 15px; }
+  .brand .institucion { font-size: 12px; }
+  .content { padding: 28px 36px 40px; }
+  .header { padding: 22px 36px; }
+  .kpi { padding: 14px 18px; }
+  .kpi .val { font-size: 24px; }
+  .kpi .lab { font-size: 10.5px; }
+  .stopgo .seg { height: 72px; }
+  .stopgo .seg .id { font-size: 16px; }
+  .stopgo .seg .st { font-size: 9px; }
+  .sec h3 { font-size: 16px; }
+  .sec h3 .ico { width: 34px; height: 34px; }
+  .sec h3 .ico svg { width: 19px; height: 19px; }
+  .sec h4 { font-size: 14px; }
+  table { font-size: 13px; }
+  table th { font-size: 11px; padding: 12px 14px; }
+  table td { font-size: 13px; padding: 11px 14px; }
+  .tabs button { font-size: 14px; padding: 15px 12px; }
+  .tabs button svg { width: 17px; height: 17px; }
 }
 
 /* Desktop grande */
 @media (min-width: 1440px) {
   .page { max-width: 1240px; }
-  .brand h1 { font-size: 22px; }
-  .content { padding: 28px 40px 40px; }
-  .header { padding: 22px 40px; }
-  .stopgo .seg { height: 64px; }
+  .brand h1 { font-size: 27px; }
+  .content { padding: 32px 44px 44px; }
+  .header { padding: 24px 44px; }
+  .stopgo .seg { height: 76px; }
+  body { background: #F3F4F6; }
 }
 
 /* 4K / ultrawide */
 @media (min-width: 1920px) {
   .page { max-width: 1440px; }
-  body { font-size: 14px; }
-  .brand h1 { font-size: 26px; }
-  .brand .sub { font-size: 12px; }
-  .content { padding: 32px 48px 48px; }
-  .stopgo .seg { height: 70px; }
-  .stopgo .seg .id { font-size: 15px; }
-  .sec h3 { font-size: 14px; }
-  .sec h3 .ico { width: 30px; height: 30px; }
-  .sec h3 .ico svg { width: 18px; height: 18px; }
+  body { font-size: 15.5px; }
+  .brand h1 { font-size: 30px; }
+  .brand .sub { font-size: 16px; }
+  .content { padding: 36px 52px 52px; }
+  .stopgo .seg { height: 82px; }
+  .stopgo .seg .id { font-size: 18px; }
+  .sec h3 { font-size: 17px; }
+  .sec h3 .ico { width: 38px; height: 38px; }
+  .sec h3 .ico svg { width: 21px; height: 21px; }
+  .tabs button { font-size: 15px; }
 }
 
 /* Orientación landscape en móvil */
 @media (max-height: 500px) and (orientation: landscape) {
   .content { min-height: auto; }
-  .stopgo .seg { height: 40px; }
+  .stopgo .seg { height: 44px; }
 }
 
 /* Accesibilidad: reduce motion */
@@ -759,8 +925,15 @@ table tr:hover td { background: #F9FAFB; }
 
   <!-- ====== HEADER ====== -->
   <div class="header">
+    <div class="logo-dp" aria-label="Devpoles - Leading results">
+      <div class="dp-icon"><img src="data:image/png;base64,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" alt="DP" /></div>
+      <div class="dp-text">
+        <div class="dp-name">DEVPOLES</div>
+        <div class="dp-claim">Leading results</div>
+      </div>
+    </div>
     <div class="brand">
-      <div class="institucion">MiAMBIENTE · República de Panamá · Programa PANAPROT</div>
+      <div class="institucion">CONSULTORÍA · MiAMBIENTE PANAMÁ · PROGRAMA PANAPROT</div>
       <h1>Cuadro de Mando · Consultoría BPPP-SL</h1>
       <div class="sub">Plan de Manejo Bosque Protector y Paisaje Protegido San Lorenzo · Planes de Concesiones</div>
       <div class="periodo">Estado de avance · Mayo 2026 · Duración total: 320 días</div>
@@ -775,11 +948,26 @@ table tr:hover td { background: #F9FAFB; }
 
   <!-- ====== TABS ====== -->
   <div class="tabs" id="tabs">
-    <button class="on" data-t="vista">Vista General</button>
-    <button data-t="crono">Cronograma</button>
-    <button data-t="equipo">Equipo</button>
-    <button data-t="detalle">Detalle de Productos</button>
-    <button data-t="aps">Áreas Protegidas</button>
+    <button class="on" data-t="vista" data-color="primary">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="lab">Vista General</span>
+    </button>
+    <button data-t="crono" data-color="cyan">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span class="lab">Cronograma</span>
+    </button>
+    <button data-t="equipo" data-color="teal">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span class="lab">Equipo</span>
+    </button>
+    <button data-t="detalle" data-color="orange">
+      <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      <span class="lab">Detalle de Productos</span>
+    </button>
+    <button data-t="aps" data-color="lime">
+      <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.3c1.7 2.4 2.1 11.9-6.2 17.6z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg>
+      <span class="lab">Áreas Protegidas</span>
+    </button>
   </div>
 
   <div class="content">
@@ -789,7 +977,7 @@ table tr:hover td { background: #F9FAFB; }
   <!-- ============================================ -->
   <div class="panel on" id="p-vista">
 
-    <div class="sec t-green">
+    <div class="sec t-primary">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span class="txt">Estado de los 12 productos</span></h3>
       <div class="legend">
         <div class="item"><span class="dot" style="background:#059669"></span>Presentado / Aprobado</div>
@@ -812,7 +1000,7 @@ table tr:hover td { background: #F9FAFB; }
       </div>
     </div>
 
-    <div class="sec t-indigo">
+    <div class="sec t-cyan">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg></span><span class="txt">Distribución de estados</span></h3>
       <div class="sbar">
         <div style="width:25%;background:#059669;animation-delay:0.0s">25% Presentados</div>
@@ -821,9 +1009,9 @@ table tr:hover td { background: #F9FAFB; }
       </div>
     </div>
 
-    <div class="sec t-blue">
+    <div class="sec t-teal">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span class="txt">Pagos contractuales · Estado y proyección</span></h3>
-      <div style="font-size:9.5px;color:#6B7280;margin-bottom:8px">
+      <div style="font-size:12px;color:#6B7280;margin-bottom:8px">
         Vinculados a la aprobación de productos por la Unidad Ejecutora del Proyecto (UEP). Distribución total: 100%.
       </div>
       <div class="sbar" style="height:32px">
@@ -835,32 +1023,32 @@ table tr:hover td { background: #F9FAFB; }
         <div style="width:10%;background:#F59E0B;animation-delay:0.5s" title="P11 - 10%">10% P11</div>
         <div style="width:10%;background:#DC2626;animation-delay:0.6s" title="P12 - 10%">10% P12</div>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:8px;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#374151;margin-top:8px;flex-wrap:wrap;gap:8px">
         <span><strong style="color:#059669">10%</strong> · Vinculado a productos presentados</span>
         <span><strong style="color:#F59E0B">65%</strong> · Vinculado a productos en curso</span>
         <span><strong style="color:#DC2626">35%</strong> · Vinculado a productos no iniciados</span>
       </div>
     </div>
 
-    <div class="sec t-amber">
+    <div class="sec t-orange">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="14" y2="16"/></svg></span><span class="txt">Resumen ejecutivo</span></h3>
       <div class="pgrid">
         <div class="pcard green" style="animation-delay:0.0s">
           <div class="pid">SECCIÓN A · Concesiones (4 APs)</div>
           <div class="ptitle">P1 a P6 · Pliegos y Planes</div>
-          <div style="font-size:9.5px;color:#374151;margin-top:6px">Aplicable a Coiba, Volcán Barú, Portobelo y San Lorenzo. Cubre actualización de ideas de negocio, grupos de interés, acompañamiento OBC, valorización económica y pliegos CTV/PRATV/CMC.</div>
+          <div style="font-size:12px;color:#374151;margin-top:6px">Aplicable a Coiba, Volcán Barú, Portobelo y San Lorenzo. Cubre actualización de ideas de negocio, grupos de interés, acompañamiento OBC, valorización económica y pliegos CTV/PRATV/CMC.</div>
           <div class="pmeta"><span>Productos: <strong>6</strong></span><span>Avance: <strong>3 ent.</strong></span></div>
         </div>
         <div class="pcard amber" style="animation-delay:0.1s">
           <div class="pid">SECCIÓN B · BPPP San Lorenzo</div>
           <div class="ptitle">P7 a P11 · Plan de Manejo</div>
-          <div style="font-size:9.5px;color:#374151;margin-top:6px">Específico para Bosque Protector y Paisaje Protegido San Lorenzo (Colón). Incluye diagnóstico socioeconómico, EER, Plan de Manejo y Plan de Recuperación de Áreas Invadidas.</div>
+          <div style="font-size:12px;color:#374151;margin-top:6px">Específico para Bosque Protector y Paisaje Protegido San Lorenzo (Colón). Incluye diagnóstico socioeconómico, EER, Plan de Manejo y Plan de Recuperación de Áreas Invadidas.</div>
           <div class="pmeta"><span>Productos: <strong>5</strong></span><span>Avance: <strong>4 inic.</strong></span></div>
         </div>
         <div class="pcard red" style="animation-delay:0.2s">
           <div class="pid">CIERRE · A+B</div>
           <div class="ptitle">P12 · Informe Final</div>
-          <div style="font-size:9.5px;color:#374151;margin-top:6px">Consolidación de todas las actividades, lecciones aprendidas, mejores prácticas y recomendaciones para MiAMBIENTE. Cierre del contrato.</div>
+          <div style="font-size:12px;color:#374151;margin-top:6px">Consolidación de todas las actividades, lecciones aprendidas, mejores prácticas y recomendaciones para MiAMBIENTE. Cierre del contrato.</div>
           <div class="pmeta"><span>Plazo: <strong>320 d.</strong></span><span>Pago: <strong>10%</strong></span></div>
         </div>
       </div>
@@ -873,7 +1061,7 @@ table tr:hover td { background: #F9FAFB; }
   <!-- ============================================ -->
   <div class="panel" id="p-crono">
 
-    <div class="sec t-amber">
+    <div class="sec t-primary">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="txt">Cronograma de entregas · 320 días</span></h3>
       <div class="legend">
         <div class="item"><span class="dot" style="background:#059669"></span>Presentado / Aprobado</div>
@@ -902,7 +1090,7 @@ table tr:hover td { background: #F9FAFB; }
       </div>
     </div>
 
-    <div class="sec t-blue">
+    <div class="sec t-cyan">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></span><span class="txt">Detalle por plazo y pago contractual</span></h3>
       <div class="tscroll">
         <table>
@@ -932,7 +1120,7 @@ table tr:hover td { background: #F9FAFB; }
           </tbody>
         </table>
       </div>
-      <div style="font-size:8.5px;color:#9CA3AF;margin-top:8px;font-style:italic">
+      <div style="font-size:11px;color:#9CA3AF;margin-top:8px;font-style:italic">
         Sección A: 4 APs (Coiba, Volcán Barú, Portobelo, San Lorenzo) · Sección B: solo BPPP-SL. Pueden ejecutarse en paralelo según TdR.
       </div>
     </div>
@@ -943,27 +1131,27 @@ table tr:hover td { background: #F9FAFB; }
   <!-- ============================================ -->
   <div class="panel" id="p-equipo">
 
-    <div class="sec t-indigo">
+    <div class="sec t-teal">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="txt">Equipo consultor · 9 especialistas clave + DP</span></h3>
-      <div style="font-size:9.5px;color:#6B7280;margin-bottom:10px">
+      <div style="font-size:12px;color:#6B7280;margin-bottom:10px">
         Participación de cada experto en los 12 productos, según matriz de responsabilidades.
       </div>
       <div class="legend">
-        <div class="item"><span class="dot" style="background:#1F6B3A"></span>Líder de producto</div>
-        <div class="item"><span class="dot" style="background:#6366F1"></span>Co-responsable</div>
+        <div class="item"><span class="dot" style="background:#25347A"></span>Líder de producto</div>
+        <div class="item"><span class="dot" style="background:#00A7E1"></span>Co-responsable</div>
         <div class="item"><span class="dot" style="background:#9CA3AF"></span>Apoyo técnico</div>
       </div>
     </div>
 
-    <div class="sec t-amber">
+    <div class="sec t-gray">
       <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16V8"/><path d="M12 16V4"/><path d="M17 16v-6"/></svg>Carga por experto (asignaciones a productos)</h4>
       <div id="experts-bars">
         <!-- A - Coordinador General -->
         <div class="exp-row">
           <div class="exp-name">A · Coord. General<span>Dirección técnica</span></div>
           <div class="exp-bar-container">
-            <div style="background:#1F6B3A;width:16.67%;animation-delay:0.0s" title="Líder en 2 productos">2 L</div>
-            <div style="background:#6366F1;width:50%;animation-delay:0.05s" title="Co-responsable en 6 productos">6 CR</div>
+            <div style="background:#25347A;width:16.67%;animation-delay:0.0s" title="Líder en 2 productos">2 L</div>
+            <div style="background:#00A7E1;width:50%;animation-delay:0.05s" title="Co-responsable en 6 productos">6 CR</div>
             <div style="background:#9CA3AF;width:33.33%;animation-delay:0.10s" title="Apoyo en 4 productos">4 AT</div>
           </div>
           <div class="exp-count">12 prod.</div>
@@ -972,8 +1160,8 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">B · Esp. Social<span>Procesos participativos</span></div>
           <div class="exp-bar-container">
-            <div style="background:#1F6B3A;width:22.22%;animation-delay:0.15s" title="Líder en 2 productos">2 L</div>
-            <div style="background:#6366F1;width:55.56%;animation-delay:0.20s" title="Co-responsable en 5 productos">5 CR</div>
+            <div style="background:#25347A;width:22.22%;animation-delay:0.15s" title="Líder en 2 productos">2 L</div>
+            <div style="background:#00A7E1;width:55.56%;animation-delay:0.20s" title="Co-responsable en 5 productos">5 CR</div>
             <div style="background:#9CA3AF;width:22.22%;animation-delay:0.25s" title="Apoyo en 2 productos">2 AT</div>
           </div>
           <div class="exp-count">9 prod.</div>
@@ -982,7 +1170,7 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">C · Geógrafo SIG<span>Cartografía / SIG</span></div>
           <div class="exp-bar-container">
-            <div style="background:#6366F1;width:57.14%;animation-delay:0.30s" title="Co-responsable en 4 productos">4 CR</div>
+            <div style="background:#00A7E1;width:57.14%;animation-delay:0.30s" title="Co-responsable en 4 productos">4 CR</div>
             <div style="background:#9CA3AF;width:42.86%;animation-delay:0.35s" title="Apoyo en 3 productos">3 AT</div>
           </div>
           <div class="exp-count">7 prod.</div>
@@ -991,8 +1179,8 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">D · Biólogo Fauna<span>EER fauna terrestre</span></div>
           <div class="exp-bar-container">
-            <div style="background:#1F6B3A;width:25%;animation-delay:0.40s" title="Líder en 1 producto">1 L</div>
-            <div style="background:#6366F1;width:25%;animation-delay:0.45s" title="Co-responsable en 1 producto">1 CR</div>
+            <div style="background:#25347A;width:25%;animation-delay:0.40s" title="Líder en 1 producto">1 L</div>
+            <div style="background:#00A7E1;width:25%;animation-delay:0.45s" title="Co-responsable en 1 producto">1 CR</div>
             <div style="background:#9CA3AF;width:50%;animation-delay:0.50s" title="Apoyo en 2 productos">2 AT</div>
           </div>
           <div class="exp-count">4 prod.</div>
@@ -1001,7 +1189,7 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">E · Biólogo Botánica<span>EER flora</span></div>
           <div class="exp-bar-container">
-            <div style="background:#6366F1;width:50%;animation-delay:0.55s" title="Co-responsable en 2 productos">2 CR</div>
+            <div style="background:#00A7E1;width:50%;animation-delay:0.55s" title="Co-responsable en 2 productos">2 CR</div>
             <div style="background:#9CA3AF;width:50%;animation-delay:0.60s" title="Apoyo en 2 productos">2 AT</div>
           </div>
           <div class="exp-count">4 prod.</div>
@@ -1010,8 +1198,8 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">F · Econ. Ambiental<span>Valoración / finanzas</span></div>
           <div class="exp-bar-container">
-            <div style="background:#1F6B3A;width:12.5%;animation-delay:0.65s" title="Líder en 1 producto">1 L</div>
-            <div style="background:#6366F1;width:25%;animation-delay:0.70s" title="Co-responsable en 2 productos">2 CR</div>
+            <div style="background:#25347A;width:12.5%;animation-delay:0.65s" title="Líder en 1 producto">1 L</div>
+            <div style="background:#00A7E1;width:25%;animation-delay:0.70s" title="Co-responsable en 2 productos">2 CR</div>
             <div style="background:#9CA3AF;width:62.5%;animation-delay:0.75s" title="Apoyo en 5 productos">5 AT</div>
           </div>
           <div class="exp-count">8 prod.</div>
@@ -1020,8 +1208,8 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">G · Planif. Turismo<span>APs / turismo verde</span></div>
           <div class="exp-bar-container">
-            <div style="background:#1F6B3A;width:50%;animation-delay:0.80s" title="Líder en 4 productos">4 L</div>
-            <div style="background:#6366F1;width:12.5%;animation-delay:0.85s" title="Co-responsable en 1 producto">1 CR</div>
+            <div style="background:#25347A;width:50%;animation-delay:0.80s" title="Líder en 4 productos">4 L</div>
+            <div style="background:#00A7E1;width:12.5%;animation-delay:0.85s" title="Co-responsable en 1 producto">1 CR</div>
             <div style="background:#9CA3AF;width:37.5%;animation-delay:0.90s" title="Apoyo en 3 productos">3 AT</div>
           </div>
           <div class="exp-count">8 prod.</div>
@@ -1030,8 +1218,8 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">H · Emprendimiento<span>Negocios / OBC</span></div>
           <div class="exp-bar-container">
-            <div style="background:#1F6B3A;width:33.33%;animation-delay:0.95s" title="Líder en 2 productos">2 L</div>
-            <div style="background:#6366F1;width:33.33%;animation-delay:1.00s" title="Co-responsable en 2 productos">2 CR</div>
+            <div style="background:#25347A;width:33.33%;animation-delay:0.95s" title="Líder en 2 productos">2 L</div>
+            <div style="background:#00A7E1;width:33.33%;animation-delay:1.00s" title="Co-responsable en 2 productos">2 CR</div>
             <div style="background:#9CA3AF;width:33.33%;animation-delay:1.05s" title="Apoyo en 2 productos">2 AT</div>
           </div>
           <div class="exp-count">6 prod.</div>
@@ -1040,8 +1228,8 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">I · Esp. Legal<span>Normativa / pliegos</span></div>
           <div class="exp-bar-container">
-            <div style="background:#1F6B3A;width:25%;animation-delay:1.10s" title="Líder en 2 productos">2 L</div>
-            <div style="background:#6366F1;width:25%;animation-delay:1.15s" title="Co-responsable en 2 productos">2 CR</div>
+            <div style="background:#25347A;width:25%;animation-delay:1.10s" title="Líder en 2 productos">2 L</div>
+            <div style="background:#00A7E1;width:25%;animation-delay:1.15s" title="Co-responsable en 2 productos">2 CR</div>
             <div style="background:#9CA3AF;width:50%;animation-delay:1.20s" title="Apoyo en 4 productos">4 AT</div>
           </div>
           <div class="exp-count">8 prod.</div>
@@ -1050,7 +1238,7 @@ table tr:hover td { background: #F9FAFB; }
         <div class="exp-row">
           <div class="exp-name">J · Planes Negocio<span>Estudios mercado</span></div>
           <div class="exp-bar-container">
-            <div style="background:#6366F1;width:100%;animation-delay:1.25s" title="Co-responsable en 1 producto">1 CR</div>
+            <div style="background:#00A7E1;width:100%;animation-delay:1.25s" title="Co-responsable en 1 producto">1 CR</div>
           </div>
           <div class="exp-count">1 prod.</div>
         </div>
@@ -1065,7 +1253,7 @@ table tr:hover td { background: #F9FAFB; }
       </div>
     </div>
 
-    <div class="sec t-green">
+    <div class="sec t-gray">
       <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>Liderazgos por producto</h4>
       <div class="tscroll">
         <table>
@@ -1098,9 +1286,9 @@ table tr:hover td { background: #F9FAFB; }
   <!-- ============================================ -->
   <div class="panel" id="p-detalle">
 
-    <div class="sec t-green">
+    <div class="sec t-orange">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span><span class="txt">Detalle por producto · Líderes y tareas</span></h3>
-      <div style="font-size:9.5px;color:#6B7280;margin-bottom:10px">
+      <div style="font-size:12px;color:#6B7280;margin-bottom:10px">
         Toca cada producto para ver sus responsables, plazo, porcentaje de pago y tareas específicas según TdR.
       </div>
 
@@ -1121,7 +1309,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">A + B</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">A · Coord. General</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Actualización del plan de trabajo post-orden de proceder con cronograma detallado, presupuesto por actividad, metodologías participativas y protocolos para reuniones virtuales/presenciales. Aprobación ante UEP y DAPB. Co-responsable: B (Social). Apoyo: C (SIG).
           </div>
         </div></div>
@@ -1144,7 +1332,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">A · 4 APs</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">H · Emprendimiento</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Revisión de herramientas de gestión en Coiba, Volcán Barú, Portobelo y San Lorenzo. Reconocimientos de campo, actualización de ideas en los Planes de Uso Público, identificación de nuevos atractivos ecoturísticos, priorización de ideas factibles por AP. 20 ideas priorizadas en total. Co-responsables: A · G. Apoyo: F.
           </div>
         </div></div>
@@ -1167,7 +1355,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">A · 4 APs</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">B · Social</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Definición de criterios mínimos para concesionarios, OBC, ONG y fundaciones. Identificación de beneficiarios por AP (concesiones / CMC / PRATV). Reuniones y talleres con grupos. Base de datos digital. Identificación de grupos que requieren formalización. Co-responsable: H. Apoyo: A · I.
           </div>
         </div></div>
@@ -1190,7 +1378,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">A</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">I · Legal</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Asesoría en elaboración de estatutos, trámites de personería jurídica, registro público. Coordinación con Dirección de Cultura Ambiental MiAMBIENTE. Base de datos de grupos que requieren apoyo. Plan de Acción por OBC. Marco normativo aplicable: Decreto Ejecutivo 32/2017 (Formalización OBCs). Apoyo: A · H.
           </div>
         </div></div>
@@ -1213,7 +1401,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">A</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">F · Econ. Ambiental</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Coordinación con UEP, DAPB, DIPA. Reuniones con Ministerio de Economía y Finanzas (MEF) y Contraloría General. Valorización económica de concesiones/PRATV prioritarios según norma vigente. Marco: Resolución AG-0189-2008 (cobro por uso de servicios ambientales SINAP). Co-responsable: A. Apoyo: I · G.
           </div>
         </div></div>
@@ -1236,7 +1424,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">A · 4 APs</div></div>
             <div class="m"><div class="ml">Líderes</div><div class="mv">I · H · G · A</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Producto compuesto en 5 sub-entregables:<br>
             <strong>6.1 Pliegos Concesiones Turismo Verde</strong> — Líder I (Legal). Cap I-IV del pliego, planes de negocio (12 = 3 por AP).<br>
             <strong>6.2 PRATV</strong> — Líder H (Emprendimiento). Descripción proyecto, marco lógico, presupuesto.<br>
@@ -1265,7 +1453,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">B · Social</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Trabajo de campo con muestra representativa (Ladino/indígena). Caracterización de población dentro del AP y zona de influencia. Evaluación de presión sobre ecosistemas (a triangular con EER P8). Patrones de desplazamiento, cambios de uso de suelo, tenencia de tierra. Mapeo de actores. 2 talleres de presentación de resultados. Recorridos con guardaparques. Co-responsables: A · C. Apoyo: I · F.
           </div>
         </div></div>
@@ -1288,7 +1476,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">D · Biólogo Fauna</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Levantamiento de fauna terrestre (mamíferos, aves, reptiles, anfibios) y flora (familias, géneros, especies) en BPPP-SL. Estado de conservación nacional, CITES, IUCN. Capítulo transversal de interacción flora-fauna y efectos antropogénicos. Recomendaciones para Plan de Manejo y PERAI. Aprobación DEVPOLES. Co-responsables: E (Botánica) · C (SIG). Apoyo: A.
           </div>
         </div></div>
@@ -1311,7 +1499,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">G · Planif. Turismo</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Integra diagnósticos P7 y P8. Visión, misión, objetivos de manejo. Zonificación según TdR. Programas y subprogramas. Objetos de conservación y protocolos de monitoreo. Modelo de gobernanza con actores clave. Plan a 10 años + plan operativo anual. Estrategia de ejecución para los primeros 3 años. Borrador de Guía Metodológica. Co-responsables: C · A. Apoyo: F · I · B · D · E.
           </div>
         </div></div>
@@ -1334,7 +1522,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">G · Planif. Turismo</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Versión final del PM incorporando comentarios de los Talleres N°1, N°2, N°3. Aplicación de Directrices Técnicas Valarezo-Gómez (2000) y Resolución AG-0170-2006. Finalización de Guía Metodológica de Implementación. Versión Popular con lenguaje accesible. Entrega: 10 impresos + 20 USB del PM, 50 impresos + 6 USB de la Versión Popular. Producto de mayor pago (25%). Co-responsables: B · C · A. Apoyo: D · E · F · DP.
           </div>
         </div></div>
@@ -1357,7 +1545,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">B · BPPP-SL</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">G · Planif. Turismo</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Plan Estratégico de Recuperación de Áreas Invadidas. Necesidades identificadas en talleres, propuestas de atención, plan de ordenamiento de actividades dentro del BPPP-SL. Listados: actores clave, organizaciones activas, personas interesadas en capacitación o conformar grupos. Sitios de interés turístico comunitarios. Perfiles de proyectos. Medidas de mitigación. Guía de implementación con cronograma, indicadores, costos. Co-responsables: B · I. Apoyo: C · D · E · F · A.
           </div>
         </div></div>
@@ -1380,7 +1568,7 @@ table tr:hover td { background: #F9FAFB; }
             <div class="m"><div class="ml">Sección</div><div class="mv">A + B</div></div>
             <div class="m"><div class="ml">Líder</div><div class="mv">A · Coord. General</div></div>
           </div>
-          <div style="font-size:10px;color:#374151;line-height:1.55">
+          <div style="font-size:13px;color:#374151;line-height:1.55">
             Resumen de todas las actividades realizadas. Lecciones aprendidas, mejores prácticas, recomendaciones para MiAMBIENTE. Archivo digital de fotografías de alta calidad (5+ megapixeles). Memoria fotográfica completa. Cierre del contrato. Co-responsable: B. Apoyo: F · G · H · I.
           </div>
         </div></div>
@@ -1394,9 +1582,9 @@ table tr:hover td { background: #F9FAFB; }
   <!-- ============================================ -->
   <div class="panel" id="p-aps">
 
-    <div class="sec t-nature">
+    <div class="sec t-lime">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.3c1.7 2.4 2.1 11.9-6.2 17.6z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg></span><span class="txt">Áreas protegidas en el alcance</span></h3>
-      <div style="font-size:9.5px;color:#6B7280;margin-bottom:10px">
+      <div style="font-size:12px;color:#6B7280;margin-bottom:10px">
         4 APs en Sección A (planes de concesiones); BPPP-SL adicionalmente en Sección B (Plan de Manejo y PERAI).
       </div>
       <div class="ap-grid">
@@ -1419,7 +1607,7 @@ table tr:hover td { background: #F9FAFB; }
       </div>
     </div>
 
-    <div class="sec t-indigo">
+    <div class="sec t-primary">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span><span class="txt">Productos aplicables por AP</span></h3>
       <div class="tscroll">
         <table>
@@ -1448,7 +1636,7 @@ table tr:hover td { background: #F9FAFB; }
           </tbody>
         </table>
       </div>
-      <div style="font-size:8.5px;color:#9CA3AF;margin-top:8px;font-style:italic">
+      <div style="font-size:11px;color:#9CA3AF;margin-top:8px;font-style:italic">
         ✓ Aplicable según TdR. P7-P11 son específicos para BPPP-SL (Sección B). P1-P6 y P12 cubren las 4 APs (Sección A).
       </div>
     </div>
@@ -1458,7 +1646,14 @@ table tr:hover td { background: #F9FAFB; }
 
   <!-- ====== FOOTER ====== -->
   <div class="foot">
-    <div>PANAPROT · Plan de Manejo BPPP-SL y Planes de Concesiones · MiAMBIENTE Panamá · Mayo 2026</div>
+    <div class="foot-brand-block">
+      <div class="foot-brand">
+        <span class="foot-dp">DEVPOLES</span>
+        <span class="foot-claim">Leading results</span>
+      </div>
+      <div class="foot-url">developmentpoles.com</div>
+    </div>
+    <div class="foot-client">MiAMBIENTE Panamá · Programa PANAPROT · Plan de Manejo BPPP-SL y Planes de Concesiones · Mayo 2026</div>
     <div class="src">
       Estados de avance reportados por el equipo consultor (Mayo 2026). Plazos contractuales y porcentajes de pago según TdR Plan de Manejo BPPP-SL (cuadro 7.1). Matriz de responsabilidades elaborada a partir de la propuesta técnica y la distribución de tareas del TdR. Este cuadro de mando es un instrumento de seguimiento interno y no sustituye los informes oficiales presentados a la UEP.
     </div>
@@ -1467,15 +1662,16 @@ table tr:hover td { background: #F9FAFB; }
 </div><!-- /page -->
 
 <script>
-// Tabs
+// Tabs - usa closest para que clicks en SVG y span hijos funcionen
 document.getElementById("tabs").addEventListener("click", e => {
-  if (e.target.tagName !== "BUTTON") return;
+  const btn = e.target.closest("button");
+  if (!btn) return;
   document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("on"));
   document.querySelectorAll(".panel").forEach(p => p.classList.remove("on"));
-  e.target.classList.add("on");
-  const panel = document.getElementById("p-" + e.target.dataset.t);
+  btn.classList.add("on");
+  const panel = document.getElementById("p-" + btn.dataset.t);
   panel.classList.add("on");
-  // re-trigger intersection observer on tab change
+  // re-trigger animaciones al cambiar de panel
   panel.querySelectorAll('.sec').forEach(el => {
     el.style.animation = 'none';
     el.offsetHeight;
@@ -1483,7 +1679,7 @@ document.getElementById("tabs").addEventListener("click", e => {
   });
 });
 
-// Scroll reveal
+// Scroll reveal - solo para pcards (acordeones siempre visibles)
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -1494,7 +1690,7 @@ const io = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.pcard, .acc').forEach(el => {
+document.querySelectorAll('.pcard').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(12px)';
   el.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
