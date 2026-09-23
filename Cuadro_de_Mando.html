@@ -2578,7 +2578,7 @@ table tr:hover td { background: #F9FAFB; }
         Sistema de datos
       </div>
       <div class="lgnd-intro">
-        Conecta el cuadro de mando a tu hoja de cálculo en Google Drive. Los datos hardcoded del dashboard sirven como <strong>fallback</strong> si la conexión falla.
+        El cuadro de mando está preconfigurado con el <strong>Google Sheet del proyecto</strong> y se sincroniza automáticamente al abrir. Puedes cambiar la URL abajo si necesitas apuntar a otra hoja.
       </div>
 
       <!-- Sección: Google Sheets -->
@@ -2712,6 +2712,11 @@ const SYNC_GDRIVE_KEY   = 'panaprot_gdrive_url';
 const SYNC_LAST_KEY     = 'panaprot_sync_last';
 const SYNC_SOURCE_KEY   = 'panaprot_sync_source'; // 'gdrive' | 'file' | null
 
+// URL default hardcodeada del Google Sheet de trabajo del proyecto.
+// Se usa al cargar por primera vez (o después de un Desconectar) sin pedir al usuario que la pegue.
+// El gid apunta a la pestaña "Productos" específicamente.
+const DEFAULT_GDRIVE_URL = 'https://docs.google.com/spreadsheets/d/1JNBDyVRlVkFehp3PEYlmNPBaNB5o0quxIvzm-arBl64/edit?gid=283350486#gid=283350486';
+
 let lastLoadedCSV = null; // para download
 
 // ============== Panel lateral (.lgnd) toggle ==============
@@ -2745,16 +2750,8 @@ document.addEventListener('keydown', e => {
 
 // ============== Botón "Actualizar" del header ==============
 async function refreshData() {
-  const savedGD = localStorage.getItem(SYNC_GDRIVE_KEY);
-  if (!savedGD) {
-    // No hay fuente conectada: mostrar mensaje breve en el header sin abrir panel
-    updateRefreshStatus('error', null, 'sin fuente conectada');
-    setTimeout(() => {
-      const el = document.getElementById('refreshStatus');
-      if (el.textContent.includes('sin fuente')) updateRefreshStatus('local');
-    }, 4000);
-    return;
-  }
+  // Siempre hay al menos la URL default hardcodeada
+  const savedGD = localStorage.getItem(SYNC_GDRIVE_KEY) || DEFAULT_GDRIVE_URL;
   setRefreshSpinning(true);
   updateRefreshStatus('syncing');
   try {
@@ -2763,9 +2760,10 @@ async function refreshData() {
     if (rows.length === 0) throw new Error('CSV vacío');
     applyData(rows);
     lastLoadedCSV = csv;
+    localStorage.setItem(SYNC_GDRIVE_KEY, savedGD);
     const now = new Date();
     localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
-    updateRefreshStatus('synced', now);
+    updateRefreshStatus('synced', now, 'Google Sheets');
   } catch (err) {
     updateRefreshStatus('error', null, err.message);
     console.warn('refresh error:', err);
@@ -2875,12 +2873,12 @@ function disconnectSource() {
     setLgndStatus('error', 'No hay conexión activa para desconectar.');
     return;
   }
-  if (!confirm('¿Desconectar la fuente de datos? Se mostrarán los datos hardcoded por defecto al recargar la página.')) return;
+  if (!confirm('¿Desconectar la fuente de datos actual? Al recargar volverá al Google Sheet default del proyecto.')) return;
   localStorage.removeItem(SYNC_GDRIVE_KEY);
   localStorage.removeItem(SYNC_SOURCE_KEY);
   localStorage.removeItem(SYNC_LAST_KEY);
-  document.getElementById('gdriveUrl').value = '';
-  setLgndStatus('success', '✓ Desconectado. Recarga la página para volver a los datos locales.');
+  document.getElementById('gdriveUrl').value = DEFAULT_GDRIVE_URL;
+  setLgndStatus('success', '✓ Desconectado. Recarga la página para volver al Sheet default.');
   updateRefreshStatus('local');
 }
 
@@ -3478,22 +3476,17 @@ window.addEventListener('DOMContentLoaded', async () => {
   // 1. Poblar tabla de cronograma con fechas y estados desde el hardcoded
   initFromHardcoded();
 
-  // 2. Recuperar URL guardada
-  const savedGD = localStorage.getItem(SYNC_GDRIVE_KEY);
-  if (savedGD) document.getElementById('gdriveUrl').value = savedGD;
+  // 2. Recuperar URL guardada, o usar la default hardcodeada
+  const savedGD = localStorage.getItem(SYNC_GDRIVE_KEY) || DEFAULT_GDRIVE_URL;
+  document.getElementById('gdriveUrl').value = savedGD;
 
-  if (!savedGD) {
-    updateRefreshStatus('local');
-    return;
-  }
-
-  // Mostrar el last sync time guardado primero
+  // Mostrar el last sync time guardado primero (si existe)
   const lastIso = localStorage.getItem(SYNC_LAST_KEY);
   if (lastIso) {
     updateRefreshStatus('synced', new Date(lastIso));
   }
 
-  // Intentar resync silencioso
+  // Intentar sync silencioso con la URL activa (guardada o default)
   setRefreshSpinning(true);
   updateRefreshStatus('syncing');
   try {
@@ -3502,6 +3495,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     if (rows.length > 0) {
       applyData(rows);
       lastLoadedCSV = csv;
+      // Guardar como URL activa (para que futuras cargas la usen)
+      localStorage.setItem(SYNC_GDRIVE_KEY, savedGD);
       const now = new Date();
       localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
       updateRefreshStatus('synced', now, 'Google Sheets');
