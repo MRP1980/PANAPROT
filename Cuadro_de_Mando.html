@@ -2587,21 +2587,26 @@ table tr:hover td { background: #F9FAFB; }
           <svg viewBox="0 0 24 24" fill="none"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
           Google Sheets
         </div>
-        <div class="lgnd-msg">URL publicada del Google Sheet (formato CSV)</div>
-        <input class="lgnd-input" id="gdriveUrl" type="text" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" autocomplete="off" />
+        <div class="lgnd-msg">Pega el link del Google Sheet (edit o publicado como CSV)</div>
+        <input class="lgnd-input" id="gdriveUrl" type="text" placeholder="https://docs.google.com/spreadsheets/d/..." autocomplete="off" />
         <button class="lgnd-load" onclick="connectSource()">Conectar fuente</button>
         <button class="lgnd-load secondary" onclick="disconnectSource()">Desconectar</button>
         <div class="lgnd-status" id="lgndStatus"></div>
         <details class="lgnd-help">
-          <summary>¿Cómo obtengo esta URL?</summary>
+          <summary>¿Qué URL debo pegar?</summary>
+          <p style="margin:6px 0"><strong>Opción A · Sheet compartido</strong> (más simple)</p>
           <ol>
-            <li>Abre tu Google Sheet con los datos del proyecto</li>
-            <li>Menú <strong>Archivo → Compartir → Publicar en la web</strong></li>
-            <li>Selecciona la hoja específica</li>
-            <li>Formato: <strong>Valores separados por comas (.csv)</strong></li>
-            <li>Click en <strong>Publicar</strong> y copia el enlace</li>
+            <li>En tu Google Sheet: <strong>Compartir</strong> → <strong>Cualquier persona con el enlace · Lector</strong></li>
+            <li>Copia el enlace y pégalo arriba (el que empieza con <code>https://docs.google.com/spreadsheets/d/…/edit</code>)</li>
+            <li>El dashboard lo convertirá automáticamente al formato CSV al descargar</li>
           </ol>
-          <div class="warn">⚠ Solo "compartir con enlace" no funciona. La hoja debe estar publicada al web.</div>
+          <p style="margin:10px 0 6px"><strong>Opción B · Publicado al web</strong> (más público)</p>
+          <ol>
+            <li>Menú <strong>Archivo → Compartir → Publicar en la web</strong></li>
+            <li>Selecciona la hoja específica · formato <strong>Valores separados por comas (.csv)</strong></li>
+            <li>Click en <strong>Publicar</strong> y copia el enlace generado</li>
+          </ol>
+          <div class="warn">⚠ Si el sheet está sin compartir (privado), no se puede leer. Debe estar accesible sin login.</div>
         </details>
       </div>
 
@@ -2848,11 +2853,14 @@ function openCurrentSheet(e) {
     setLgndStatus('error', 'No hay fuente conectada. Configura Google Sheets arriba.');
     return false;
   }
-  // Convertir URL CSV publicada a URL editable si es Google Sheets
+  // Extraer ID del sheet y abrir en modo editable
   let openUrl = url;
-  if (url.includes('docs.google.com/spreadsheets') && url.includes('/pub')) {
-    const match = url.match(/spreadsheets\/d\/e\/([^/]+)/);
-    if (match) openUrl = `https://docs.google.com/spreadsheets/d/e/${match[1]}/pubhtml`;
+  const pubMatch = url.match(/spreadsheets\/d\/e\/([^/?#]+)/);
+  const editMatch = url.match(/spreadsheets\/d\/([^/?#]+)/);
+  if (pubMatch) {
+    openUrl = `https://docs.google.com/spreadsheets/d/e/${pubMatch[1]}/pubhtml`;
+  } else if (editMatch && !url.includes('/d/e/')) {
+    openUrl = `https://docs.google.com/spreadsheets/d/${editMatch[1]}/edit`;
   }
   window.open(openUrl, '_blank', 'noopener');
   return false;
@@ -2875,11 +2883,62 @@ function downloadCurrentCSV(e) {
 
 // ============== Fetch CSV con manejo de errores ==============
 async function fetchCSV(url) {
-  const res = await fetch(url, { mode: 'cors', cache: 'no-store' });
-  if (!res.ok) throw new Error('HTTP ' + res.status + ' - verifica que la URL esté publicada al web');
+  const normalized = normalizeGoogleSheetsUrl(url);
+  const res = await fetch(normalized, { mode: 'cors', cache: 'no-store' });
+  if (!res.ok) throw new Error('HTTP ' + res.status + ' - verifica que el Sheet esté compartido como "Cualquiera con el enlace" o publicado al web');
   const text = await res.text();
   if (!text || text.length < 10) throw new Error('Respuesta vacía');
+  // Google puede devolver HTML si el sheet no está accesible
+  if (text.trim().startsWith('<') || text.includes('<!DOCTYPE html>')) {
+    throw new Error('El Sheet no es accesible públicamente. Cámbialo a "Cualquiera con el enlace" o publícalo al web como CSV');
+  }
   return text;
+}
+
+// Normaliza cualquier URL de Google Sheets a formato CSV descargable.
+// Acepta:
+//   /edit, /edit#gid=X, /edit?usp=sharing        → /export?format=csv[&gid=X]
+//   /pub, /pubhtml, /pub?output=csv              → /pub?output=csv[&gid=X]
+//   /gviz/tq?tqx=out:csv                          → sin cambios
+// URLs que no son de Google Sheets se devuelven sin cambios.
+function normalizeGoogleSheetsUrl(url) {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    if (u.hostname !== 'docs.google.com') return url;
+    if (!u.pathname.includes('/spreadsheets/')) return url;
+
+    // Extraer gid: primero del fragmento (#gid=X&range=...) luego del query
+    let gid = '';
+    const hashParams = new URLSearchParams(u.hash.replace(/^#/, ''));
+    if (hashParams.has('gid')) gid = hashParams.get('gid');
+    else if (u.searchParams.has('gid')) gid = u.searchParams.get('gid');
+
+    // Caso 1: URL ya en formato CSV usable → devolver tal cual
+    if (u.searchParams.get('output') === 'csv') return url;
+    if (u.searchParams.get('format') === 'csv') return url;
+    if (u.pathname.includes('/gviz/tq') && u.searchParams.get('tqx') === 'out:csv') return url;
+
+    // Caso 2: URL publicada al web (/pub, /pubhtml, /pub?output=html)
+    const pubMatch = u.pathname.match(/\/spreadsheets\/d\/e\/([^/]+)\/pub/);
+    if (pubMatch) {
+      let out = `https://docs.google.com/spreadsheets/d/e/${pubMatch[1]}/pub?output=csv`;
+      if (gid) out += `&gid=${gid}`;
+      return out;
+    }
+
+    // Caso 3: URL normal del sheet (/edit, /view, sin sufijo)
+    const editMatch = u.pathname.match(/\/spreadsheets\/d\/([^/]+)/);
+    if (editMatch) {
+      let out = `https://docs.google.com/spreadsheets/d/${editMatch[1]}/export?format=csv`;
+      if (gid) out += `&gid=${gid}`;
+      return out;
+    }
+
+    return url;
+  } catch (e) {
+    return url;
+  }
 }
 
 // ============== CSV Parser ==============
