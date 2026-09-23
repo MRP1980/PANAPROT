@@ -2597,16 +2597,18 @@ table tr:hover td { background: #F9FAFB; }
           <p style="margin:6px 0"><strong>Opción A · Sheet compartido</strong> (más simple)</p>
           <ol>
             <li>En tu Google Sheet: <strong>Compartir</strong> → <strong>Cualquier persona con el enlace · Lector</strong></li>
-            <li>Copia el enlace y pégalo arriba (el que empieza con <code>https://docs.google.com/spreadsheets/d/…/edit</code>)</li>
+            <li><strong>Asegúrate que la pestaña "Productos" esté activa</strong> antes de copiar el link</li>
+            <li>Copia el enlace y pégalo arriba (empieza con <code>https://docs.google.com/spreadsheets/d/…/edit</code>)</li>
             <li>El dashboard lo convertirá automáticamente al formato CSV al descargar</li>
           </ol>
           <p style="margin:10px 0 6px"><strong>Opción B · Publicado al web</strong> (más público)</p>
           <ol>
             <li>Menú <strong>Archivo → Compartir → Publicar en la web</strong></li>
-            <li>Selecciona la hoja específica · formato <strong>Valores separados por comas (.csv)</strong></li>
+            <li>Selecciona la hoja <strong>"Productos"</strong> específicamente (no "Todo el documento")</li>
+            <li>Formato: <strong>Valores separados por comas (.csv)</strong></li>
             <li>Click en <strong>Publicar</strong> y copia el enlace generado</li>
           </ol>
-          <div class="warn">⚠ Si el sheet está sin compartir (privado), no se puede leer. Debe estar accesible sin login.</div>
+          <div class="warn">⚠ Si tu Sheet tiene varias pestañas, verifica que la activa sea "Productos" al copiar el link, o agrega <code>#gid=0</code> al final. Sin eso, Google exporta por defecto la primera pestaña y el dashboard puede leer datos incorrectos.</div>
         </details>
       </div>
 
@@ -2776,7 +2778,7 @@ async function refreshData() {
 async function connectSource() {
   const gdUrl = document.getElementById('gdriveUrl').value.trim();
   if (!gdUrl) {
-    setLgndStatus('error', 'Introduce la URL publicada del Google Sheet (formato CSV).');
+    setLgndStatus('error', 'Introduce la URL del Google Sheet.');
     return;
   }
   if (!/^https?:\/\//.test(gdUrl)) {
@@ -2790,21 +2792,51 @@ async function connectSource() {
   try {
     const csv = await fetchCSV(gdUrl);
     const rows = parseCSV(csv);
-    if (rows.length === 0) throw new Error('El CSV no contiene filas de datos');
+    if (rows.length === 0) {
+      throw new Error('No se detectaron filas de datos. Verifica que el Sheet tenga la fila de headers (ID, Producto, Estado, ...) seguida de los datos.');
+    }
+    // Validar que sea la hoja correcta (debe tener las columnas esperadas)
+    const firstRow = rows[0];
+    const hasId = 'id' in firstRow;
+    const hasProducto = 'producto' in firstRow;
+    const hasEstado = 'estado' in firstRow;
+    if (!hasId && !hasProducto && !hasEstado) {
+      const detectedCols = Object.keys(firstRow).slice(0, 8).join(', ');
+      throw new Error(`El CSV no tiene las columnas esperadas (ID, Producto, Estado, ...). Detectadas: ${detectedCols}. Probablemente descargó otra hoja del Sheet (ej: "_Instrucciones"). Asegúrate de que la pestaña "Productos" esté activa antes de copiar el link, o agrega #gid=0 al final del enlace.`);
+    }
+
     applyData(rows);
     lastLoadedCSV = csv;
     localStorage.setItem(SYNC_GDRIVE_KEY, gdUrl);
     localStorage.setItem(SYNC_SOURCE_KEY, 'gdrive');
     const now = new Date();
     localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
-    setLgndStatus('success', `✓ Conectado · ${rows.length} productos actualizados desde Google Sheets`);
+
+    // Mostrar diagnóstico
+    const diag = window._lastSyncDiag || { total: rows.length, recognized: 0, unknown: [] };
+    const dist = getStatusDistribution(rows);
+    const distStr = `${dist.aprobado} aprob · ${dist.presentado} pres · ${dist.curso} curso · ${dist['no-iniciado']} no-ini`;
+    if (diag.unknown.length > 0) {
+      const preview = diag.unknown.slice(0, 3).join(', ');
+      setLgndStatus('error',
+        `⚠ Conectado, pero ${diag.unknown.length} de ${diag.total} filas tienen estados no reconocidos: ${preview}${diag.unknown.length > 3 ? '...' : ''}. Válidos: Aprobado / Presentado / En curso / No iniciado. Se muestran como "No iniciado".`);
+    } else {
+      setLgndStatus('success', `✓ Conectado · ${rows.length} productos · ${distStr}`);
+    }
     updateRefreshStatus('synced', now, 'Google Sheets');
   } catch (err) {
-    setLgndStatus('error', '✗ ' + (err.message || 'Error desconocido') + '. Verifica que la hoja esté publicada al web como CSV.');
+    setLgndStatus('error', '✗ ' + (err.message || 'Error desconocido'));
     updateRefreshStatus('error', null, err.message);
   } finally {
     setRefreshSpinning(false);
   }
+}
+
+// Cuenta rápida de estados para mensaje de status
+function getStatusDistribution(rows) {
+  const d = { aprobado: 0, presentado: 0, curso: 0, 'no-iniciado': 0 };
+  rows.forEach(r => { d[normStatus(r.estado)]++; });
+  return d;
 }
 
 // ============== Cargar archivo local ==============
@@ -2823,7 +2855,14 @@ async function loadLocalFile() {
     lastLoadedCSV = text;
     localStorage.setItem(SYNC_SOURCE_KEY, 'file');
     const now = new Date();
-    setLgndStatus('success', `✓ Cargado: ${rows.length} productos desde "${file.name}"`);
+    const diag = window._lastSyncDiag || { total: rows.length, recognized: 0, unknown: [] };
+    if (diag.unknown.length > 0) {
+      const preview = diag.unknown.slice(0, 3).join(', ');
+      setLgndStatus('error',
+        `⚠ Cargado, pero ${diag.unknown.length} estados no reconocidos: ${preview}${diag.unknown.length > 3 ? '...' : ''}. Válidos: Aprobado / Presentado / En curso / No iniciado.`);
+    } else {
+      setLgndStatus('success', `✓ Cargado: ${rows.length} productos desde "${file.name}"`);
+    }
     updateRefreshStatus('synced', now, 'archivo local');
   } catch (err) {
     setLgndStatus('error', '✗ ' + err.message);
@@ -2883,8 +2922,14 @@ function downloadCurrentCSV(e) {
 
 // ============== Fetch CSV con manejo de errores ==============
 async function fetchCSV(url) {
-  const normalized = normalizeGoogleSheetsUrl(url);
-  const res = await fetch(normalized, { mode: 'cors', cache: 'no-store' });
+  let normalized = normalizeGoogleSheetsUrl(url);
+  // Cache busting: agregar timestamp único para forzar recarga
+  // (Google Sheets a veces cachea el /export?format=csv en su CDN)
+  const sep = normalized.includes('?') ? '&' : '?';
+  normalized += `${sep}_t=${Date.now()}`;
+
+  // Simple GET sin custom headers para evitar CORS preflight
+  const res = await fetch(normalized, { cache: 'no-store' });
   if (!res.ok) throw new Error('HTTP ' + res.status + ' - verifica que el Sheet esté compartido como "Cualquiera con el enlace" o publicado al web');
   const text = await res.text();
   if (!text || text.length < 10) throw new Error('Respuesta vacía');
@@ -2943,15 +2988,28 @@ function normalizeGoogleSheetsUrl(url) {
 
 // ============== CSV Parser ==============
 function parseCSV(text) {
+  // Remover BOM UTF-8 si está presente (Google Sheets a veces lo agrega)
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
   const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
   if (lines.length < 2) return [];
-  const headers = parseCSVLine(lines[0]).map(h => normKey(h));
-  return lines.slice(1).map(line => {
+
+  // Auto-detectar fila de headers: buscar la primera que contenga "ID" o "Producto" o "Estado"
+  // (Google puede tener títulos o notas antes del header real)
+  let headerIdx = 0;
+  for (let i = 0; i < Math.min(lines.length, 5); i++) {
+    const cells = parseCSVLine(lines[i]).map(h => normKey(h));
+    if (cells.includes('id') || cells.includes('producto') || cells.includes('estado')) {
+      headerIdx = i;
+      break;
+    }
+  }
+  const headers = parseCSVLine(lines[headerIdx]).map(h => normKey(h));
+  return lines.slice(headerIdx + 1).map(line => {
     const vals = parseCSVLine(line);
     const obj = {};
     headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
     return obj;
-  });
+  }).filter(r => Object.values(r).some(v => v));  // filtrar filas totalmente vacías
 }
 function parseCSVLine(line) {
   const out = []; let cur = ''; let inQ = false;
@@ -2975,13 +3033,25 @@ function normKey(s) {
 // ============== Aplicar datos al DOM ==============
 const STATUS_CLASS = {
   'aprobado':    'aprobado',
+  'aprobada':    'aprobado',
+  'completado':  'aprobado',
+  'completada':  'aprobado',
   'presentado':  'presentado',
+  'presentada':  'presentado',
+  'entregado':   'presentado',
+  'entregada':   'presentado',
   'encurso':     'curso',
   'iniciado':    'curso',
+  'iniciada':    'curso',
   'enprogreso':  'curso',
+  'enproceso':   'curso',
   'progreso':    'curso',
+  'ejecucion':   'curso',
+  'enejecucion': 'curso',
   'noiniciado':  'no-iniciado',
+  'noiniciada':  'no-iniciado',
   'pendiente':   'no-iniciado',
+  'poriniciar':  'no-iniciado',
 };
 const STATUS_LABEL = {
   'aprobado':     'Aprobado',
@@ -3035,6 +3105,14 @@ function normStatus(s) {
   return STATUS_CLASS[key] || 'no-iniciado';
 }
 
+// Versión con tracking: además de la clase, dice si el valor fue reconocido.
+// Se usa para diagnóstico (avisar al usuario si su CSV tiene estados sin mapear).
+function normStatusSafe(s) {
+  const key = normKey(s);
+  const cls = STATUS_CLASS[key];
+  return { cls: cls || 'no-iniciado', recognized: !!cls, raw: (s || '').toString().trim() };
+}
+
 function normPayStatus(s, productStatus) {
   if (!s || !s.trim()) {
     // Sin estado de pago explícito: derivar del estado del producto
@@ -3067,21 +3145,35 @@ function parseNumeric(v) {
 
 function applyData(rows) {
   let count = 0;
+  const diag = { total: rows.length, recognized: 0, unknown: [] };
 
   // ========== A. STOP-GO BAR (Vista General) ==========
   const segs = document.querySelectorAll('.stopgo .seg');
   segs.forEach((seg, i) => {
     const row = findRowById(rows, seg.dataset.id || ('P' + (i+1)));
     if (!row) return;
-    const status = normStatus(row.estado);
-    seg.className = 'seg ' + status;
+    const st = normStatusSafe(row.estado);
+    if (st.recognized) diag.recognized++;
+    else if (st.raw) diag.unknown.push(`${seg.dataset.id}="${st.raw}"`);
+    seg.className = 'seg ' + st.cls;
     const stEl = seg.querySelector('.st');
-    if (stEl) stEl.textContent = STATUS_LABEL[status];
+    if (stEl) stEl.textContent = STATUS_LABEL[st.cls];
     // Actualizar tooltip: ID · Producto · Estado
     const prodName = (row.producto || seg.dataset.name || '').toString().trim();
-    seg.title = `${seg.dataset.id}${prodName ? ' · ' + prodName : ''} · ${STATUS_LABEL[status]}`;
+    seg.title = `${seg.dataset.id}${prodName ? ' · ' + prodName : ''} · ${STATUS_LABEL[st.cls]}`;
     count++;
   });
+
+  // Log diagnóstico (visible en consola del navegador)
+  if (diag.total > 0) {
+    console.log(`[PANAPROT] Sync: ${diag.total} filas, ${diag.recognized} con estado reconocido, ${diag.unknown.length} desconocidos`);
+    if (diag.unknown.length > 0) {
+      console.warn('[PANAPROT] Estados no reconocidos:', diag.unknown);
+      console.warn('[PANAPROT] Estados válidos: Aprobado, Presentado, En curso, No iniciado (también: Iniciado, En progreso, Pendiente)');
+    }
+  }
+  // Guardar diagnóstico globalmente para que connectSource lo pueda mostrar
+  window._lastSyncDiag = diag;
 
   // ========== B. KPIs (Header) ==========
   // Presentados incluye los Aprobados (subconjunto)
@@ -3310,7 +3402,20 @@ function findRowById(rows, id) {
   if (!id) return null;
   const idKey = id.toString().trim().toUpperCase();
   return rows.find(r => {
-    const rid = (r.id || r.producto || '').toString().trim().toUpperCase();
+    // Buscar primero en el campo canónico 'id'
+    let rid = (r.id || '').toString().trim().toUpperCase();
+    // Si no está, buscar en cualquier campo cuya key contenga "id" al final
+    // (esto atrapa casos como headers con BOM residual: "\uFEFFid" → "xxxid" tras normKey)
+    if (!rid) {
+      for (const key of Object.keys(r)) {
+        if (key === 'id' || (key.length <= 6 && key.endsWith('id'))) {
+          rid = (r[key] || '').toString().trim().toUpperCase();
+          if (rid) break;
+        }
+      }
+    }
+    // Último recurso: usar 'producto' que suele empezar con el ID
+    if (!rid) rid = (r.producto || '').toString().trim().toUpperCase();
     return rid === idKey || rid.startsWith(idKey + ' ') || rid.startsWith(idKey + '.');
   });
 }
