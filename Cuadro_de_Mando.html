@@ -42,6 +42,353 @@ body {
   gap: 18px;
 }
 
+/* Acciones del header (arriba a la derecha) */
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #25347A;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.refresh-btn:hover { background: #1A2862; transform: translateY(-1px); }
+.refresh-btn:active { transform: translateY(0); }
+.refresh-btn svg {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.refresh-btn.spinning svg { animation: spin 0.9s linear infinite; }
+
+/* Variante secundaria: botón "Fuente de datos" */
+.refresh-btn.secondary {
+  background: white;
+  color: #25347A;
+  border: 1px solid #25347A;
+}
+.refresh-btn.secondary:hover { background: #EEF1FA; }
+.refresh-btn.secondary.active {
+  background: #25347A;
+  color: white;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.refresh-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #6B7280;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.refresh-status:empty { display: none; }
+.refresh-status:not(:empty)::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #888B8D;
+}
+.refresh-status.synced { color: #5E8700; }
+.refresh-status.synced::before {
+  background: #93D500;
+  box-shadow: 0 0 0 2px rgba(147,213,0,0.2);
+}
+.refresh-status.syncing { color: #0078A8; }
+.refresh-status.syncing::before {
+  background: #00A7E1;
+  animation: pulse 1s infinite;
+}
+.refresh-status.error { color: #BC4F00; }
+.refresh-status.error::before { background: #FF6B00; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ====== PANEL LATERAL OCULTO ====== */
+.lgnd {
+  position: fixed;
+  top: 90px;
+  right: 0;
+  width: 340px;
+  max-width: 92vw;
+  max-height: calc(100vh - 110px);
+  background: white;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -6px 6px 24px rgba(17, 24, 39, 0.18);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 90;
+  display: flex;
+  visibility: hidden;
+}
+.lgnd.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* Botón cerrar del panel (esquina superior) */
+.lgnd-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0;
+  z-index: 2;
+  transition: all 0.15s;
+}
+.lgnd-close:hover {
+  background: #F3F4F6;
+  color: #25347A;
+}
+
+.lgnd-body {
+  flex: 1;
+  padding: 18px 20px;
+  overflow-y: auto;
+  min-width: 0;
+}
+.lgnd-body::-webkit-scrollbar { width: 6px; }
+.lgnd-body::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+
+.lgnd-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #25347A;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lgnd-title svg {
+  width: 16px;
+  height: 16px;
+  stroke: #25347A;
+  fill: none;
+  stroke-width: 2;
+}
+.lgnd-intro {
+  font-size: 11.5px;
+  color: #6B7280;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.lgnd-sec {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #E5E7EB;
+}
+.lgnd-sec:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.lgnd-st {
+  font-size: 11px;
+  font-weight: 600;
+  color: #25347A;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lgnd-st svg {
+  width: 13px;
+  height: 13px;
+  stroke: #25347A;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.lgnd-st .lgnd-tag {
+  font-size: 8.5px;
+  font-weight: 600;
+  background: #93D500;
+  color: #25347A;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+  margin-left: auto;
+}
+.lgnd-st .lgnd-tag.fallback {
+  background: #FFEEDD;
+  color: #BC4F00;
+}
+
+.lgnd-msg {
+  font-size: 11px;
+  color: #6B7280;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.lgnd-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #D1D5DB;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #374151;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  background: #F9FAFB;
+}
+.lgnd-input:focus {
+  outline: none;
+  border-color: #25347A;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(37, 52, 122, 0.08);
+}
+.lgnd-load {
+  width: 100%;
+  background: #25347A;
+  color: white;
+  border: none;
+  padding: 9px 12px;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.lgnd-load:hover { background: #1A2862; }
+.lgnd-load.secondary {
+  background: white;
+  color: #BC4F00;
+  border: 1px solid #FF6B00;
+  margin-top: 4px;
+}
+.lgnd-load.secondary:hover { background: #FFEEDD; }
+
+.lgnd-status {
+  margin-top: 8px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  display: none;
+  line-height: 1.4;
+}
+.lgnd-status.show { display: block; }
+.lgnd-status.loading { background: #E0F6FD; color: #0078A8; }
+.lgnd-status.success { background: #F1F9DA; color: #5E8700; }
+.lgnd-status.error { background: #FFEEDD; color: #BC4F00; }
+
+/* Helper "Cómo obtengo la URL" colapsable */
+.lgnd-help {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #4B5563;
+}
+.lgnd-help summary {
+  cursor: pointer;
+  color: #25347A;
+  font-weight: 600;
+  padding: 4px 0;
+  font-size: 11px;
+}
+.lgnd-help summary:hover { color: #93D500; }
+.lgnd-help[open] summary { margin-bottom: 6px; }
+.lgnd-help ol {
+  margin: 6px 0 0 18px;
+  line-height: 1.55;
+  padding: 0;
+}
+.lgnd-help ol li { margin-bottom: 3px; }
+.lgnd-help strong { color: #25347A; }
+.lgnd-help code {
+  background: #EEF1FA;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 10.5px;
+  color: #25347A;
+}
+.lgnd-help .warn {
+  margin-top: 6px;
+  padding: 6px 8px;
+  background: #FFEEDD;
+  color: #BC4F00;
+  border-radius: 4px;
+  font-size: 10.5px;
+}
+
+.lgnd-quick {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+.lgnd-quick a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 5px;
+  color: #25347A;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.lgnd-quick a:hover {
+  background: #EEF1FA;
+  border-color: #25347A;
+  transform: translateX(-2px);
+}
+.lgnd-quick a svg {
+  width: 13px;
+  height: 13px;
+  stroke: #25347A;
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
 /* Logo DEVPOLES */
 .logo-dp {
   display: flex;
@@ -116,20 +463,30 @@ body {
   margin-top: 4px;
 }
 
+/* ====== KPIs ROW (debajo del título) ====== */
+.kpis-row {
+  background: white;
+  padding: 14px 24px 16px;
+  border-bottom: 1px solid #E5E7EB;
+}
 .kpis {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  max-width: 100%;
 }
 .kpi {
   background: #EEF1FA;
   border-radius: 8px;
-  padding: 12px 16px;
-  flex: 1;
+  padding: 12px 14px;
   min-width: 0;
-  white-space: nowrap;
   text-align: center;
   border-left: 4px solid #25347A;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.kpi:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 52, 122, 0.08);
 }
 .kpi .val {
   font-size: 22px;
@@ -147,12 +504,23 @@ body {
   letter-spacing: 0.5px;
   margin-top: 2px;
 }
-.kpi.green { border-left-color: #059669; background: #ECFDF5; }
-.kpi.green .val { color: #047857; }
-.kpi.amber { border-left-color: #F59E0B; background: #FFFBEB; }
-.kpi.amber .val { color: #B45309; }
-.kpi.red { border-left-color: #DC2626; background: #FEF2F2; }
-.kpi.red .val { color: #B91C1C; }
+.kpi.aprobado    { border-left-color: #7BB300; background: #F1F9DA; }
+.kpi.aprobado .val { color: #5E8700; }
+.kpi.presentado  { border-left-color: #008A7A; background: #DEFAF5; }
+.kpi.presentado .val { color: #006A5C; }
+.kpi.curso       { border-left-color: #00A7E1; background: #E0F6FD; }
+.kpi.curso .val { color: #0078A8; }
+.kpi.no-iniciado { border-left-color: #FF6B00; background: #FFEEDD; }
+.kpi.no-iniciado .val { color: #BC4F00; }
+/* Aliases retrocompatibles */
+.kpi.green, .kpi.aprobado    { border-left-color: #7BB300; background: #F1F9DA; }
+.kpi.green .val, .kpi.aprobado .val    { color: #5E8700; }
+.kpi.teal,  .kpi.presentado  { border-left-color: #008A7A; background: #DEFAF5; }
+.kpi.teal  .val, .kpi.presentado .val  { color: #006B5E; }
+.kpi.amber, .kpi.curso       { border-left-color: #00A7E1; background: #E0F6FD; }
+.kpi.amber .val, .kpi.curso .val       { color: #0078A8; }
+.kpi.red,   .kpi.no-iniciado { border-left-color: #FF6B00; background: #FFEEDD; }
+.kpi.red .val, .kpi.no-iniciado .val   { color: #BC4F00; }
 
 /* ====== TABS ====== */
 .tabs {
@@ -229,7 +597,7 @@ body {
 /* Paleta DEVPOLES oficial - distribuida equitativamente entre secciones */
 .sec.t-primary { --sec-color: #25347A; --sec-bg: #EEF1FA; --sec-pure: #25347A; } /* Reflex Blue */
 .sec.t-cyan    { --sec-color: #0086B8; --sec-bg: #E0F6FD; --sec-pure: #00A7E1; } /* Celeste DEVPOLES */
-.sec.t-teal    { --sec-color: #008A7A; --sec-bg: #DEFAF5; --sec-pure: #00AF9A; } /* Turquesa DEVPOLES */
+.sec.t-teal    { --sec-color: #008A7A; --sec-bg: #DEFAF5; --sec-pure: #008A7A; } /* Turquesa DEVPOLES */
 .sec.t-lime    { --sec-color: #6B9F00; --sec-bg: #F1F9DA; --sec-pure: #93D500; } /* Verde lima DEVPOLES */
 .sec.t-orange  { --sec-color: #D45500; --sec-bg: #FFEEDD; --sec-pure: #FF6B00; } /* Naranja DEVPOLES */
 .sec.t-gray    { --sec-color: #6B6E70; --sec-bg: #F3F3F4; --sec-pure: #888B8D; } /* Gris DEVPOLES */
@@ -237,7 +605,7 @@ body {
 .sec.t-green   { --sec-color: #25347A; --sec-bg: #EEF1FA; --sec-pure: #25347A; }
 .sec.t-indigo  { --sec-color: #0086B8; --sec-bg: #E0F6FD; --sec-pure: #00A7E1; }
 .sec.t-amber   { --sec-color: #D45500; --sec-bg: #FFEEDD; --sec-pure: #FF6B00; }
-.sec.t-blue    { --sec-color: #008A7A; --sec-bg: #DEFAF5; --sec-pure: #00AF9A; }
+.sec.t-blue    { --sec-color: #008A7A; --sec-bg: #DEFAF5; --sec-pure: #008A7A; }
 .sec.t-nature  { --sec-color: #6B9F00; --sec-bg: #F1F9DA; --sec-pure: #93D500; }
 .sec.t-rose    { --sec-color: #6B6E70; --sec-bg: #F3F3F4; --sec-pure: #888B8D; }
 
@@ -300,6 +668,7 @@ body {
 }
 
 /* ====== STOP-GO BAR ====== */
+/* Stop-go por defecto: barra horizontal de 12 segmentos (desktop ancho) */
 .stopgo {
   display: flex;
   gap: 8px;
@@ -307,6 +676,7 @@ body {
 }
 .stopgo .seg {
   flex: 1;
+  min-width: 0;
   height: 64px;
   border-radius: 8px;
   display: flex;
@@ -318,6 +688,9 @@ body {
   position: relative;
   animation: growUp 0.4s ease-out both;
   transform-origin: bottom;
+  overflow: hidden;
+  padding: 0 4px;
+  box-sizing: border-box;
 }
 .stopgo .seg .id {
   font-size: 15px;
@@ -325,16 +698,98 @@ body {
   letter-spacing: 0.3px;
 }
 .stopgo .seg .st {
-  font-size: 8.5px;
+  font-size: 9px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  margin-top: 3px;
+  margin-top: 4px;
   opacity: 0.95;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
 }
-.stopgo .green { background: #059669; }
-.stopgo .amber { background: #F59E0B; }
-.stopgo .red { background: #DC2626; }
+
+/* Modo cards: cuando los segmentos no pueden mostrar "NO INICIADO" completo
+   se cambia a grid con cards más espaciosas para legibilidad */
+@media (max-width: 1099px) {
+  .stopgo {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .stopgo .seg {
+    height: auto;
+    min-height: 78px;
+    padding: 14px 8px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(17, 24, 39, 0.08);
+    transition: transform 0.15s, box-shadow 0.2s;
+  }
+  .stopgo .seg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(17, 24, 39, 0.15);
+  }
+  .stopgo .seg .id { font-size: 18px; margin-bottom: 2px; }
+  .stopgo .seg .st {
+    font-size: 10px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.2;
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stopgo {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 9px;
+  }
+  .stopgo .seg {
+    min-height: 74px;
+    padding: 12px 6px;
+  }
+  .stopgo .seg .id { font-size: 17px; }
+  .stopgo .seg .st { font-size: 9.5px; }
+}
+
+@media (max-width: 600px) {
+  .stopgo {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .stopgo .seg {
+    min-height: 70px;
+    padding: 11px 6px;
+  }
+  .stopgo .seg .st { font-size: 9.5px; line-height: 1.15; }
+}
+
+@media (max-width: 380px) {
+  .stopgo {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+  }
+  .stopgo .seg {
+    min-height: 66px;
+    padding: 11px 6px;
+  }
+  .stopgo .seg .st { font-size: 10px; }
+}
+
+/* 4 estados DEVPOLES */
+.stopgo .green       { background: #7BB300; }   /* Aprobado - verde lima */
+.stopgo .teal        { background: #008A7A; }   /* Presentado - turquesa */
+.stopgo .amber       { background: #00A7E1; }   /* En curso - celeste */
+.stopgo .red         { background: #FF6B00; }   /* No iniciado - naranja */
+/* Aliases semánticos (HTML usa estos) */
+.stopgo .aprobado    { background: #7BB300; }
+.stopgo .presentado  { background: #008A7A; }
+.stopgo .curso       { background: #00A7E1; }
+.stopgo .no-iniciado { background: #FF6B00; }
 
 /* ====== LEYENDA ====== */
 .legend {
@@ -368,10 +823,112 @@ body {
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   animation: barGrow 0.6s ease-out both;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 4px;
+  min-width: 0;
+  box-sizing: border-box;
 }
+
+/* Colores para los 5 estados de pago (barra + leyenda + chips tabla) */
+.pay-ni       { background: #FF6B00; }  /* Vinculado a producto no iniciado - naranja */
+.pay-pres     { background: #008A7A; }  /* Vinculado a producto presentado - turquesa */
+.pay-curso    { background: #00A7E1; }  /* Vinculado a producto en curso - celeste */
+.pay-apr      { background: #7BB300; }  /* Vinculado a producto aprobado - verde lima */
+.pay-cobro    { background: #25347A; }  /* Cuenta de cobro presentada - azul DEVPOLES */
+.pay-pagado   { background: #5E8700; position: relative; }  /* Pagado - verde lima oscuro */
+
+/* Colores para .sbar (distribución de estados) - por clase */
+.sbar > div.aprobado    { background: #7BB300; }
+.sbar > div.presentado  { background: #008A7A; }
+.sbar > div.curso       { background: #00A7E1; }
+.sbar > div.no-iniciado { background: #FF6B00; }
+.pay-pagado::after {
+  content: '✓';
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: white;
+  opacity: 0.7;
+}
+
+/* Leyenda de pagos */
+.pay-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: #4B5563;
+  font-weight: 500;
+}
+/* Leyenda de pagos: grid 2 columnas × 3 filas con dots alineados verticalmente */
+#payLegend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 8px;
+  align-items: center;
+}
+.pay-lgi {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pay-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .pay-legend { font-size: 10px; gap: 8px; }
+  #payLegend { grid-template-columns: 1fr; row-gap: 6px; }
+}
+
+/* Chips de estado de pago en tablas */
+.chip.pay-ni      { background: #FFE0C2; color: #BC4F00; }
+.chip.pay-pres    { background: #C5F3EB; color: #006B5E; }
+.chip.pay-curso   { background: #D5F0FA; color: #0078A8; }
+.chip.pay-apr     { background: #ECF8C4; color: #5E8700; }
+.chip.pay-cobro   { background: #EEF1FA; color: #25347A; }
+.chip.pay-pagado  { background: #ECF8C4; color: #3D5A00; border: 1px solid #7BB300; font-weight: 600; }
+
+/* Badge para delta de plazo (cronograma) */
+.plazo-delta {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+.plazo-delta.positive { background: #FFE0C2; color: #BC4F00; }  /* retraso */
+.plazo-delta.negative { background: #ECF8C4; color: #5E8700; }  /* adelanto */
+.plazo-delta.zero     { display: none; }
+/* Etiquetas duales: completa en desktop, abreviada en mobile */
+.sbar .lab-m { display: none; }
+.sbar .lab-d { display: inline; }
+@media (max-width: 600px) {
+  .sbar .lab-d { display: none; }
+  .sbar .lab-m { display: inline; }
+}
+/* Wrapper opcional para pagos con scroll horizontal en mobile */
+.sbar-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sbar-scroll::-webkit-scrollbar { height: 4px; }
+.sbar-scroll::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 2px; }
+.sbar-scroll .sbar { min-width: 100%; }
 
 /* ====== TABLA ====== */
 .tscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -411,9 +968,15 @@ table tr:hover td { background: #F9FAFB; }
   font-weight: 600;
   white-space: nowrap;
 }
-.chip.green { background: #D1FAE5; color: #047857; }
-.chip.amber { background: #FEF3C7; color: #B45309; }
-.chip.red { background: #FEE2E2; color: #B91C1C; }
+.chip.aprobado    { background: #ECF8C4; color: #5E8700; }
+.chip.presentado  { background: #C8F0EA; color: #006A5C; }
+.chip.curso       { background: #D5F0FA; color: #0078A8; }
+.chip.no-iniciado { background: #FFE0C2; color: #BC4F00; }
+/* 4 estados DEVPOLES */
+.chip.green, .chip.aprobado    { background: #ECF8C4; color: #5E8700; }   /* Aprobado */
+.chip.teal,  .chip.presentado  { background: #C5F3EB; color: #006B5E; }   /* Presentado */
+.chip.amber, .chip.curso       { background: #D5F0FA; color: #0078A8; }   /* En curso */
+.chip.red,   .chip.no-iniciado { background: #FFE0C2; color: #BC4F00; }   /* No iniciado */
 
 .badge {
   display: inline-block;
@@ -441,9 +1004,15 @@ table tr:hover td { background: #F9FAFB; }
   border-top: 4px solid #9CA3AF;
   animation: fadeUp 0.4s ease-out both;
 }
-.pcard.green { border-top-color: #059669; }
-.pcard.amber { border-top-color: #F59E0B; }
-.pcard.red { border-top-color: #DC2626; }
+.pcard.aprobado    { border-top-color: #7BB300; }
+.pcard.presentado  { border-top-color: #008A7A; }
+.pcard.curso       { border-top-color: #00A7E1; }
+.pcard.no-iniciado { border-top-color: #FF6B00; }
+/* Aliases */
+.pcard.green, .pcard.aprobado    { border-top-color: #7BB300; }   /* Aprobado */
+.pcard.teal,  .pcard.presentado  { border-top-color: #008A7A; }   /* Presentado */
+.pcard.amber, .pcard.curso       { border-top-color: #00A7E1; }   /* En curso */
+.pcard.red,   .pcard.no-iniciado { border-top-color: #FF6B00; }   /* No iniciado */
 .pcard .ptitle {
   font-size: 14px;
   font-weight: 600;
@@ -501,7 +1070,7 @@ table tr:hover td { background: #F9FAFB; }
   top: 32px;
   left: 0;
   height: 4px;
-  background: linear-gradient(90deg, #059669 0%, #059669 100%);
+  background: linear-gradient(90deg, #7BB300 0%, #7BB300 100%);
   border-radius: 2px;
   animation: barGrow 1s ease-out both;
 }
@@ -522,9 +1091,14 @@ table tr:hover td { background: #F9FAFB; }
   position: relative;
   z-index: 2;
 }
-.tnode.green .dot { background: #059669; box-shadow: 0 0 0 2px #059669; }
-.tnode.amber .dot { background: #F59E0B; box-shadow: 0 0 0 2px #F59E0B; }
-.tnode.red .dot { background: #DC2626; box-shadow: 0 0 0 2px #DC2626; }
+.tnode.green .dot { background: #7BB300; box-shadow: 0 0 0 2px #7BB300; }
+.tnode.amber .dot { background: #00A7E1; box-shadow: 0 0 0 2px #00A7E1; }
+.tnode.red .dot { background: #FF6B00; box-shadow: 0 0 0 2px #FF6B00; }
+/* Aliases semánticos (usados por sync) */
+.tnode.aprobado .dot    { background: #7BB300; box-shadow: 0 0 0 2px #7BB300; }
+.tnode.presentado .dot  { background: #008A7A; box-shadow: 0 0 0 2px #008A7A; }
+.tnode.curso .dot       { background: #00A7E1; box-shadow: 0 0 0 2px #00A7E1; }
+.tnode.no-iniciado .dot { background: #FF6B00; box-shadow: 0 0 0 2px #FF6B00; }
 .tnode .lab {
   font-size: 7.5px;
   font-weight: 600;
@@ -587,9 +1161,15 @@ table tr:hover td { background: #F9FAFB; }
   overflow: hidden;
   border-left: 4px solid #9CA3AF;
 }
-.acc.green { border-left-color: #059669; }
-.acc.amber { border-left-color: #F59E0B; }
-.acc.red { border-left-color: #DC2626; }
+.acc.aprobado    { border-left-color: #7BB300; }
+.acc.presentado  { border-left-color: #008A7A; }
+.acc.curso       { border-left-color: #00A7E1; }
+.acc.no-iniciado { border-left-color: #FF6B00; }
+/* Aliases */
+.acc.green, .acc.aprobado    { border-left-color: #7BB300; }   /* Aprobado */
+.acc.teal,  .acc.presentado  { border-left-color: #008A7A; }   /* Presentado */
+.acc.amber, .acc.curso       { border-left-color: #00A7E1; }   /* En curso */
+.acc.red,   .acc.no-iniciado { border-left-color: #FF6B00; }   /* No iniciado */
 .acc-hdr {
   padding: 13px 15px;
   cursor: pointer;
@@ -620,6 +1200,28 @@ table tr:hover td { background: #F9FAFB; }
   font-size: 13px;
   line-height: 1.6;
   color: #374151;
+}
+/* Notas de avance (aparece solo cuando el CSV trae valor en notas_avance) */
+.acc-notes {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #F1F9DA;
+  border-left: 3px solid #7BB300;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #374151;
+  line-height: 1.5;
+}
+.acc-notes-lbl {
+  font-weight: 600;
+  color: #5E8700;
+  margin-right: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-size: 10.5px;
+}
+.acc-notes-val {
+  font-style: italic;
 }
 .acc-meta {
   display: grid;
@@ -660,12 +1262,17 @@ table tr:hover td { background: #F9FAFB; }
   background: #F9FAFB;
   margin-top: 20px;
 }
+.foot-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: start;
+}
 .foot-brand-block {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
-  margin-bottom: 10px;
 }
 .foot-brand {
   display: flex;
@@ -691,6 +1298,64 @@ table tr:hover td { background: #F9FAFB; }
   margin-top: 2px;
   letter-spacing: 0.2px;
 }
+.foot-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.sync-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #25347A;
+  color: white;
+  border: none;
+  padding: 9px 14px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background 0.2s, transform 0.15s;
+}
+.sync-btn:hover { background: #1A2862; transform: translateY(-1px); }
+.sync-btn:active { transform: translateY(0); }
+.sync-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sync-btn.spinning svg { animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.sync-status {
+  font-size: 10px;
+  color: #888B8D;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.sync-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #888B8D;
+  display: inline-block;
+}
+.sync-status.synced { color: #5E8700; }
+.sync-status.synced::before { background: #93D500; box-shadow: 0 0 0 2px rgba(147,213,0,0.2); }
+.sync-status.error { color: #BC4F00; }
+.sync-status.error::before { background: #FF6B00; }
+
 .foot-client {
   text-align: left;
   font-size: 11px;
@@ -707,6 +1372,204 @@ table tr:hover td { background: #F9FAFB; }
   line-height: 1.55;
 }
 
+/* ====== SYNC MODAL ====== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal.open { display: flex; }
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease-out;
+}
+.modal-inner {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+  animation: fadeUp 0.25s ease-out;
+}
+.modal-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 2px solid #25347A;
+}
+.modal-hdr h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #25347A;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #6B7280;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.modal-close:hover { background: #F3F4F6; color: #25347A; }
+.modal-body { padding: 22px; }
+.modal-intro {
+  font-size: 13px;
+  color: #4B5563;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.src-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #E5E7EB;
+  margin-bottom: 18px;
+}
+.src-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7280;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+.src-tab:hover { color: #25347A; }
+.src-tab.on {
+  color: #25347A;
+  border-bottom-color: #25347A;
+  font-weight: 600;
+}
+.src-panel { display: none; }
+.src-panel.on { display: block; }
+.src-panel label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+.src-panel input[type="text"], .src-panel input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+.src-panel input[type="text"]:focus {
+  outline: none;
+  border-color: #25347A;
+  box-shadow: 0 0 0 3px rgba(37,52,122,0.1);
+}
+.src-panel input[type="file"] {
+  padding: 8px 10px;
+  background: #F9FAFB;
+  cursor: pointer;
+}
+.src-panel .primary {
+  background: #25347A;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.src-panel .primary:hover { background: #1A2862; }
+.src-panel .note {
+  font-size: 11.5px;
+  color: #6B7280;
+  margin-top: 4px;
+  font-style: italic;
+}
+.how-to {
+  background: #F9FAFB;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 8px 0 14px;
+  font-size: 12px;
+  border-left: 3px solid #00A7E1;
+}
+.how-to summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #25347A;
+  font-size: 12px;
+}
+.how-to ol { margin: 8px 0 6px 18px; line-height: 1.6; color: #374151; }
+.how-to .warn { color: #BC4F00; font-size: 11px; margin-top: 6px; font-weight: 500; }
+.schema-block {
+  margin-top: 18px;
+  padding: 10px 12px;
+  background: #F9FAFB;
+  border-radius: 6px;
+  border-left: 3px solid #93D500;
+  font-size: 12px;
+}
+.schema-block summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #25347A;
+  font-size: 12px;
+}
+.schema-block p { margin: 6px 0; line-height: 1.5; color: #374151; }
+.schema-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 11.5px;
+  min-width: 0;
+}
+.schema-table th, .schema-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #E5E7EB;
+  text-align: left;
+}
+.schema-table th { background: #EEF1FA; color: #25347A; font-weight: 600; }
+.schema-table code {
+  background: #E5E7EB;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #25347A;
+}
+.sync-result {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  display: none;
+}
+.sync-result.loading { display: block; background: #E0F6FD; color: #0078A8; }
+.sync-result.success { display: block; background: #F1F9DA; color: #5E8700; }
+.sync-result.error { display: block; background: #FFEEDD; color: #BC4F00; }
+
 /* ====== RESPONSIVE ====== */
 /* Tablet landscape */
 @media (max-width: 1100px) {
@@ -716,8 +1579,8 @@ table tr:hover td { background: #F9FAFB; }
 /* Tablet portrait */
 @media (max-width: 960px) {
   .header { flex-direction: column; align-items: stretch; gap: 14px; }
-  .kpis { width: 100%; }
   .brand h1 { font-size: 20px; }
+  .kpis-row { padding: 12px 18px 16px; }
   .logo-dp {
     padding-right: 0;
     padding-bottom: 12px;
@@ -735,7 +1598,6 @@ table tr:hover td { background: #F9FAFB; }
   .ap-grid { grid-template-columns: 1fr 1fr; }
   .stopgo .seg { height: 56px; }
   .stopgo .seg .id { font-size: 14px; }
-  .stopgo .seg .st { font-size: 8px; }
   .acc-hdr { padding: 11px 12px; }
   .acc-hdr .ptit { font-size: 13px; }
   .exp-row { grid-template-columns: 140px 1fr 65px; gap: 10px; }
@@ -752,15 +1614,13 @@ table tr:hover td { background: #F9FAFB; }
   .brand .sub { font-size: 12.5px; }
   .brand .institucion { font-size: 10px; }
   .brand .periodo { font-size: 11px; }
-  .kpi { padding: 9px 10px; }
+  .kpis-row { padding: 12px 16px 14px; }
+  .kpis { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .kpi { padding: 10px 8px; }
   .kpi .val { font-size: 18px; }
   .kpi .lab { font-size: 9px; }
   .tabs button { font-size: 11px; padding: 11px 4px; gap: 4px; }
   .tabs button svg { width: 14px; height: 14px; }
-  .stopgo { flex-wrap: wrap; gap: 6px; }
-  .stopgo .seg { flex: 1 1 calc(25% - 5px); min-width: 0; height: 52px; }
-  .stopgo .seg .id { font-size: 13px; }
-  .stopgo .seg .st { font-size: 7.5px; }
   .pgrid { grid-template-columns: 1fr; }
   .ap-grid { grid-template-columns: 1fr; }
   .exp-row { grid-template-columns: 120px 1fr 55px; font-size: 11.5px; }
@@ -787,11 +1647,12 @@ table tr:hover td { background: #F9FAFB; }
   .brand h1 { font-size: 16px; letter-spacing: -0.4px; }
   .brand .institucion { font-size: 9.5px; }
   .kpis { gap: 6px; }
-  .kpi { padding: 8px 9px; flex: 1 1 calc(50% - 3px); }
+  .kpis { grid-template-columns: repeat(2, 1fr); gap: 7px; }
+  .kpis .kpi:nth-child(5) { grid-column: 1 / -1; }
+  .kpi { padding: 9px 7px; }
   .kpi .val { font-size: 17px; }
-  .stopgo .seg { flex: 1 1 calc(33.33% - 6px); height: 50px; }
-  .stopgo .seg .id { font-size: 12.5px; }
-  .stopgo .seg .st { font-size: 7px; }
+  .kpi .lab { font-size: 8.5px; letter-spacing: 0.4px; }
+  .kpi .val { font-size: 17px; }
   .legend { font-size: 11px; gap: 12px; }
   .legend .dot { width: 11px; height: 11px; }
   .sec h3 { font-size: 13px; gap: 10px; padding-right: 4px; letter-spacing: 0.4px; }
@@ -823,9 +1684,6 @@ table tr:hover td { background: #F9FAFB; }
   .brand .periodo { font-size: 10.5px; }
   .content { padding: 12px 12px 20px; }
   .header { padding: 12px 14px; }
-  .stopgo .seg { flex: 1 1 calc(33.33% - 5px); height: 46px; }
-  .stopgo .seg .id { font-size: 12px; }
-  .stopgo .seg .st { font-size: 6.5px; }
   .pgrid { grid-template-columns: 1fr; }
   .ap-grid { grid-template-columns: 1fr; }
   .exp-row { grid-template-columns: 105px 1fr 50px; font-size: 11px; gap: 8px; }
@@ -845,10 +1703,13 @@ table tr:hover td { background: #F9FAFB; }
 @media (max-width: 340px) {
   body { font-size: 12px; }
   .brand h1 { font-size: 14px; letter-spacing: -0.5px; }
-  .kpi { flex: 1 1 calc(50% - 3px); padding: 7px 7px; }
+  .kpis { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .kpis .kpi:nth-child(5) { grid-column: 1 / -1; }
+  .kpi { padding: 7px 6px; }
+  .kpi .val { font-size: 15px; }
+  .kpi .lab { font-size: 8px; }
   .kpi .val { font-size: 15px; }
   .kpi .lab { font-size: 8.5px; }
-  .stopgo .seg { flex: 1 1 calc(50% - 3px); height: 44px; }
   .sec h3 { font-size: 12px; letter-spacing: 0.3px; }
   .exp-row { grid-template-columns: 90px 1fr 44px; font-size: 10.5px; }
 }
@@ -865,9 +1726,6 @@ table tr:hover td { background: #F9FAFB; }
   .kpi { padding: 14px 18px; }
   .kpi .val { font-size: 24px; }
   .kpi .lab { font-size: 10.5px; }
-  .stopgo .seg { height: 72px; }
-  .stopgo .seg .id { font-size: 16px; }
-  .stopgo .seg .st { font-size: 9px; }
   .sec h3 { font-size: 16px; }
   .sec h3 .ico { width: 34px; height: 34px; }
   .sec h3 .ico svg { width: 19px; height: 19px; }
@@ -885,7 +1743,6 @@ table tr:hover td { background: #F9FAFB; }
   .brand h1 { font-size: 27px; }
   .content { padding: 32px 44px 44px; }
   .header { padding: 24px 44px; }
-  .stopgo .seg { height: 76px; }
   body { background: #F3F4F6; }
 }
 
@@ -896,8 +1753,6 @@ table tr:hover td { background: #F9FAFB; }
   .brand h1 { font-size: 30px; }
   .brand .sub { font-size: 16px; }
   .content { padding: 36px 52px 52px; }
-  .stopgo .seg { height: 82px; }
-  .stopgo .seg .id { font-size: 18px; }
   .sec h3 { font-size: 17px; }
   .sec h3 .ico { width: 38px; height: 38px; }
   .sec h3 .ico svg { width: 21px; height: 21px; }
@@ -907,7 +1762,6 @@ table tr:hover td { background: #F9FAFB; }
 /* Orientación landscape en móvil */
 @media (max-height: 500px) and (orientation: landscape) {
   .content { min-height: auto; }
-  .stopgo .seg { height: 44px; }
 }
 
 /* Accesibilidad: reduce motion */
@@ -938,11 +1792,27 @@ table tr:hover td { background: #F9FAFB; }
       <div class="sub">Plan de Manejo Bosque Protector y Paisaje Protegido San Lorenzo · Planes de Concesiones</div>
       <div class="periodo">Estado de avance · Mayo 2026 · Duración total: 320 días</div>
     </div>
+    <div class="header-actions">
+      <button class="refresh-btn" id="refreshBtn" onclick="refreshData()" title="Actualizar datos desde la fuente conectada">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        <span class="refresh-label">Actualizar</span>
+      </button>
+      <button class="refresh-btn secondary" id="sourceBtn" onclick="toggleSourcePanel()" title="Configurar fuente de datos">
+        <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+        <span class="refresh-label">Fuente de datos</span>
+      </button>
+      <div class="refresh-status" id="refreshStatus"></div>
+    </div>
+  </div>
+
+  <!-- ====== KPIs (debajo del título) ====== -->
+  <div class="kpis-row">
     <div class="kpis">
-      <div class="kpi"><span class="val">12</span><span class="lab">Productos</span></div>
-      <div class="kpi green"><span class="val">3</span><span class="lab">Presentados</span></div>
-      <div class="kpi amber"><span class="val">6</span><span class="lab">En curso</span></div>
-      <div class="kpi red"><span class="val">3</span><span class="lab">No iniciados</span></div>
+      <div class="kpi" id="kpi-total" title="Total de productos del contrato"><span class="val">12</span><span class="lab">Productos</span></div>
+      <div class="kpi presentado" id="kpi-presentados" title="Total de productos entregados (incluye aprobados)"><span class="val">3</span><span class="lab">Presentados</span></div>
+      <div class="kpi aprobado" id="kpi-aprobados" title="Productos formalmente aprobados por la UEP"><span class="val">1</span><span class="lab">Aprobados</span></div>
+      <div class="kpi curso" id="kpi-curso" title="Productos en ejecución"><span class="val">6</span><span class="lab">En curso</span></div>
+      <div class="kpi no-iniciado" id="kpi-no-iniciados" title="Productos aún no iniciados"><span class="val">3</span><span class="lab">No iniciados</span></div>
     </div>
   </div>
 
@@ -980,53 +1850,77 @@ table tr:hover td { background: #F9FAFB; }
     <div class="sec t-primary">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span class="txt">Estado de los 12 productos</span></h3>
       <div class="legend">
-        <div class="item"><span class="dot" style="background:#059669"></span>Presentado / Aprobado</div>
-        <div class="item"><span class="dot" style="background:#F59E0B"></span>Iniciado / En curso</div>
-        <div class="item"><span class="dot" style="background:#DC2626"></span>No iniciado</div>
+        <div class="item"><span class="dot" style="background:#7BB300"></span>Aprobado</div>
+        <div class="item"><span class="dot" style="background:#008A7A"></span>Presentado</div>
+        <div class="item"><span class="dot" style="background:#00A7E1"></span>En curso</div>
+        <div class="item"><span class="dot" style="background:#FF6B00"></span>No iniciado</div>
       </div>
       <div class="stopgo">
-        <div class="seg green" style="animation-delay:0.00s"><span class="id">P1</span><span class="st">Aprobado</span></div>
-        <div class="seg green" style="animation-delay:0.06s"><span class="id">P2</span><span class="st">Presentado</span></div>
-        <div class="seg green" style="animation-delay:0.12s"><span class="id">P3</span><span class="st">Presentado</span></div>
-        <div class="seg amber" style="animation-delay:0.18s"><span class="id">P4</span><span class="st">Iniciado</span></div>
-        <div class="seg amber" style="animation-delay:0.24s"><span class="id">P5</span><span class="st">Iniciado</span></div>
-        <div class="seg red" style="animation-delay:0.30s"><span class="id">P6</span><span class="st">No iniciado</span></div>
-        <div class="seg amber" style="animation-delay:0.36s"><span class="id">P7</span><span class="st">Iniciado</span></div>
-        <div class="seg amber" style="animation-delay:0.42s"><span class="id">P8</span><span class="st">Iniciado</span></div>
-        <div class="seg amber" style="animation-delay:0.48s"><span class="id">P9</span><span class="st">Iniciado</span></div>
-        <div class="seg red" style="animation-delay:0.54s"><span class="id">P10</span><span class="st">No iniciado</span></div>
-        <div class="seg amber" style="animation-delay:0.60s"><span class="id">P11</span><span class="st">Iniciado</span></div>
-        <div class="seg red" style="animation-delay:0.66s"><span class="id">P12</span><span class="st">No iniciado</span></div>
+        <div class="seg aprobado"    data-id="P1"  data-name="Plan de Trabajo Actualizado"           title="P1 · Plan de Trabajo Actualizado · Aprobado" style="animation-delay:0.00s"><span class="id">P1</span><span class="st">Aprobado</span></div>
+        <div class="seg presentado"  data-id="P2"  data-name="Informe ideas de negocios (4 APs)"     title="P2 · Informe ideas de negocios · Presentado" style="animation-delay:0.06s"><span class="id">P2</span><span class="st">Presentado</span></div>
+        <div class="seg presentado"  data-id="P3"  data-name="Identificación grupos de interés"      title="P3 · Grupos de interés · Presentado" style="animation-delay:0.12s"><span class="id">P3</span><span class="st">Presentado</span></div>
+        <div class="seg curso"       data-id="P4"  data-name="1er informe conformación OBC"          title="P4 · 1er informe OBC · En curso" style="animation-delay:0.18s"><span class="id">P4</span><span class="st">En curso</span></div>
+        <div class="seg curso"       data-id="P5"  data-name="Valorización económica concesiones"    title="P5 · Valorización concesiones · En curso" style="animation-delay:0.24s"><span class="id">P5</span><span class="st">En curso</span></div>
+        <div class="seg no-iniciado" data-id="P6"  data-name="Pliegos CTV/PRATV/CMC"                  title="P6 · Pliegos CTV/PRATV/CMC · No iniciado" style="animation-delay:0.30s"><span class="id">P6</span><span class="st">No iniciado</span></div>
+        <div class="seg curso"       data-id="P7"  data-name="Diagnóstico socioeconómico"            title="P7 · Diagnóstico socioeconómico · En curso" style="animation-delay:0.36s"><span class="id">P7</span><span class="st">En curso</span></div>
+        <div class="seg curso"       data-id="P8"  data-name="Evaluación Ecológica Rápida (EER)"     title="P8 · EER · En curso" style="animation-delay:0.42s"><span class="id">P8</span><span class="st">En curso</span></div>
+        <div class="seg curso"       data-id="P9"  data-name="Borrador Plan de Manejo"               title="P9 · Borrador PM · En curso" style="animation-delay:0.48s"><span class="id">P9</span><span class="st">En curso</span></div>
+        <div class="seg no-iniciado" data-id="P10" data-name="PM final + Guía + Versión popular"     title="P10 · PM final · No iniciado" style="animation-delay:0.54s"><span class="id">P10</span><span class="st">No iniciado</span></div>
+        <div class="seg curso"       data-id="P11" data-name="PERAI · Recuperación áreas invadidas"  title="P11 · PERAI · En curso" style="animation-delay:0.60s"><span class="id">P11</span><span class="st">En curso</span></div>
+        <div class="seg no-iniciado" data-id="P12" data-name="Informe Final de Consultoría"          title="P12 · Informe Final · No iniciado" style="animation-delay:0.66s"><span class="id">P12</span><span class="st">No iniciado</span></div>
       </div>
     </div>
 
     <div class="sec t-cyan">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg></span><span class="txt">Distribución de estados</span></h3>
-      <div class="sbar">
-        <div style="width:25%;background:#059669;animation-delay:0.0s">25% Presentados</div>
-        <div style="width:50%;background:#F59E0B;animation-delay:0.2s">50% En curso</div>
-        <div style="width:25%;background:#DC2626;animation-delay:0.4s">25% No iniciados</div>
+      <div class="sbar" id="sbarDist">
+        <div style="width:8.33%" class="aprobado" data-status="aprobado">
+          <span class="lab-d">8.3%</span><span class="lab-m">8%</span>
+        </div>
+        <div style="width:16.67%" class="presentado" data-status="presentado">
+          <span class="lab-d">16.7%</span><span class="lab-m">17%</span>
+        </div>
+        <div style="width:50%" class="curso" data-status="curso">
+          <span class="lab-d">50%</span><span class="lab-m">50%</span>
+        </div>
+        <div style="width:25%" class="no-iniciado" data-status="no-iniciado">
+          <span class="lab-d">25%</span><span class="lab-m">25%</span>
+        </div>
+      </div>
+      <div class="pay-legend" id="distLegend">
+        <div class="pay-lgi"><span class="pay-dot" style="background:#7BB300"></span>Aprobado</div>
+        <div class="pay-lgi"><span class="pay-dot" style="background:#008A7A"></span>Presentado</div>
+        <div class="pay-lgi"><span class="pay-dot" style="background:#00A7E1"></span>En curso</div>
+        <div class="pay-lgi"><span class="pay-dot" style="background:#FF6B00"></span>No iniciado</div>
       </div>
     </div>
 
     <div class="sec t-teal">
-      <h3><span class="ico"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span class="txt">Pagos contractuales · Estado y proyección</span></h3>
-      <div style="font-size:12px;color:#6B7280;margin-bottom:8px">
+      <h3><span class="ico"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span class="txt">Estado del ciclo de cobro</span></h3>
+      <div style="font-size:12px;color:#6B7280;margin-bottom:10px">
         Vinculados a la aprobación de productos por la Unidad Ejecutora del Proyecto (UEP). Distribución total: 100%.
       </div>
-      <div class="sbar" style="height:32px">
-        <div style="width:10%;background:#059669;animation-delay:0.0s" title="P3 - 10%">10% P3</div>
-        <div style="width:20%;background:#F59E0B;animation-delay:0.1s" title="P5 - 20%">20% P5</div>
-        <div style="width:15%;background:#F59E0B;animation-delay:0.2s" title="P7 - 15%">15% P7</div>
-        <div style="width:10%;background:#F59E0B;animation-delay:0.3s" title="P8 - 10%">10% P8</div>
-        <div style="width:25%;background:#DC2626;animation-delay:0.4s" title="P10 - 25%">25% P10</div>
-        <div style="width:10%;background:#F59E0B;animation-delay:0.5s" title="P11 - 10%">10% P11</div>
-        <div style="width:10%;background:#DC2626;animation-delay:0.6s" title="P12 - 10%">10% P12</div>
+      <div class="sbar" id="sbarPagos" style="height:32px">
+        <div style="width:10%" class="pay-cobro"  title="P3 · 10%"><span class="lab-d">10% P3</span><span class="lab-m">P3</span></div>
+        <div style="width:20%" class="pay-curso"  title="P5 · 20%"><span class="lab-d">20% P5</span><span class="lab-m">P5</span></div>
+        <div style="width:15%" class="pay-curso"  title="P7 · 15%"><span class="lab-d">15% P7</span><span class="lab-m">P7</span></div>
+        <div style="width:10%" class="pay-curso"  title="P8 · 10%"><span class="lab-d">10% P8</span><span class="lab-m">P8</span></div>
+        <div style="width:25%" class="pay-ni"     title="P10 · 25%"><span class="lab-d">25% P10</span><span class="lab-m">P10</span></div>
+        <div style="width:10%" class="pay-curso"  title="P11 · 10%"><span class="lab-d">10% P11</span><span class="lab-m">P11</span></div>
+        <div style="width:10%" class="pay-ni"     title="P12 · 10%"><span class="lab-d">10% P12</span><span class="lab-m">P12</span></div>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#374151;margin-top:8px;flex-wrap:wrap;gap:8px">
-        <span><strong style="color:#059669">10%</strong> · Vinculado a productos presentados</span>
-        <span><strong style="color:#F59E0B">65%</strong> · Vinculado a productos en curso</span>
-        <span><strong style="color:#DC2626">35%</strong> · Vinculado a productos no iniciados</span>
+      <div class="pay-legend" id="payLegend">
+        <div class="pay-lgi"><span class="pay-dot pay-ni"></span>Vinculado a producto no iniciado</div>
+        <div class="pay-lgi"><span class="pay-dot pay-curso"></span>Vinculado a producto en curso</div>
+        <div class="pay-lgi"><span class="pay-dot pay-pres"></span>Vinculado a producto presentado</div>
+        <div class="pay-lgi"><span class="pay-dot pay-apr"></span>Vinculado a producto aprobado</div>
+        <div class="pay-lgi"><span class="pay-dot pay-cobro"></span>Cuenta de cobro presentada</div>
+        <div class="pay-lgi"><span class="pay-dot pay-pagado"></span>Pagado ✓</div>
+      </div>
+      <div id="payTotals" style="display:flex;justify-content:space-between;font-size:11.5px;color:#374151;margin-top:10px;flex-wrap:wrap;gap:8px;padding-top:10px;border-top:1px dashed #E5E7EB">
+        <span><strong style="color:#0078A8">55%</strong> · en producto en curso</span>
+        <span><strong style="color:#BC4F00">35%</strong> · en producto no iniciado</span>
+        <span><strong style="color:#25347A">10%</strong> · cuenta de cobro presentada</span>
       </div>
     </div>
 
@@ -1064,28 +1958,29 @@ table tr:hover td { background: #F9FAFB; }
     <div class="sec t-primary">
       <h3><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="txt">Cronograma de entregas · 320 días</span></h3>
       <div class="legend">
-        <div class="item"><span class="dot" style="background:#059669"></span>Presentado / Aprobado</div>
-        <div class="item"><span class="dot" style="background:#F59E0B"></span>En curso</div>
-        <div class="item"><span class="dot" style="background:#DC2626"></span>Pendiente</div>
+        <div class="item"><span class="dot" style="background:#7BB300"></span>Aprobado</div>
+        <div class="item"><span class="dot" style="background:#008A7A"></span>Presentado</div>
+        <div class="item"><span class="dot" style="background:#00A7E1"></span>En curso</div>
+        <div class="item"><span class="dot" style="background:#FF6B00"></span>No iniciado</div>
       </div>
 
       <div class="timeline">
-        <div class="timeline-inner">
+        <div class="timeline-inner" id="timelineInner">
           <div class="tline-base"></div>
-          <div class="tline-prog" style="width:18.75%"></div>
+          <div class="tline-prog" id="tlineProg" style="width:18.75%"></div>
 
-          <div class="tnode green" style="left:3.13%"><div class="dot"></div><div class="lab">P1</div><div class="day">10 d</div><div class="pay">0%</div></div>
-          <div class="tnode green" style="left:14.06%"><div class="dot"></div><div class="lab">P2</div><div class="day">45 d</div><div class="pay">0%</div></div>
-          <div class="tnode green" style="left:18.75%"><div class="dot"></div><div class="lab">P3</div><div class="day">60 d</div><div class="pay">10%</div></div>
-          <div class="tnode amber" style="left:26.25%"><div class="dot"></div><div class="lab">P4</div><div class="day">84 d</div><div class="pay">0%</div></div>
-          <div class="tnode amber" style="left:37.5%"><div class="dot"></div><div class="lab">P5</div><div class="day">120 d</div><div class="pay">20%</div></div>
-          <div class="tnode red" style="left:39%"><div class="dot"></div><div class="lab">P6</div><div class="day">130 d</div><div class="pay">0%</div></div>
-          <div class="tnode amber" style="left:42%"><div class="dot"></div><div class="lab">P7</div><div class="day">130 d</div><div class="pay">15%</div></div>
-          <div class="tnode amber" style="left:45%"><div class="dot"></div><div class="lab">P8</div><div class="day">140 d</div><div class="pay">10%</div></div>
-          <div class="tnode amber" style="left:48%"><div class="dot"></div><div class="lab">P9</div><div class="day">150 d</div><div class="pay">0%</div></div>
-          <div class="tnode red" style="left:57%"><div class="dot"></div><div class="lab">P10</div><div class="day">180 d</div><div class="pay">25%</div></div>
-          <div class="tnode amber" style="left:94%"><div class="dot"></div><div class="lab">P11</div><div class="day">303 d</div><div class="pay">10%</div></div>
-          <div class="tnode red" style="left:99%"><div class="dot"></div><div class="lab">P12</div><div class="day">320 d</div><div class="pay">10%</div></div>
+          <div class="tnode aprobado"    data-id="P1"  title="P1 · Plan de Trabajo · Aprobado · 10 d"                  style="left:3.13%"><div class="dot"></div><div class="lab">P1</div><div class="day">10 d</div><div class="pay">0%</div></div>
+          <div class="tnode presentado"  data-id="P2"  title="P2 · Ideas de negocios · Presentado · 45 d"              style="left:14.06%"><div class="dot"></div><div class="lab">P2</div><div class="day">45 d</div><div class="pay">0%</div></div>
+          <div class="tnode presentado"  data-id="P3"  title="P3 · Grupos de interés · Presentado · 60 d · Pago 10%"   style="left:18.75%"><div class="dot"></div><div class="lab">P3</div><div class="day">60 d</div><div class="pay">10%</div></div>
+          <div class="tnode curso"       data-id="P4"  title="P4 · 1er informe OBC · En curso · 84 d"                  style="left:26.25%"><div class="dot"></div><div class="lab">P4</div><div class="day">84 d</div><div class="pay">0%</div></div>
+          <div class="tnode curso"       data-id="P5"  title="P5 · Valorización · En curso · 120 d · Pago 20%"         style="left:37.5%"><div class="dot"></div><div class="lab">P5</div><div class="day">120 d</div><div class="pay">20%</div></div>
+          <div class="tnode no-iniciado" data-id="P6"  title="P6 · Pliegos CTV · No iniciado · 130 d"                  style="left:39%"><div class="dot"></div><div class="lab">P6</div><div class="day">130 d</div><div class="pay">0%</div></div>
+          <div class="tnode curso"       data-id="P7"  title="P7 · Diagnóstico socioeconómico · En curso · 130 d · Pago 15%" style="left:42%"><div class="dot"></div><div class="lab">P7</div><div class="day">130 d</div><div class="pay">15%</div></div>
+          <div class="tnode curso"       data-id="P8"  title="P8 · EER · En curso · 140 d · Pago 10%"                  style="left:45%"><div class="dot"></div><div class="lab">P8</div><div class="day">140 d</div><div class="pay">10%</div></div>
+          <div class="tnode curso"       data-id="P9"  title="P9 · Borrador PM · En curso · 150 d"                     style="left:48%"><div class="dot"></div><div class="lab">P9</div><div class="day">150 d</div><div class="pay">0%</div></div>
+          <div class="tnode no-iniciado" data-id="P10" title="P10 · PM final · No iniciado · 180 d · Pago 25%"         style="left:57%"><div class="dot"></div><div class="lab">P10</div><div class="day">180 d</div><div class="pay">25%</div></div>
+          <div class="tnode curso"       data-id="P11" title="P11 · PERAI · En curso · 303 d · Pago 10%"               style="left:94%"><div class="dot"></div><div class="lab">P11</div><div class="day">303 d</div><div class="pay">10%</div></div>
+          <div class="tnode no-iniciado" data-id="P12" title="P12 · Informe Final · No iniciado · 320 d · Pago 10%"    style="left:99%"><div class="dot"></div><div class="lab">P12</div><div class="day">320 d</div><div class="pay">10%</div></div>
         </div>
       </div>
     </div>
@@ -1099,24 +1994,25 @@ table tr:hover td { background: #F9FAFB; }
               <th>ID</th>
               <th>Producto</th>
               <th>Plazo</th>
+              <th>Fecha entrega</th>
               <th>Pago</th>
-              <th>Sección</th>
-              <th>Estado</th>
+              <th>Estado producto</th>
+              <th>Estado pago</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td><strong>P1</strong></td><td>Plan de Trabajo Actualizado</td><td>10 d</td><td>0%</td><td>A+B</td><td><span class="chip green">Aprobado</span></td></tr>
-            <tr><td><strong>P2</strong></td><td>Informe ideas de negocios (4 APs)</td><td>45 d</td><td>0%</td><td>A</td><td><span class="chip green">Presentado</span></td></tr>
-            <tr><td><strong>P3</strong></td><td>Informe identificación grupos de interés</td><td>60 d</td><td>10%</td><td>A</td><td><span class="chip green">Presentado</span></td></tr>
-            <tr><td><strong>P4</strong></td><td>1er informe avance conformación OBC</td><td>84 d</td><td>0%</td><td>A</td><td><span class="chip amber">Iniciado</span></td></tr>
-            <tr><td><strong>P5</strong></td><td>Valorización económica concesiones</td><td>120 d</td><td>20%</td><td>A</td><td><span class="chip amber">Iniciado</span></td></tr>
-            <tr><td><strong>P6</strong></td><td>Pliegos CTV/PRATV/CMC + Fuentes de financiamiento</td><td>130 d</td><td>0%</td><td>A</td><td><span class="chip red">No iniciado</span></td></tr>
-            <tr><td><strong>P7</strong></td><td>Diagnóstico socioeconómico y tenencia tierra</td><td>130 d</td><td>15%</td><td>B</td><td><span class="chip amber">Iniciado</span></td></tr>
-            <tr><td><strong>P8</strong></td><td>Informe Evaluación Ecológica Rápida</td><td>140 d</td><td>10%</td><td>B</td><td><span class="chip amber">Iniciado</span></td></tr>
-            <tr><td><strong>P9</strong></td><td>Borrador Plan de Manejo + Guía</td><td>150 d</td><td>0%</td><td>B</td><td><span class="chip amber">Iniciado</span></td></tr>
-            <tr><td><strong>P10</strong></td><td>PM final + Guía + Versión popular</td><td>180 d</td><td>25%</td><td>B</td><td><span class="chip red">No iniciado</span></td></tr>
-            <tr><td><strong>P11</strong></td><td>PERAI + Guía de implementación</td><td>303 d</td><td>10%</td><td>B</td><td><span class="chip amber">Iniciado</span></td></tr>
-            <tr><td><strong>P12</strong></td><td>Informe Final</td><td>320 d</td><td>10%</td><td>A+B</td><td><span class="chip red">No iniciado</span></td></tr>
+          <tbody id="cronoTbody">
+            <tr><td><strong>P1</strong></td><td>Plan de Trabajo Actualizado</td><td>10 d</td><td class="feche"></td><td>0%</td><td><span class="chip aprobado">Aprobado</span></td><td class="epago">—</td></tr>
+            <tr><td><strong>P2</strong></td><td>Informe ideas de negocios (4 APs)</td><td>45 d</td><td class="feche"></td><td>0%</td><td><span class="chip presentado">Presentado</span></td><td class="epago">—</td></tr>
+            <tr><td><strong>P3</strong></td><td>Informe identificación grupos de interés</td><td>60 d</td><td class="feche"></td><td>10%</td><td><span class="chip presentado">Presentado</span></td><td class="epago"><span class="chip pay-cobro">Cuenta de cobro presentada</span></td></tr>
+            <tr><td><strong>P4</strong></td><td>1er informe avance conformación OBC</td><td>84 d</td><td class="feche"></td><td>0%</td><td><span class="chip curso">En curso</span></td><td class="epago">—</td></tr>
+            <tr><td><strong>P5</strong></td><td>Valorización económica concesiones</td><td>120 d</td><td class="feche"></td><td>20%</td><td><span class="chip curso">En curso</span></td><td class="epago"><span class="chip pay-curso">Vinculado a producto en curso</span></td></tr>
+            <tr><td><strong>P6</strong></td><td>Pliegos CTV/PRATV/CMC + Fuentes de financiamiento</td><td>130 d</td><td class="feche"></td><td>0%</td><td><span class="chip no-iniciado">No iniciado</span></td><td class="epago">—</td></tr>
+            <tr><td><strong>P7</strong></td><td>Diagnóstico socioeconómico y tenencia tierra</td><td>130 d</td><td class="feche"></td><td>15%</td><td><span class="chip curso">En curso</span></td><td class="epago"><span class="chip pay-curso">Vinculado a producto en curso</span></td></tr>
+            <tr><td><strong>P8</strong></td><td>Informe Evaluación Ecológica Rápida</td><td>140 d</td><td class="feche"></td><td>10%</td><td><span class="chip curso">En curso</span></td><td class="epago"><span class="chip pay-curso">Vinculado a producto en curso</span></td></tr>
+            <tr><td><strong>P9</strong></td><td>Borrador Plan de Manejo + Guía</td><td>150 d</td><td class="feche"></td><td>0%</td><td><span class="chip curso">En curso</span></td><td class="epago">—</td></tr>
+            <tr><td><strong>P10</strong></td><td>PM final + Guía + Versión popular</td><td>180 d</td><td class="feche"></td><td>25%</td><td><span class="chip no-iniciado">No iniciado</span></td><td class="epago"><span class="chip pay-ni">Vinculado a producto no iniciado</span></td></tr>
+            <tr><td><strong>P11</strong></td><td>PERAI + Guía de implementación</td><td>303 d</td><td class="feche"></td><td>10%</td><td><span class="chip curso">En curso</span></td><td class="epago"><span class="chip pay-curso">Vinculado a producto en curso</span></td></tr>
+            <tr><td><strong>P12</strong></td><td>Informe Final</td><td>320 d</td><td class="feche"></td><td>10%</td><td><span class="chip no-iniciado">No iniciado</span></td><td class="epago"><span class="chip pay-ni">Vinculado a producto no iniciado</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -1293,12 +2189,12 @@ table tr:hover td { background: #F9FAFB; }
       </div>
 
       <!-- P1 -->
-      <div class="acc green">
+      <div class="acc aprobado">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P1</span>
             <span class="ptit">Plan de Trabajo Actualizado</span>
-            <span class="chip green">Aprobado</span>
+            <span class="chip aprobado">Aprobado</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1312,16 +2208,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Actualización del plan de trabajo post-orden de proceder con cronograma detallado, presupuesto por actividad, metodologías participativas y protocolos para reuniones virtuales/presenciales. Aprobación ante UEP y DAPB. Co-responsable: B (Social). Apoyo: C (SIG).
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P2 -->
-      <div class="acc green">
+      <div class="acc presentado">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P2</span>
             <span class="ptit">Informe ideas de negocios (4 APs)</span>
-            <span class="chip green">Presentado</span>
+            <span class="chip presentado">Presentado</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1335,16 +2232,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Revisión de herramientas de gestión en Coiba, Volcán Barú, Portobelo y San Lorenzo. Reconocimientos de campo, actualización de ideas en los Planes de Uso Público, identificación de nuevos atractivos ecoturísticos, priorización de ideas factibles por AP. 20 ideas priorizadas en total. Co-responsables: A · G. Apoyo: F.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P3 -->
-      <div class="acc green">
+      <div class="acc presentado">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P3</span>
             <span class="ptit">Identificación grupos de interés</span>
-            <span class="chip green">Presentado</span>
+            <span class="chip presentado">Presentado</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1358,16 +2256,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Definición de criterios mínimos para concesionarios, OBC, ONG y fundaciones. Identificación de beneficiarios por AP (concesiones / CMC / PRATV). Reuniones y talleres con grupos. Base de datos digital. Identificación de grupos que requieren formalización. Co-responsable: H. Apoyo: A · I.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P4 -->
-      <div class="acc amber">
+      <div class="acc curso">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P4</span>
             <span class="ptit">1er informe avance conformación OBC</span>
-            <span class="chip amber">Iniciado</span>
+            <span class="chip curso">En curso</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1381,16 +2280,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Asesoría en elaboración de estatutos, trámites de personería jurídica, registro público. Coordinación con Dirección de Cultura Ambiental MiAMBIENTE. Base de datos de grupos que requieren apoyo. Plan de Acción por OBC. Marco normativo aplicable: Decreto Ejecutivo 32/2017 (Formalización OBCs). Apoyo: A · H.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P5 -->
-      <div class="acc amber">
+      <div class="acc curso">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P5</span>
             <span class="ptit">Valorización económica de concesiones</span>
-            <span class="chip amber">Iniciado</span>
+            <span class="chip curso">En curso</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1404,16 +2304,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Coordinación con UEP, DAPB, DIPA. Reuniones con Ministerio de Economía y Finanzas (MEF) y Contraloría General. Valorización económica de concesiones/PRATV prioritarios según norma vigente. Marco: Resolución AG-0189-2008 (cobro por uso de servicios ambientales SINAP). Co-responsable: A. Apoyo: I · G.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P6 -->
-      <div class="acc red">
+      <div class="acc no-iniciado">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P6</span>
             <span class="ptit">Pliegos CTV/PRATV/CMC + Fuentes financ.</span>
-            <span class="chip red">No iniciado</span>
+            <span class="chip no-iniciado">No iniciado</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1433,16 +2334,17 @@ table tr:hover td { background: #F9FAFB; }
             <strong>6.5 Capacitaciones</strong> — Líder A. Módulos para personal MiAMBIENTE sobre CTV/PRATV/CMC.<br>
             Marcos: Decretos Ejecutivos 32/2017, 34/2017, 59/2016, Resolución DM-04042017.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P7 -->
-      <div class="acc amber">
+      <div class="acc curso">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P7</span>
             <span class="ptit">Diagnóstico socioeconómico y tenencia tierra</span>
-            <span class="chip amber">Iniciado</span>
+            <span class="chip curso">En curso</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1456,16 +2358,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Trabajo de campo con muestra representativa (Ladino/indígena). Caracterización de población dentro del AP y zona de influencia. Evaluación de presión sobre ecosistemas (a triangular con EER P8). Patrones de desplazamiento, cambios de uso de suelo, tenencia de tierra. Mapeo de actores. 2 talleres de presentación de resultados. Recorridos con guardaparques. Co-responsables: A · C. Apoyo: I · F.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P8 -->
-      <div class="acc amber">
+      <div class="acc curso">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P8</span>
             <span class="ptit">Evaluación Ecológica Rápida (EER)</span>
-            <span class="chip amber">Iniciado</span>
+            <span class="chip curso">En curso</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1479,16 +2382,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Levantamiento de fauna terrestre (mamíferos, aves, reptiles, anfibios) y flora (familias, géneros, especies) en BPPP-SL. Estado de conservación nacional, CITES, IUCN. Capítulo transversal de interacción flora-fauna y efectos antropogénicos. Recomendaciones para Plan de Manejo y PERAI. Aprobación DEVPOLES. Co-responsables: E (Botánica) · C (SIG). Apoyo: A.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P9 -->
-      <div class="acc amber">
+      <div class="acc curso">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P9</span>
             <span class="ptit">Borrador Plan de Manejo + Guía implementación</span>
-            <span class="chip amber">Iniciado</span>
+            <span class="chip curso">En curso</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1502,16 +2406,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Integra diagnósticos P7 y P8. Visión, misión, objetivos de manejo. Zonificación según TdR. Programas y subprogramas. Objetos de conservación y protocolos de monitoreo. Modelo de gobernanza con actores clave. Plan a 10 años + plan operativo anual. Estrategia de ejecución para los primeros 3 años. Borrador de Guía Metodológica. Co-responsables: C · A. Apoyo: F · I · B · D · E.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P10 -->
-      <div class="acc red">
+      <div class="acc no-iniciado">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P10</span>
             <span class="ptit">PM final + Guía + Versión popular</span>
-            <span class="chip red">No iniciado</span>
+            <span class="chip no-iniciado">No iniciado</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1525,16 +2430,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Versión final del PM incorporando comentarios de los Talleres N°1, N°2, N°3. Aplicación de Directrices Técnicas Valarezo-Gómez (2000) y Resolución AG-0170-2006. Finalización de Guía Metodológica de Implementación. Versión Popular con lenguaje accesible. Entrega: 10 impresos + 20 USB del PM, 50 impresos + 6 USB de la Versión Popular. Producto de mayor pago (25%). Co-responsables: B · C · A. Apoyo: D · E · F · DP.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P11 -->
-      <div class="acc amber">
+      <div class="acc curso">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P11</span>
             <span class="ptit">PERAI · Recuperación áreas invadidas</span>
-            <span class="chip amber">Iniciado</span>
+            <span class="chip curso">En curso</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1548,16 +2454,17 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Plan Estratégico de Recuperación de Áreas Invadidas. Necesidades identificadas en talleres, propuestas de atención, plan de ordenamiento de actividades dentro del BPPP-SL. Listados: actores clave, organizaciones activas, personas interesadas en capacitación o conformar grupos. Sitios de interés turístico comunitarios. Perfiles de proyectos. Medidas de mitigación. Guía de implementación con cronograma, indicadores, costos. Co-responsables: B · I. Apoyo: C · D · E · F · A.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
       <!-- P12 -->
-      <div class="acc red">
+      <div class="acc no-iniciado">
         <div class="acc-hdr" onclick="this.parentElement.classList.toggle('open')">
           <div class="left">
             <span class="pidh">P12</span>
             <span class="ptit">Informe Final de Consultoría</span>
-            <span class="chip red">No iniciado</span>
+            <span class="chip no-iniciado">No iniciado</span>
           </div>
           <span class="arr">▶</span>
         </div>
@@ -1571,6 +2478,7 @@ table tr:hover td { background: #F9FAFB; }
           <div style="font-size:13px;color:#374151;line-height:1.55">
             Resumen de todas las actividades realizadas. Lecciones aprendidas, mejores prácticas, recomendaciones para MiAMBIENTE. Archivo digital de fotografías de alta calidad (5+ megapixeles). Memoria fotográfica completa. Cierre del contrato. Co-responsable: B. Apoyo: F · G · H · I.
           </div>
+          <div class="acc-notes" style="display:none"><span class="acc-notes-lbl">Última nota:</span> <span class="acc-notes-val"></span></div>
         </div></div>
       </div>
 
@@ -1646,12 +2554,14 @@ table tr:hover td { background: #F9FAFB; }
 
   <!-- ====== FOOTER ====== -->
   <div class="foot">
-    <div class="foot-brand-block">
-      <div class="foot-brand">
-        <span class="foot-dp">DEVPOLES</span>
-        <span class="foot-claim">Leading results</span>
+    <div class="foot-row">
+      <div class="foot-brand-block">
+        <div class="foot-brand">
+          <span class="foot-dp">DEVPOLES</span>
+          <span class="foot-claim">Leading results</span>
+        </div>
+        <div class="foot-url">developmentpoles.com</div>
       </div>
-      <div class="foot-url">developmentpoles.com</div>
     </div>
     <div class="foot-client">MiAMBIENTE Panamá · Programa PANAPROT · Plan de Manejo BPPP-SL y Planes de Concesiones · Mayo 2026</div>
     <div class="src">
@@ -1659,10 +2569,115 @@ table tr:hover td { background: #F9FAFB; }
     </div>
   </div>
 
+  <!-- ====== PANEL LATERAL OCULTO (se abre desde botón "Fuente de datos") ====== -->
+  <div class="lgnd" id="lgnd">
+    <button class="lgnd-close" onclick="toggleSourcePanel()" aria-label="Cerrar panel" title="Cerrar">×</button>
+    <div class="lgnd-body">
+      <div class="lgnd-title">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+        Sistema de datos
+      </div>
+      <div class="lgnd-intro">
+        Conecta el cuadro de mando a tu hoja de cálculo en Google Drive. Los datos hardcoded del dashboard sirven como <strong>fallback</strong> si la conexión falla.
+      </div>
+
+      <!-- Sección: Google Sheets (primario) -->
+      <div class="lgnd-sec">
+        <div class="lgnd-st">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+          Google Sheets
+          <span class="lgnd-tag">primario</span>
+        </div>
+        <div class="lgnd-msg">URL publicada del Google Sheet (formato CSV)</div>
+        <input class="lgnd-input" id="gdriveUrl" type="text" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" autocomplete="off" />
+        <details class="lgnd-help">
+          <summary>¿Cómo obtengo esta URL?</summary>
+          <ol>
+            <li>Abre tu Google Sheet con los datos del proyecto</li>
+            <li>Menú <strong>Archivo → Compartir → Publicar en la web</strong></li>
+            <li>Selecciona la hoja específica</li>
+            <li>Formato: <strong>Valores separados por comas (.csv)</strong></li>
+            <li>Click en <strong>Publicar</strong> y copia el enlace</li>
+          </ol>
+          <div class="warn">⚠ Solo "compartir con enlace" no funciona. La hoja debe estar publicada al web.</div>
+        </details>
+      </div>
+
+      <!-- Sección: OneDrive (fallback) -->
+      <div class="lgnd-sec">
+        <div class="lgnd-st">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          OneDrive / Excel
+          <span class="lgnd-tag fallback">fallback</span>
+        </div>
+        <div class="lgnd-msg">Link compartido del Excel en OneDrive (redundancia)</div>
+        <input class="lgnd-input" id="onedriveUrl" type="text" placeholder="https://1drv.ms/x/s!..." autocomplete="off" />
+      </div>
+
+      <!-- Botón Conectar + Status -->
+      <div class="lgnd-sec">
+        <button class="lgnd-load" onclick="connectSource()">Conectar fuente</button>
+        <button class="lgnd-load secondary" onclick="disconnectSource()">Desconectar</button>
+        <div class="lgnd-status" id="lgndStatus"></div>
+      </div>
+
+      <!-- Sección: Archivo local -->
+      <div class="lgnd-sec">
+        <div class="lgnd-st">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Archivo local
+          <span class="lgnd-tag fallback">manual</span>
+        </div>
+        <div class="lgnd-msg">Carga un CSV desde tu equipo (se procesa solo en el navegador)</div>
+        <input class="lgnd-input" id="csvFile" type="file" accept=".csv,text/csv" style="font-family:inherit;padding:6px" />
+        <button class="lgnd-load" onclick="loadLocalFile()">Cargar archivo</button>
+      </div>
+
+      <!-- Sección: Links a la data -->
+      <div class="lgnd-sec">
+        <div class="lgnd-st">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Links a la data
+        </div>
+        <div class="lgnd-quick">
+          <a href="#" id="lnkSheet" target="_blank" rel="noopener" onclick="return openCurrentSheet(event)">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+            Abrir Google Sheet conectado
+          </a>
+          <a href="#" id="lnkDownload" onclick="return downloadCurrentCSV(event)">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Descargar CSV actual
+          </a>
+        </div>
+      </div>
+
+      <!-- Sección: Formato esperado -->
+      <div class="lgnd-sec">
+        <div class="lgnd-st">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Formato esperado
+        </div>
+        <details class="lgnd-help">
+          <summary>Ver columnas y estados</summary>
+          <p style="margin:6px 0">Columnas (orden libre):</p>
+          <p style="margin:3px 0"><code>ID</code> · <code>Producto</code> · <code>Estado</code> · <code>Plazo</code> · <code>Pago</code> · <code>Seccion</code></p>
+          <p style="margin:8px 0 3px"><strong>Estados válidos:</strong></p>
+          <p style="margin:0;line-height:1.7">
+            <code>Aprobado</code> · <code>Presentado</code><br>
+            <code>En curso</code> / <code>Iniciado</code><br>
+            <code>No iniciado</code> / <code>Pendiente</code>
+          </p>
+        </details>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /page -->
 
 <script>
-// Tabs - usa closest para que clicks en SVG y span hijos funcionen
+// =====================================================
+// TABS
+// =====================================================
 document.getElementById("tabs").addEventListener("click", e => {
   const btn = e.target.closest("button");
   if (!btn) return;
@@ -1671,7 +2686,6 @@ document.getElementById("tabs").addEventListener("click", e => {
   btn.classList.add("on");
   const panel = document.getElementById("p-" + btn.dataset.t);
   panel.classList.add("on");
-  // re-trigger animaciones al cambiar de panel
   panel.querySelectorAll('.sec').forEach(el => {
     el.style.animation = 'none';
     el.offsetHeight;
@@ -1679,7 +2693,9 @@ document.getElementById("tabs").addEventListener("click", e => {
   });
 });
 
-// Scroll reveal - solo para pcards (acordeones siempre visibles)
+// =====================================================
+// SCROLL REVEAL para pcards
+// =====================================================
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -1695,6 +2711,713 @@ document.querySelectorAll('.pcard').forEach(el => {
   el.style.transform = 'translateY(12px)';
   el.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
   io.observe(el);
+});
+
+// =====================================================
+// SISTEMA DE SINCRONIZACIÓN GOOGLE DRIVE / CSV
+// Panel lateral oculto + botón refresh en header
+// =====================================================
+const SYNC_GDRIVE_KEY   = 'panaprot_gdrive_url';
+const SYNC_ONEDRIVE_KEY = 'panaprot_onedrive_url';
+const SYNC_LAST_KEY     = 'panaprot_sync_last';
+const SYNC_SOURCE_KEY   = 'panaprot_sync_source'; // 'gdrive' | 'onedrive' | 'file' | null
+
+let lastLoadedCSV = null; // para download
+
+// ============== Panel lateral (.lgnd) toggle ==============
+const lgnd = document.getElementById('lgnd');
+const sourceBtn = document.getElementById('sourceBtn');
+
+function toggleSourcePanel() {
+  const isOpen = lgnd.classList.toggle('open');
+  sourceBtn.classList.toggle('active', isOpen);
+}
+
+// Click fuera para cerrar (excepto en los botones del header)
+document.addEventListener('click', e => {
+  if (!lgnd.classList.contains('open')) return;
+  const clickInside = lgnd.contains(e.target);
+  const clickOnSourceBtn = e.target.closest('#sourceBtn');
+  const clickOnRefresh = e.target.closest('#refreshBtn');
+  if (!clickInside && !clickOnSourceBtn && !clickOnRefresh) {
+    lgnd.classList.remove('open');
+    sourceBtn.classList.remove('active');
+  }
+});
+
+// ESC para cerrar
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && lgnd.classList.contains('open')) {
+    lgnd.classList.remove('open');
+    sourceBtn.classList.remove('active');
+  }
+});
+
+// ============== Botón "Actualizar" del header ==============
+async function refreshData() {
+  const savedGD = localStorage.getItem(SYNC_GDRIVE_KEY);
+  const savedOD = localStorage.getItem(SYNC_ONEDRIVE_KEY);
+  if (!savedGD && !savedOD) {
+    // No hay fuente conectada: abrir panel para que el usuario configure
+    if (!lgnd.classList.contains('open')) toggleSourcePanel();
+    setLgndStatus('error', 'No hay fuente conectada. Configura Google Sheets o OneDrive abajo.');
+    return;
+  }
+  setRefreshSpinning(true);
+  updateRefreshStatus('syncing');
+  try {
+    const url = savedGD || savedOD;
+    const csv = await fetchCSV(url);
+    const rows = parseCSV(csv);
+    if (rows.length === 0) throw new Error('CSV vacío');
+    applyData(rows);
+    lastLoadedCSV = csv;
+    const now = new Date();
+    localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
+    updateRefreshStatus('synced', now);
+  } catch (err) {
+    updateRefreshStatus('error', err.message);
+    console.warn('refresh error:', err);
+  } finally {
+    setRefreshSpinning(false);
+  }
+}
+
+// ============== Conectar fuente (desde panel lateral) ==============
+async function connectSource() {
+  const gdUrl = document.getElementById('gdriveUrl').value.trim();
+  const odUrl = document.getElementById('onedriveUrl').value.trim();
+  if (!gdUrl && !odUrl) {
+    setLgndStatus('error', 'Introduce al menos una URL (Google Sheets o OneDrive).');
+    return;
+  }
+  if (gdUrl && !/^https?:\/\//.test(gdUrl)) {
+    setLgndStatus('error', 'La URL de Google Sheets debe empezar con https://');
+    return;
+  }
+  if (odUrl && !/^https?:\/\//.test(odUrl)) {
+    setLgndStatus('error', 'La URL de OneDrive debe empezar con https://');
+    return;
+  }
+  setLgndStatus('loading', 'Conectando...');
+  setRefreshSpinning(true);
+  updateRefreshStatus('syncing');
+
+  let connected = false;
+  let lastErr = null;
+
+  // Intentar primero Google Sheets (primario)
+  if (gdUrl) {
+    try {
+      const csv = await fetchCSV(gdUrl);
+      const rows = parseCSV(csv);
+      if (rows.length > 0) {
+        applyData(rows);
+        lastLoadedCSV = csv;
+        localStorage.setItem(SYNC_GDRIVE_KEY, gdUrl);
+        localStorage.setItem(SYNC_SOURCE_KEY, 'gdrive');
+        const now = new Date();
+        localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
+        setLgndStatus('success', `✓ Conectado a Google Sheets · ${rows.length} productos actualizados`);
+        updateRefreshStatus('synced', now, 'Google Sheets');
+        connected = true;
+      }
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+
+  // Fallback: OneDrive si Google falló
+  if (!connected && odUrl) {
+    try {
+      setLgndStatus('loading', 'Probando OneDrive (fallback)...');
+      const csv = await fetchCSV(odUrl);
+      const rows = parseCSV(csv);
+      if (rows.length > 0) {
+        applyData(rows);
+        lastLoadedCSV = csv;
+        localStorage.setItem(SYNC_ONEDRIVE_KEY, odUrl);
+        localStorage.setItem(SYNC_SOURCE_KEY, 'onedrive');
+        const now = new Date();
+        localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
+        setLgndStatus('success', `✓ Conectado a OneDrive (fallback) · ${rows.length} productos actualizados`);
+        updateRefreshStatus('synced', now, 'OneDrive (fallback)');
+        connected = true;
+      }
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+
+  // Guardar URLs aunque alguna falle (para retry futuro)
+  if (gdUrl) localStorage.setItem(SYNC_GDRIVE_KEY, gdUrl);
+  if (odUrl) localStorage.setItem(SYNC_ONEDRIVE_KEY, odUrl);
+
+  if (!connected) {
+    setLgndStatus('error', '✗ No se pudo conectar a ninguna fuente. ' + (lastErr?.message || '') + ' Mostrando datos locales como fallback.');
+    updateRefreshStatus('error', lastErr?.message);
+  }
+  setRefreshSpinning(false);
+}
+
+// ============== Cargar archivo local ==============
+async function loadLocalFile() {
+  const file = document.getElementById('csvFile').files[0];
+  if (!file) {
+    setLgndStatus('error', 'Selecciona un archivo CSV primero.');
+    return;
+  }
+  setLgndStatus('loading', 'Procesando archivo...');
+  try {
+    const text = await file.text();
+    const rows = parseCSV(text);
+    if (rows.length === 0) throw new Error('El archivo no contiene filas de datos');
+    applyData(rows);
+    lastLoadedCSV = text;
+    localStorage.setItem(SYNC_SOURCE_KEY, 'file');
+    const now = new Date();
+    setLgndStatus('success', `✓ Cargado: ${rows.length} productos desde "${file.name}"`);
+    updateRefreshStatus('synced', now, 'archivo local');
+  } catch (err) {
+    setLgndStatus('error', '✗ ' + err.message);
+  }
+}
+
+// ============== Desconectar ==============
+function disconnectSource() {
+  const hasAny = localStorage.getItem(SYNC_GDRIVE_KEY) || localStorage.getItem(SYNC_ONEDRIVE_KEY);
+  if (!hasAny) {
+    setLgndStatus('error', 'No hay conexión activa para desconectar.');
+    return;
+  }
+  if (!confirm('¿Desconectar fuentes de datos? Se mostrarán los datos hardcoded por defecto al recargar la página.')) return;
+  localStorage.removeItem(SYNC_GDRIVE_KEY);
+  localStorage.removeItem(SYNC_ONEDRIVE_KEY);
+  localStorage.removeItem(SYNC_SOURCE_KEY);
+  localStorage.removeItem(SYNC_LAST_KEY);
+  document.getElementById('gdriveUrl').value = '';
+  document.getElementById('onedriveUrl').value = '';
+  setLgndStatus('success', '✓ Desconectado. Recarga la página para volver a los datos locales.');
+  updateRefreshStatus('local');
+}
+
+// ============== Links rápidos a la data ==============
+function openCurrentSheet(e) {
+  e.preventDefault();
+  const url = localStorage.getItem(SYNC_GDRIVE_KEY) || localStorage.getItem(SYNC_ONEDRIVE_KEY);
+  if (!url) {
+    setLgndStatus('error', 'No hay fuente conectada. Configura una arriba.');
+    return false;
+  }
+  // Convertir URL CSV publicada a URL editable si es Google Sheets
+  let openUrl = url;
+  if (url.includes('docs.google.com/spreadsheets') && url.includes('/pub')) {
+    const match = url.match(/spreadsheets\/d\/e\/([^/]+)/);
+    if (match) openUrl = `https://docs.google.com/spreadsheets/d/e/${match[1]}/pubhtml`;
+  }
+  window.open(openUrl, '_blank', 'noopener');
+  return false;
+}
+function downloadCurrentCSV(e) {
+  e.preventDefault();
+  if (!lastLoadedCSV) {
+    setLgndStatus('error', 'No hay datos sincronizados aún. Sincroniza primero.');
+    return false;
+  }
+  const blob = new Blob(['\uFEFF' + lastLoadedCSV], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `PANAPROT_BPPP-SL_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  return false;
+}
+
+// ============== Fetch CSV con manejo de errores ==============
+async function fetchCSV(url) {
+  const res = await fetch(url, { mode: 'cors', cache: 'no-store' });
+  if (!res.ok) throw new Error('HTTP ' + res.status + ' - verifica que la URL esté publicada al web');
+  const text = await res.text();
+  if (!text || text.length < 10) throw new Error('Respuesta vacía');
+  return text;
+}
+
+// ============== CSV Parser ==============
+function parseCSV(text) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+  if (lines.length < 2) return [];
+  const headers = parseCSVLine(lines[0]).map(h => normKey(h));
+  return lines.slice(1).map(line => {
+    const vals = parseCSVLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
+    return obj;
+  });
+}
+function parseCSVLine(line) {
+  const out = []; let cur = ''; let inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') {
+      if (inQ && line[i+1] === '"') { cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if (c === ',' && !inQ) { out.push(cur); cur = ''; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out;
+}
+function normKey(s) {
+  return (s || '').toString().trim().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]/g, '');
+}
+
+// ============== Aplicar datos al DOM ==============
+const STATUS_CLASS = {
+  'aprobado':    'aprobado',
+  'presentado':  'presentado',
+  'encurso':     'curso',
+  'iniciado':    'curso',
+  'enprogreso':  'curso',
+  'progreso':    'curso',
+  'noiniciado':  'no-iniciado',
+  'pendiente':   'no-iniciado',
+};
+const STATUS_LABEL = {
+  'aprobado':     'Aprobado',
+  'presentado':   'Presentado',
+  'curso':        'En curso',
+  'no-iniciado':  'No iniciado'
+};
+
+// Estados de pago (5): mapeo desde texto normalizado a clase CSS + label
+const PAY_CLASS = {
+  'vinculadoaproductonoiniciado':  'pay-ni',
+  'vinculadoaproductosnoiniciados':'pay-ni',
+  'vinculadoaproductopresentado':  'pay-pres',
+  'vinculadoaproductospresentados':'pay-pres',
+  'vinculadoaproductoencurso':     'pay-curso',
+  'vinculadoaproductosencurso':    'pay-curso',
+  'vinculadoaproductoaprobado':    'pay-apr',
+  'vinculadoaproductosaprobados':  'pay-apr',
+  'cuentadecobropresentada':       'pay-cobro',
+  'cobropresentado':               'pay-cobro',
+  'pagado':                        'pay-pagado',
+};
+const PAY_LABEL = {
+  'pay-ni':     'Vinculado a producto no iniciado',
+  'pay-pres':   'Vinculado a producto presentado',
+  'pay-curso':  'Vinculado a producto en curso',
+  'pay-apr':    'Vinculado a producto aprobado',
+  'pay-cobro':  'Cuenta de cobro presentada',
+  'pay-pagado': 'Pagado',
+};
+const PAY_SHORT = {
+  'pay-ni':     'no iniciado',
+  'pay-pres':   'presentado',
+  'pay-curso':  'en curso',
+  'pay-apr':    'aprobado',
+  'pay-cobro':  'cobro presentado',
+  'pay-pagado': 'pagado',
+};
+const PAY_ORDER = ['pay-apr','pay-pres','pay-curso','pay-ni','pay-cobro','pay-pagado'];
+const PAY_HEX = {
+  'pay-ni':     '#BC4F00',
+  'pay-pres':   '#006B5E',
+  'pay-curso':  '#0078A8',
+  'pay-apr':    '#5E8700',
+  'pay-cobro':  '#25347A',
+  'pay-pagado': '#3D5A00',
+};
+
+function normStatus(s) {
+  const key = normKey(s);
+  return STATUS_CLASS[key] || 'no-iniciado';
+}
+
+function normPayStatus(s, productStatus) {
+  if (!s || !s.trim()) {
+    // Sin estado de pago explícito: derivar del estado del producto
+    if (productStatus === 'aprobado')   return 'pay-apr';
+    if (productStatus === 'presentado') return 'pay-pres';
+    if (productStatus === 'curso')      return 'pay-curso';
+    return 'pay-ni';
+  }
+  const key = normKey(s);
+  return PAY_CLASS[key] || 'pay-ni';
+}
+
+// Fecha de kickoff del contrato (leída de _Config o default)
+let CONTRACT_START = new Date(2026, 0, 15); // 2026-01-15
+const MONTHS_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+function fmtDate(d) {
+  return `${d.getDate()} ${MONTHS_ES[d.getMonth()]} ${d.getFullYear().toString().slice(-2)}`;
+}
+function addDays(base, days) {
+  const d = new Date(base);
+  d.setDate(d.getDate() + Number(days || 0));
+  return d;
+}
+function parseNumeric(v) {
+  if (v === null || v === undefined || v === '') return null;
+  const n = parseFloat(String(v).replace(/[^\d.-]/g, ''));
+  return isNaN(n) ? null : n;
+}
+
+function applyData(rows) {
+  let count = 0;
+
+  // ========== A. STOP-GO BAR (Vista General) ==========
+  const segs = document.querySelectorAll('.stopgo .seg');
+  segs.forEach((seg, i) => {
+    const row = findRowById(rows, seg.dataset.id || ('P' + (i+1)));
+    if (!row) return;
+    const status = normStatus(row.estado);
+    seg.className = 'seg ' + status;
+    const stEl = seg.querySelector('.st');
+    if (stEl) stEl.textContent = STATUS_LABEL[status];
+    // Actualizar tooltip: ID · Producto · Estado
+    const prodName = (row.producto || seg.dataset.name || '').toString().trim();
+    seg.title = `${seg.dataset.id}${prodName ? ' · ' + prodName : ''} · ${STATUS_LABEL[status]}`;
+    count++;
+  });
+
+  // ========== B. KPIs (Header) ==========
+  // Presentados incluye los Aprobados (subconjunto)
+  const counts = { aprobado: 0, presentado: 0, curso: 0, 'no-iniciado': 0 };
+  rows.forEach(r => { counts[normStatus(r.estado)]++; });
+  const total = counts.aprobado + counts.presentado + counts.curso + counts['no-iniciado'];
+  setKpi('kpi-total', total);
+  setKpi('kpi-presentados', counts.aprobado + counts.presentado);
+  setKpi('kpi-aprobados', counts.aprobado);
+  setKpi('kpi-curso', counts.curso);
+  setKpi('kpi-no-iniciados', counts['no-iniciado']);
+
+  // ========== C. DISTRIBUCIÓN DE ESTADOS (Vista General) ==========
+  const distBar = document.getElementById('sbarDist');
+  if (distBar && total > 0) {
+    const pct = k => Math.round((counts[k] / total) * 100 * 10) / 10; // 1 decimal
+    const distData = [
+      { status: 'aprobado',    p: pct('aprobado') },
+      { status: 'presentado',  p: pct('presentado') },
+      { status: 'curso',       p: pct('curso') },
+      { status: 'no-iniciado', p: pct('no-iniciado') },
+    ].filter(d => d.p > 0);
+    distBar.innerHTML = distData.map((d, i) =>
+      `<div style="width:${d.p}%;animation-delay:${(i*0.1).toFixed(2)}s" class="${d.status}" data-status="${d.status}"><span class="lab-d">${d.p}%</span><span class="lab-m">${Math.round(d.p)}%</span></div>`
+    ).join('');
+  }
+
+  // ========== D. TIMELINE (Cronograma) ==========
+  document.querySelectorAll('.tnode').forEach(node => {
+    const id = node.dataset.id;
+    const row = findRowById(rows, id);
+    if (!row) return;
+    const status = normStatus(row.estado);
+    const plazoActual = parseNumeric(row.plazoactual ?? row.plazo);
+    const pagoPct = parseNumeric(row.pago ?? row.pagopct ?? row.pagoporcentaje);
+
+    // Actualizar clase para color del nodo
+    node.className = 'tnode ' + status;
+
+    // Actualizar plazo y pago
+    const dayEl = node.querySelector('.day');
+    if (dayEl && plazoActual != null) dayEl.textContent = plazoActual + ' d';
+    const payEl = node.querySelector('.pay');
+    if (payEl && pagoPct != null) payEl.textContent = pagoPct + '%';
+
+    // Reposicionar horizontalmente según plazo (100% = 320 días contractuales)
+    if (plazoActual != null) {
+      const pos = Math.min(99, Math.max(1, (plazoActual / 320) * 100));
+      node.style.left = pos + '%';
+    }
+
+    // Tooltip actualizado
+    const prodName = (row.producto || '').toString().trim();
+    let tooltip = `${id}${prodName ? ' · ' + prodName : ''} · ${STATUS_LABEL[status]}`;
+    if (plazoActual != null) tooltip += ` · ${plazoActual} d`;
+    if (pagoPct != null && pagoPct > 0) tooltip += ` · Pago ${pagoPct}%`;
+    node.title = tooltip;
+  });
+  // Barra de progreso del timeline: hasta el último producto aprobado o presentado
+  const tlineProg = document.getElementById('tlineProg');
+  if (tlineProg) {
+    const advancedRows = rows.filter(r => {
+      const st = normStatus(r.estado);
+      return st === 'aprobado' || st === 'presentado';
+    });
+    if (advancedRows.length > 0) {
+      const maxPlazo = Math.max(...advancedRows.map(r => parseNumeric(r.plazoactual ?? r.plazo) || 0));
+      tlineProg.style.width = Math.min(100, (maxPlazo / 320) * 100) + '%';
+    } else {
+      tlineProg.style.width = '0%';
+    }
+  }
+
+  // ========== E. TABLA CRONOGRAMA (Detalle por plazo y pago) ==========
+  document.querySelectorAll('#cronoTbody tr').forEach(tr => {
+    const id = tr.querySelector('td:first-child')?.textContent.trim();
+    const row = findRowById(rows, id);
+    if (!row) return;
+    const status = normStatus(row.estado);
+    const plazoActual = parseNumeric(row.plazoactual ?? row.plazo);
+    const plazoTdR    = parseNumeric(row.plazotdr ?? row.plazo);
+    const pagoPct     = parseNumeric(row.pago ?? row.pagopct ?? row.pagoporcentaje);
+
+    // Plazo column (con delta si aplica)
+    const tdPlazo = tr.children[2];
+    if (tdPlazo && plazoActual != null) {
+      let html = `${plazoActual} d`;
+      if (plazoTdR != null && plazoTdR !== plazoActual) {
+        const delta = plazoActual - plazoTdR;
+        const cls = delta > 0 ? 'positive' : 'negative';
+        const sign = delta > 0 ? '+' : '';
+        html += `<span class="plazo-delta ${cls}">${sign}${delta}d vs TdR</span>`;
+      }
+      tdPlazo.innerHTML = html;
+    }
+
+    // Fecha entrega (calculada)
+    const tdFecha = tr.querySelector('.feche');
+    if (tdFecha && plazoActual != null) {
+      const fecha = addDays(CONTRACT_START, plazoActual);
+      tdFecha.textContent = fmtDate(fecha);
+    }
+
+    // Pago column
+    const tdPago = tr.children[4];
+    if (tdPago && pagoPct != null) tdPago.textContent = pagoPct + '%';
+
+    // Estado producto
+    const chipProd = tr.querySelector('.chip:not(.pay-ni):not(.pay-pres):not(.pay-curso):not(.pay-apr):not(.pay-cobro):not(.pay-pagado)');
+    if (chipProd) {
+      chipProd.className = 'chip ' + status;
+      chipProd.textContent = STATUS_LABEL[status];
+    }
+
+    // Estado pago
+    const tdEpago = tr.querySelector('.epago');
+    if (tdEpago) {
+      if (pagoPct === 0 || pagoPct == null) {
+        tdEpago.innerHTML = '<span style="color:#9CA3AF">—</span>';
+      } else {
+        const payCls = normPayStatus(row.estadopago ?? row.estadodepago ?? '', status);
+        tdEpago.innerHTML = `<span class="chip ${payCls}">${PAY_LABEL[payCls]}</span>`;
+      }
+    }
+  });
+
+  // ========== F. BARRA DE PAGOS (Vista General) ==========
+  rebuildPaymentBar(rows);
+
+  // ========== G. ACORDEONES DETALLE POR PRODUCTO ==========
+  document.querySelectorAll('#p-detalle .acc').forEach(acc => {
+    const id = acc.querySelector('.pidh')?.textContent.trim();
+    const row = findRowById(rows, id);
+    if (!row) return;
+    const status = normStatus(row.estado);
+    const plazoActual = parseNumeric(row.plazoactual ?? row.plazo);
+    const plazoTdR    = parseNumeric(row.plazotdr ?? row.plazo);
+    const pagoPct     = parseNumeric(row.pago ?? row.pagopct ?? row.pagoporcentaje);
+    const notas       = (row.notasavance ?? row.notas ?? '').toString().trim();
+
+    // Clase del acordeón (color de borde) + chip estado
+    acc.className = 'acc ' + status + (acc.classList.contains('open') ? ' open' : '');
+    const chip = acc.querySelector('.acc-hdr .chip');
+    if (chip) {
+      chip.className = 'chip ' + status;
+      chip.textContent = STATUS_LABEL[status];
+    }
+
+    // Plazo y Pago dentro del meta box
+    acc.querySelectorAll('.acc-meta .m').forEach(m => {
+      const lbl = m.querySelector('.ml')?.textContent.trim().toLowerCase();
+      const val = m.querySelector('.mv');
+      if (!val) return;
+      if (lbl === 'plazo' && plazoActual != null) {
+        let html = `${plazoActual} días`;
+        if (plazoTdR != null && plazoTdR !== plazoActual) {
+          const delta = plazoActual - plazoTdR;
+          const cls = delta > 0 ? 'positive' : 'negative';
+          const sign = delta > 0 ? '+' : '';
+          html += ` <span class="plazo-delta ${cls}" style="font-size:9px">${sign}${delta}d</span>`;
+        }
+        val.innerHTML = html;
+      } else if (lbl === 'pago' && pagoPct != null) {
+        val.textContent = pagoPct + '%';
+      }
+    });
+
+    // Notas de avance (aparece solo si el CSV trae contenido)
+    const notesBox = acc.querySelector('.acc-notes');
+    const notesVal = acc.querySelector('.acc-notes-val');
+    if (notesBox && notesVal) {
+      if (notas && notas !== '' && notas !== '—') {
+        notesVal.textContent = notas;
+        notesBox.style.display = 'block';
+      } else {
+        notesBox.style.display = 'none';
+      }
+    }
+  });
+
+  return count;
+}
+
+// Reconstruir la barra apilada de pagos con los 5 estados
+function rebuildPaymentBar(rows) {
+  const bar = document.getElementById('sbarPagos');
+  const totalsEl = document.getElementById('payTotals');
+  if (!bar) return;
+
+  // Solo productos con pago > 0
+  const paidRows = rows
+    .map(r => {
+      const pct = parseNumeric(r.pago ?? r.pagopct ?? r.pagoporcentaje);
+      if (!pct || pct <= 0) return null;
+      const prodStatus = normStatus(r.estado);
+      const payCls = normPayStatus(r.estadopago ?? r.estadodepago ?? '', prodStatus);
+      return { id: (r.id || '').toUpperCase(), pct, payCls };
+    })
+    .filter(Boolean);
+
+  if (paidRows.length === 0) return;
+
+  // Reconstruir segmentos, ordenados por payCls según PAY_ORDER
+  paidRows.sort((a, b) => {
+    const ia = PAY_ORDER.indexOf(a.payCls);
+    const ib = PAY_ORDER.indexOf(b.payCls);
+    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+  });
+
+  const total = paidRows.reduce((s, r) => s + r.pct, 0);
+  bar.innerHTML = paidRows.map((r, i) => {
+    const widthPct = (r.pct / total) * 100;
+    return `<div style="width:${widthPct}%;animation-delay:${(i*0.05).toFixed(2)}s" class="${r.payCls}" title="${r.id} · ${r.pct}% · ${PAY_LABEL[r.payCls]}"><span class="lab-d">${r.pct}% ${r.id}</span><span class="lab-m">${r.id}</span></div>`;
+  }).join('');
+
+  // Totales por estado abajo
+  const totals = {};
+  paidRows.forEach(r => { totals[r.payCls] = (totals[r.payCls] || 0) + r.pct; });
+  totalsEl.innerHTML = PAY_ORDER
+    .filter(cls => totals[cls])
+    .map(cls => `<span><strong style="color:${PAY_HEX[cls]}">${totals[cls]}%</strong> · ${PAY_SHORT[cls]}</span>`)
+    .join('');
+}
+
+function findRowById(rows, id) {
+  if (!id) return null;
+  const idKey = id.toString().trim().toUpperCase();
+  return rows.find(r => {
+    const rid = (r.id || r.producto || '').toString().trim().toUpperCase();
+    return rid === idKey || rid.startsWith(idKey + ' ') || rid.startsWith(idKey + '.');
+  });
+}
+function setKpi(id, value) {
+  const el = document.querySelector('#' + id + ' .val');
+  if (el) el.textContent = value;
+}
+
+// ============== UI status ==============
+function setLgndStatus(level, msg) {
+  const el = document.getElementById('lgndStatus');
+  el.className = 'lgnd-status show ' + (level || '');
+  el.textContent = msg || '';
+}
+function setRefreshSpinning(on) {
+  document.getElementById('refreshBtn').classList.toggle('spinning', on);
+}
+function updateRefreshStatus(state, time, extra) {
+  const el = document.getElementById('refreshStatus');
+  el.className = 'refresh-status' + (state !== 'local' ? ' ' + state : '');
+  if (state === 'local') {
+    el.textContent = '';
+  } else if (state === 'syncing') {
+    el.textContent = 'Sincronizando...';
+  } else if (state === 'synced') {
+    const t = time ? time.toLocaleTimeString('es-PA', { hour:'2-digit', minute:'2-digit' }) : '';
+    el.textContent = `Actualizado · ${t}` + (extra ? ' · ' + extra : '');
+  } else if (state === 'error') {
+    el.textContent = 'Error · ' + (extra ? extra : 'fallback a datos locales');
+  }
+}
+
+// ============== Inicialización desde datos hardcoded ==============
+// Antes de intentar cualquier sync, calcula fechas y estados de pago
+// a partir de lo que ya está escrito en el HTML (P1-P12 hardcoded).
+function initFromHardcoded() {
+  const rows = [];
+  document.querySelectorAll('#cronoTbody tr').forEach(tr => {
+    const id = tr.querySelector('td:first-child strong')?.textContent.trim();
+    if (!id) return;
+    const producto = tr.children[1]?.textContent.trim() || '';
+    const plazoTxt = tr.children[2]?.textContent.trim() || '';
+    const pagoTxt  = tr.children[4]?.textContent.trim() || '';
+    const estado   = tr.children[5]?.querySelector('.chip')?.textContent.trim() || 'No iniciado';
+    const epagoRaw = tr.children[6]?.textContent.trim() || '';
+    rows.push({
+      id, producto,
+      plazoactual: parseNumeric(plazoTxt),
+      plazotdr:    parseNumeric(plazoTxt),
+      pago:        parseNumeric(pagoTxt),
+      estado,
+      estadopago:  epagoRaw === '—' ? '' : epagoRaw,
+    });
+  });
+  if (rows.length > 0) applyData(rows);
+}
+
+// ============== Auto-sync silencioso al cargar ==============
+window.addEventListener('DOMContentLoaded', async () => {
+  // 1. Poblar tabla de cronograma con fechas y estados desde el hardcoded
+  initFromHardcoded();
+
+  // 2. Recuperar URLs guardadas
+  const savedGD = localStorage.getItem(SYNC_GDRIVE_KEY);
+  const savedOD = localStorage.getItem(SYNC_ONEDRIVE_KEY);
+  if (savedGD) document.getElementById('gdriveUrl').value = savedGD;
+  if (savedOD) document.getElementById('onedriveUrl').value = savedOD;
+
+  if (!savedGD && !savedOD) {
+    updateRefreshStatus('local');
+    return;
+  }
+
+  // Mostrar el last sync time guardado primero
+  const lastIso = localStorage.getItem(SYNC_LAST_KEY);
+  if (lastIso) {
+    updateRefreshStatus('synced', new Date(lastIso));
+  }
+
+  // Intentar resync silencioso
+  setRefreshSpinning(true);
+  updateRefreshStatus('syncing');
+  let ok = false;
+  for (const u of [savedGD, savedOD].filter(Boolean)) {
+    try {
+      const csv = await fetchCSV(u);
+      const rows = parseCSV(csv);
+      if (rows.length > 0) {
+        applyData(rows);
+        lastLoadedCSV = csv;
+        const now = new Date();
+        localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
+        const src = u === savedGD ? 'Google Sheets' : 'OneDrive (fallback)';
+        updateRefreshStatus('synced', now, src);
+        ok = true;
+        break;
+      }
+    } catch (err) {
+      console.warn('auto-sync intento falló:', err.message);
+    }
+  }
+  if (!ok) {
+    updateRefreshStatus('error', 'sin conexión');
+  }
+  setRefreshSpinning(false);
 });
 </script>
 </body>
