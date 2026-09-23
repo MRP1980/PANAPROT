@@ -2581,15 +2581,17 @@ table tr:hover td { background: #F9FAFB; }
         Conecta el cuadro de mando a tu hoja de cálculo en Google Drive. Los datos hardcoded del dashboard sirven como <strong>fallback</strong> si la conexión falla.
       </div>
 
-      <!-- Sección: Google Sheets (primario) -->
+      <!-- Sección: Google Sheets -->
       <div class="lgnd-sec">
         <div class="lgnd-st">
           <svg viewBox="0 0 24 24" fill="none"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
           Google Sheets
-          <span class="lgnd-tag">primario</span>
         </div>
         <div class="lgnd-msg">URL publicada del Google Sheet (formato CSV)</div>
         <input class="lgnd-input" id="gdriveUrl" type="text" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" autocomplete="off" />
+        <button class="lgnd-load" onclick="connectSource()">Conectar fuente</button>
+        <button class="lgnd-load secondary" onclick="disconnectSource()">Desconectar</button>
+        <div class="lgnd-status" id="lgndStatus"></div>
         <details class="lgnd-help">
           <summary>¿Cómo obtengo esta URL?</summary>
           <ol>
@@ -2601,24 +2603,6 @@ table tr:hover td { background: #F9FAFB; }
           </ol>
           <div class="warn">⚠ Solo "compartir con enlace" no funciona. La hoja debe estar publicada al web.</div>
         </details>
-      </div>
-
-      <!-- Sección: OneDrive (fallback) -->
-      <div class="lgnd-sec">
-        <div class="lgnd-st">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          OneDrive / Excel
-          <span class="lgnd-tag fallback">fallback</span>
-        </div>
-        <div class="lgnd-msg">Link compartido del Excel en OneDrive (redundancia)</div>
-        <input class="lgnd-input" id="onedriveUrl" type="text" placeholder="https://1drv.ms/x/s!..." autocomplete="off" />
-      </div>
-
-      <!-- Botón Conectar + Status -->
-      <div class="lgnd-sec">
-        <button class="lgnd-load" onclick="connectSource()">Conectar fuente</button>
-        <button class="lgnd-load secondary" onclick="disconnectSource()">Desconectar</button>
-        <div class="lgnd-status" id="lgndStatus"></div>
       </div>
 
       <!-- Sección: Archivo local -->
@@ -2718,9 +2702,8 @@ document.querySelectorAll('.pcard').forEach(el => {
 // Panel lateral oculto + botón refresh en header
 // =====================================================
 const SYNC_GDRIVE_KEY   = 'panaprot_gdrive_url';
-const SYNC_ONEDRIVE_KEY = 'panaprot_onedrive_url';
 const SYNC_LAST_KEY     = 'panaprot_sync_last';
-const SYNC_SOURCE_KEY   = 'panaprot_sync_source'; // 'gdrive' | 'onedrive' | 'file' | null
+const SYNC_SOURCE_KEY   = 'panaprot_sync_source'; // 'gdrive' | 'file' | null
 
 let lastLoadedCSV = null; // para download
 
@@ -2756,18 +2739,19 @@ document.addEventListener('keydown', e => {
 // ============== Botón "Actualizar" del header ==============
 async function refreshData() {
   const savedGD = localStorage.getItem(SYNC_GDRIVE_KEY);
-  const savedOD = localStorage.getItem(SYNC_ONEDRIVE_KEY);
-  if (!savedGD && !savedOD) {
-    // No hay fuente conectada: abrir panel para que el usuario configure
-    if (!lgnd.classList.contains('open')) toggleSourcePanel();
-    setLgndStatus('error', 'No hay fuente conectada. Configura Google Sheets o OneDrive abajo.');
+  if (!savedGD) {
+    // No hay fuente conectada: mostrar mensaje breve en el header sin abrir panel
+    updateRefreshStatus('error', null, 'sin fuente conectada');
+    setTimeout(() => {
+      const el = document.getElementById('refreshStatus');
+      if (el.textContent.includes('sin fuente')) updateRefreshStatus('local');
+    }, 4000);
     return;
   }
   setRefreshSpinning(true);
   updateRefreshStatus('syncing');
   try {
-    const url = savedGD || savedOD;
-    const csv = await fetchCSV(url);
+    const csv = await fetchCSV(savedGD);
     const rows = parseCSV(csv);
     if (rows.length === 0) throw new Error('CSV vacío');
     applyData(rows);
@@ -2776,7 +2760,7 @@ async function refreshData() {
     localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
     updateRefreshStatus('synced', now);
   } catch (err) {
-    updateRefreshStatus('error', err.message);
+    updateRefreshStatus('error', null, err.message);
     console.warn('refresh error:', err);
   } finally {
     setRefreshSpinning(false);
@@ -2786,78 +2770,36 @@ async function refreshData() {
 // ============== Conectar fuente (desde panel lateral) ==============
 async function connectSource() {
   const gdUrl = document.getElementById('gdriveUrl').value.trim();
-  const odUrl = document.getElementById('onedriveUrl').value.trim();
-  if (!gdUrl && !odUrl) {
-    setLgndStatus('error', 'Introduce al menos una URL (Google Sheets o OneDrive).');
+  if (!gdUrl) {
+    setLgndStatus('error', 'Introduce la URL publicada del Google Sheet (formato CSV).');
     return;
   }
-  if (gdUrl && !/^https?:\/\//.test(gdUrl)) {
-    setLgndStatus('error', 'La URL de Google Sheets debe empezar con https://');
-    return;
-  }
-  if (odUrl && !/^https?:\/\//.test(odUrl)) {
-    setLgndStatus('error', 'La URL de OneDrive debe empezar con https://');
+  if (!/^https?:\/\//.test(gdUrl)) {
+    setLgndStatus('error', 'La URL debe empezar con https://');
     return;
   }
   setLgndStatus('loading', 'Conectando...');
   setRefreshSpinning(true);
   updateRefreshStatus('syncing');
 
-  let connected = false;
-  let lastErr = null;
-
-  // Intentar primero Google Sheets (primario)
-  if (gdUrl) {
-    try {
-      const csv = await fetchCSV(gdUrl);
-      const rows = parseCSV(csv);
-      if (rows.length > 0) {
-        applyData(rows);
-        lastLoadedCSV = csv;
-        localStorage.setItem(SYNC_GDRIVE_KEY, gdUrl);
-        localStorage.setItem(SYNC_SOURCE_KEY, 'gdrive');
-        const now = new Date();
-        localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
-        setLgndStatus('success', `✓ Conectado a Google Sheets · ${rows.length} productos actualizados`);
-        updateRefreshStatus('synced', now, 'Google Sheets');
-        connected = true;
-      }
-    } catch (err) {
-      lastErr = err;
-    }
+  try {
+    const csv = await fetchCSV(gdUrl);
+    const rows = parseCSV(csv);
+    if (rows.length === 0) throw new Error('El CSV no contiene filas de datos');
+    applyData(rows);
+    lastLoadedCSV = csv;
+    localStorage.setItem(SYNC_GDRIVE_KEY, gdUrl);
+    localStorage.setItem(SYNC_SOURCE_KEY, 'gdrive');
+    const now = new Date();
+    localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
+    setLgndStatus('success', `✓ Conectado · ${rows.length} productos actualizados desde Google Sheets`);
+    updateRefreshStatus('synced', now, 'Google Sheets');
+  } catch (err) {
+    setLgndStatus('error', '✗ ' + (err.message || 'Error desconocido') + '. Verifica que la hoja esté publicada al web como CSV.');
+    updateRefreshStatus('error', null, err.message);
+  } finally {
+    setRefreshSpinning(false);
   }
-
-  // Fallback: OneDrive si Google falló
-  if (!connected && odUrl) {
-    try {
-      setLgndStatus('loading', 'Probando OneDrive (fallback)...');
-      const csv = await fetchCSV(odUrl);
-      const rows = parseCSV(csv);
-      if (rows.length > 0) {
-        applyData(rows);
-        lastLoadedCSV = csv;
-        localStorage.setItem(SYNC_ONEDRIVE_KEY, odUrl);
-        localStorage.setItem(SYNC_SOURCE_KEY, 'onedrive');
-        const now = new Date();
-        localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
-        setLgndStatus('success', `✓ Conectado a OneDrive (fallback) · ${rows.length} productos actualizados`);
-        updateRefreshStatus('synced', now, 'OneDrive (fallback)');
-        connected = true;
-      }
-    } catch (err) {
-      lastErr = err;
-    }
-  }
-
-  // Guardar URLs aunque alguna falle (para retry futuro)
-  if (gdUrl) localStorage.setItem(SYNC_GDRIVE_KEY, gdUrl);
-  if (odUrl) localStorage.setItem(SYNC_ONEDRIVE_KEY, odUrl);
-
-  if (!connected) {
-    setLgndStatus('error', '✗ No se pudo conectar a ninguna fuente. ' + (lastErr?.message || '') + ' Mostrando datos locales como fallback.');
-    updateRefreshStatus('error', lastErr?.message);
-  }
-  setRefreshSpinning(false);
 }
 
 // ============== Cargar archivo local ==============
@@ -2885,18 +2827,15 @@ async function loadLocalFile() {
 
 // ============== Desconectar ==============
 function disconnectSource() {
-  const hasAny = localStorage.getItem(SYNC_GDRIVE_KEY) || localStorage.getItem(SYNC_ONEDRIVE_KEY);
-  if (!hasAny) {
+  if (!localStorage.getItem(SYNC_GDRIVE_KEY)) {
     setLgndStatus('error', 'No hay conexión activa para desconectar.');
     return;
   }
-  if (!confirm('¿Desconectar fuentes de datos? Se mostrarán los datos hardcoded por defecto al recargar la página.')) return;
+  if (!confirm('¿Desconectar la fuente de datos? Se mostrarán los datos hardcoded por defecto al recargar la página.')) return;
   localStorage.removeItem(SYNC_GDRIVE_KEY);
-  localStorage.removeItem(SYNC_ONEDRIVE_KEY);
   localStorage.removeItem(SYNC_SOURCE_KEY);
   localStorage.removeItem(SYNC_LAST_KEY);
   document.getElementById('gdriveUrl').value = '';
-  document.getElementById('onedriveUrl').value = '';
   setLgndStatus('success', '✓ Desconectado. Recarga la página para volver a los datos locales.');
   updateRefreshStatus('local');
 }
@@ -2904,9 +2843,9 @@ function disconnectSource() {
 // ============== Links rápidos a la data ==============
 function openCurrentSheet(e) {
   e.preventDefault();
-  const url = localStorage.getItem(SYNC_GDRIVE_KEY) || localStorage.getItem(SYNC_ONEDRIVE_KEY);
+  const url = localStorage.getItem(SYNC_GDRIVE_KEY);
   if (!url) {
-    setLgndStatus('error', 'No hay fuente conectada. Configura una arriba.');
+    setLgndStatus('error', 'No hay fuente conectada. Configura Google Sheets arriba.');
     return false;
   }
   // Convertir URL CSV publicada a URL editable si es Google Sheets
@@ -3375,13 +3314,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   // 1. Poblar tabla de cronograma con fechas y estados desde el hardcoded
   initFromHardcoded();
 
-  // 2. Recuperar URLs guardadas
+  // 2. Recuperar URL guardada
   const savedGD = localStorage.getItem(SYNC_GDRIVE_KEY);
-  const savedOD = localStorage.getItem(SYNC_ONEDRIVE_KEY);
   if (savedGD) document.getElementById('gdriveUrl').value = savedGD;
-  if (savedOD) document.getElementById('onedriveUrl').value = savedOD;
 
-  if (!savedGD && !savedOD) {
+  if (!savedGD) {
     updateRefreshStatus('local');
     return;
   }
@@ -3395,27 +3332,19 @@ window.addEventListener('DOMContentLoaded', async () => {
   // Intentar resync silencioso
   setRefreshSpinning(true);
   updateRefreshStatus('syncing');
-  let ok = false;
-  for (const u of [savedGD, savedOD].filter(Boolean)) {
-    try {
-      const csv = await fetchCSV(u);
-      const rows = parseCSV(csv);
-      if (rows.length > 0) {
-        applyData(rows);
-        lastLoadedCSV = csv;
-        const now = new Date();
-        localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
-        const src = u === savedGD ? 'Google Sheets' : 'OneDrive (fallback)';
-        updateRefreshStatus('synced', now, src);
-        ok = true;
-        break;
-      }
-    } catch (err) {
-      console.warn('auto-sync intento falló:', err.message);
+  try {
+    const csv = await fetchCSV(savedGD);
+    const rows = parseCSV(csv);
+    if (rows.length > 0) {
+      applyData(rows);
+      lastLoadedCSV = csv;
+      const now = new Date();
+      localStorage.setItem(SYNC_LAST_KEY, now.toISOString());
+      updateRefreshStatus('synced', now, 'Google Sheets');
     }
-  }
-  if (!ok) {
-    updateRefreshStatus('error', 'sin conexión');
+  } catch (err) {
+    console.warn('auto-sync falló:', err.message);
+    updateRefreshStatus('error', null, 'sin conexión');
   }
   setRefreshSpinning(false);
 });
